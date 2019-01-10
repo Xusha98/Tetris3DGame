@@ -36,7 +36,7 @@ public class Main {
     	
     	setBackground();
     	
-        TexturedModel model = new TexturedModel(new float[] { 
+        /*TexturedModel model = new TexturedModel(new float[] { 
         		-1.0f, 1.0f, -1.0f, //V0 
         		-1.0f, -1.0f, -1.0f, //V1 
         		1.0f, -1.0f, -1.0f, //V2 
@@ -173,7 +173,7 @@ public class Main {
         allModels.add(model2);
         
         ModelEntity entity2 = new ModelEntity(model2, new Vector3f(8, 5, 8), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
-        blockList.add(entity2);
+        blockList.add(entity2);*/
         
         while (!window.closed()) {
         	if (window.isUpdating()) {
@@ -192,9 +192,11 @@ public class Main {
         		
         		//renderer.renderModelEntity(entity);
 	            //renderer.renderModelEntity(entity2);
-	            for(ModelEntity me : blockList) {
-	            	renderer.renderModelEntity(me);
-	            }
+        		if(!blockList.isEmpty()) {
+        			for(ModelEntity me : blockList) {
+		            	renderer.renderModelEntity(me);
+		            }
+        		}            
         		for(ModelEntity me : background) {
         			renderer.renderModelEntity(me);
         		}	            
@@ -238,7 +240,34 @@ public class Main {
     	        ModelEntity entity = new ModelEntity(model, new Vector3f(j, 0, i), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
     	        background.add(entity);
     		}
-    	}    	
+    	}
+    	
+    	/*				-1.0f, 1.0f, 0,  //TOP LEFT V0
+    	        		1.0f, 1.0f, 0,  //TOP RIGHT V1
+    	        		1.0f, -1.0f, 0, //BOTTOM RIGHT V2
+    					-1.0f, -1.0f, 0  //BOTTOM LEFT V3*/
+    	
+    	for(int i = 0; i < 20; i=i+18) {
+    		for(int j = 0; j <= 18; j=j+18) {
+    			TexturedModel model = new TexturedModel(new float[] {
+    	        		-1.0f, 19.0f, 0,  //TOP LEFT V0
+    	        		1.0f, 19.0f, 0,  //TOP RIGHT V1
+    	        		1.0f, -1.0f, 0, //BOTTOM RIGHT V2
+    					-1.0f, -1.0f, 0  //BOTTOM LEFT V3
+    	        }, new float[] {
+    	        		 0, 0,           //TOP LEFT V0
+    	        		 1, 0,           //TOP RIGHT V1
+    	        		 1, 1,           //BOTTOM RIGHT V2
+    	        		 0, 1            //BOTTOM LEFT V3
+    	        }, new int[] {
+    	        		 0, 1, 2,        //Triangle 1
+    					 2, 3, 0         //Triangle 2
+    	        }, "fieldElement.png");
+    	    	allModels.add(model);
+    	        ModelEntity entity = new ModelEntity(model, new Vector3f(j, 0, i), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
+    	        background.add(entity);
+    		}
+    	}
     }
     
     public static void removeModels() {
