@@ -1,5 +1,8 @@
 package main;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.lwjgl.glfw.GLFW;
 
 import engine.io.Window;
@@ -16,6 +19,9 @@ public class Main {
 	private static BasicShader shader = new BasicShader();
 	private static Renderer renderer = new Renderer(window, shader);
 	private static Camera cam = new Camera();
+	
+	private List<ModelEntity> blockList = new ArrayList<>();
+	private List<ModelEntity> formList = new ArrayList<>();
 	
     public static void main(String[] args) {
     	window.setBackgroundColor(1.0f, 0.0f, 0.0f);
@@ -194,5 +200,9 @@ public class Main {
     		window.unlockMouse();
     	if(window.isKeyPressed(GLFW.GLFW_KEY_L))
     		window.lockMouse();
+    }
+    
+    public void setBackground() {
+    	
     }
 }
