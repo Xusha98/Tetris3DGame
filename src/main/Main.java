@@ -36,7 +36,7 @@ public class Main {
     	
     	setBackground();
     	
-        /*TexturedModel model = new TexturedModel(new float[] { 
+        TexturedModel model = new TexturedModel(new float[] { 
         		-1.0f, 1.0f, -1.0f, //V0 
         		-1.0f, -1.0f, -1.0f, //V1 
         		1.0f, -1.0f, -1.0f, //V2 
@@ -100,10 +100,13 @@ public class Main {
         						20, 21, 23, 
         						23, 21, 22 
         						}, "beautiful.png");
+        allModels.add(model);
         
-        ModelEntity entity = new ModelEntity(model, new Vector3f(5, 5, 5), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));*/
+        ModelEntity entity = new ModelEntity(model, new Vector3f(5, 10, 5), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
+        blockList.add(entity);
         
-        /*TexturedModel model2 = new TexturedModel(new float[] { 
+        
+        TexturedModel model2 = new TexturedModel(new float[] { 
         		-1.0f, 1.0f, -1.0f, //V0 
         		-1.0f, -1.0f, -1.0f, //V1 
         		1.0f, -1.0f, -1.0f, //V2 
@@ -167,9 +170,10 @@ public class Main {
         						20, 21, 23, 
         						23, 21, 22 
         						}, "beautiful.png");
+        allModels.add(model2);
         
-        ModelEntity entity2 = new ModelEntity(model2, new Vector3f(1, 1, 1), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));*/
-        
+        ModelEntity entity2 = new ModelEntity(model2, new Vector3f(8, 5, 8), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
+        blockList.add(entity2);
         
         while (!window.closed()) {
         	if (window.isUpdating()) {
@@ -183,13 +187,17 @@ public class Main {
         		
         		//entity.addRotation(2, 2, 0);
         		//entity.addPosition(0, 0, 0.05f);
-        		
+	            
         		shader.bind();
+        		
+        		//renderer.renderModelEntity(entity);
+	            //renderer.renderModelEntity(entity2);
+	            for(ModelEntity me : blockList) {
+	            	renderer.renderModelEntity(me);
+	            }
         		for(ModelEntity me : background) {
         			renderer.renderModelEntity(me);
-        		}
-	            //renderer.renderModelEntity(entity);
-	            //renderer.renderModelEntity(entity2);
+        		}	            
 	            shader.unbind();
 	            window.swapBuffers();
         	}
