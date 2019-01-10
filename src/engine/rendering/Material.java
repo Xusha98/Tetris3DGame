@@ -1,7 +1,6 @@
 package engine.rendering;
 
 import org.lwjgl.opengl.GL11;
-import org.newdawn.slick.opengl.TextureLoader;
 
 import engine.io.Image;
 
