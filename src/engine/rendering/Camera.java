@@ -10,7 +10,7 @@ public class Camera {
 	
 	private Vector3f position, rotation;
 	private float oldMouseX = 0, oldMouseY = 0, newMouseX = 0, newMouseY = 0, mouseSensitivity = 0.15f;
-	private float moveSpeed = 0.05f;
+	private float moveSpeed = 0.2f; //0.05f ist langsam
 	
 	public Camera() {
 		position = new Vector3f(9, 25, -10);
