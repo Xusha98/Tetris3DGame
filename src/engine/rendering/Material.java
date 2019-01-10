@@ -9,7 +9,7 @@ public class Material {
 	
 	public Material(String file) {
 		textureID = GL11.glGenTextures();
-		Image texture = Image.loadImage("res/textures/"+file);
+		Image texture = Image.loadImage("resources/textures/"+file);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureID);
 		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
 		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
@@ -24,4 +24,7 @@ public class Material {
 	public int getTextureID() {
 		return textureID;
 	}
+	
+	
+	
 }

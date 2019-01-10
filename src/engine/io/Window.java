@@ -206,7 +206,7 @@ public class Window {
 	}
 	
 	public void setIcon(String path) {
-		Image icon = Image.loadImage("res/textures/"+path);
+		Image icon = Image.loadImage("resources/textures/"+path);
 		GLFWImage iconImage = GLFWImage.malloc();
 		iconBuffer = GLFWImage.malloc(1);
 		iconImage.set(icon.getWidth(), icon.getHeight(), icon.getImage());
@@ -214,7 +214,7 @@ public class Window {
 	}
 	
 	public void setCursor(String path) {
-		Image cursor = Image.loadImage("res/textures/"+path);
+		Image cursor = Image.loadImage("resources/textures/"+path);
 		cursorBuffer = GLFWImage.malloc();
 		cursorBuffer.set(cursor.getWidth(), cursor.getHeight(), cursor.getImage());
 	}

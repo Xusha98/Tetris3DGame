@@ -13,7 +13,7 @@ public class Camera {
 	private float moveSpeed = 0.05f;
 	
 	public Camera() {
-		position = new Vector3f(0, 0, 10);
+		position = new Vector3f(9, 25, -10);
 		rotation = new Vector3f(0, 0, 0);
 	}
 	
