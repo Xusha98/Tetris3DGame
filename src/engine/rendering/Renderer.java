@@ -30,29 +30,33 @@ public class Renderer {
 		shader.loadViewMatrix(cam.getViewMatrix());
 	}
 	
-    public void renderModel(UntexturedModel model){
-        GL30.glBindVertexArray(model.getVertexArrayID());
-        GL20.glEnableVertexAttribArray(0);
-        GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
-        GL20.glDisableVertexAttribArray(0);
-        GL30.glBindVertexArray(0);
-    }
+//    public void renderModel(UntexturedModel model){
+//        GL30.glBindVertexArray(model.getVertexArrayID());
+//        GL20.glEnableVertexAttribArray(0);
+//        GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+//        GL20.glDisableVertexAttribArray(0);
+//        GL30.glBindVertexArray(0);
+//    }
     
-    public void renderTexturedModel(TexturedModel model){
-        GL30.glBindVertexArray(model.getVertexArrayID());
-        GL20.glEnableVertexAttribArray(0);
-        GL20.glEnableVertexAttribArray(1);
-        GL13.glActiveTexture(GL13.GL_TEXTURE0);
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, model.getMaterial().getTextureID());
-        GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
-        GL20.glDisableVertexAttribArray(0);
-        GL20.glDisableVertexAttribArray(1);
-        GL30.glBindVertexArray(0);
-        shader.useMatrices();
-    }
+//    public void renderTexturedModel(TexturedModel model){
+//        GL30.glBindVertexArray(model.getVertexArrayID());
+//        GL20.glEnableVertexAttribArray(0);
+//        GL20.glEnableVertexAttribArray(1);
+//        GL13.glActiveTexture(GL13.GL_TEXTURE0);
+//        GL11.glBindTexture(GL11.GL_TEXTURE_2D, model.getMaterial().getTextureID());
+//        GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+//        GL20.glDisableVertexAttribArray(0);
+//        GL20.glDisableVertexAttribArray(1);
+//        GL30.glBindVertexArray(0);
+//        shader.useMatrices();
+//    }
     
+    /**
+     * Rendert das Model und nutzt Shader
+     * @param entity
+     */
     public void renderModelEntity(ModelEntity entity){
-        GL30.glBindVertexArray(entity.getModel().getVertexArrayID());
+        GL30.glBindVertexArray(entity.getModel().getVertexArrayID()); //soll zur Geometrie gehören
         GL20.glEnableVertexAttribArray(0);
         GL20.glEnableVertexAttribArray(1);
         shader.useMatrices();

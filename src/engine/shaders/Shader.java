@@ -12,6 +12,13 @@ import org.lwjgl.opengl.GL20;
 import engine.maths.Matrix4f;
 import engine.maths.Vector3f;
  
+/**
+ * 
+ * Oberklasse Shader
+ * 
+ * @author Xenia Fedorov
+ *
+ */
 public abstract class Shader {
     private int programID, vertexShaderID, fragmentShaderID;
     private String vertexFile, fragmentFile;
@@ -21,6 +28,9 @@ public abstract class Shader {
         this.fragmentFile = fragmentFile;
     }
     
+    /**
+     * laedt, kompiliert und bindet Shader ein
+     */
     public void create() {
     	vertexShaderID = GL20.glCreateShader(GL20.GL_VERTEX_SHADER);
     	GL20.glShaderSource(vertexShaderID, readFile(vertexFile));
@@ -68,6 +78,9 @@ public abstract class Shader {
     	GL20.glUseProgram(0);
     }
      
+    /**
+     * Shader entfernt und ProgramID gecleared
+     */
     public void remove() {
     	GL20.glUseProgram(0);
         GL20.glDetachShader(programID, vertexShaderID);
@@ -114,7 +127,14 @@ public abstract class Shader {
     	
     	GL20.glUniformMatrix4fv(location, true, buffer);
     }
-     
+    
+    
+    /**
+     * liest Shader ein
+     * 
+     * @param file
+     * @return String
+     */
     private String readFile(String file) {
         StringBuilder string = new StringBuilder();
         try {

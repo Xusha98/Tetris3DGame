@@ -20,6 +20,9 @@ public class TexturedModel extends Model {
         material = new Material(file);
     }
     
+    /**
+     * entfernt Model
+     */
     public void remove() {
     	GL30.glDeleteVertexArrays(vertexArrayID);
     	GL15.glDeleteBuffers(vertexBufferID);
@@ -36,6 +39,10 @@ public class TexturedModel extends Model {
         return vertexCount;
     }
 
+    /**
+     * beinhaltet TextureID
+     * @return
+     */
 	public Material getMaterial() {
 		return material;
 	}
