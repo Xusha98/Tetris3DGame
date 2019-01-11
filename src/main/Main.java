@@ -36,7 +36,7 @@ public class Main {
     	
     	setBackground();
     	
-        /*TexturedModel model = new TexturedModel(new float[] { 
+        TexturedModel model = new TexturedModel(new float[] { 
         		-1.0f, 1.0f, -1.0f, //V0 
         		-1.0f, -1.0f, -1.0f, //V1 
         		1.0f, -1.0f, -1.0f, //V2 
@@ -173,41 +173,35 @@ public class Main {
         allModels.add(model2);
         
         ModelEntity entity2 = new ModelEntity(model2, new Vector3f(8, 5, 8), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
-        blockList.add(entity2);*/
+        blockList.add(entity2);
         
         while (!window.closed()) {
         	if (window.isUpdating()) {
         		window.update();
         		renderer.update();
         		
-        		//cam.addPosition(0, 0, -0.05f);
         		cam.update(window);
         		renderer.loadCamera(cam);
         		input();
         		
-        		//entity.addRotation(2, 2, 0);
-        		//entity.addPosition(0, 0, 0.05f);
-	            
         		shader.bind();
-        		
-        		//renderer.renderModelEntity(entity);
-	            //renderer.renderModelEntity(entity2);
+        		          
+        		for(ModelEntity me : background) {
+        			renderer.renderModelEntity(me);
+        			//System.out.println("Grund VertexArrayID: "+me.getModel().getVertexArrayID()+" Position: "+me.getPosition().getX()+", "+me.getPosition().getY()+", "+me.getPosition().getZ());
+        		}	  
         		if(!blockList.isEmpty()) {
         			for(ModelEntity me : blockList) {
 		            	renderer.renderModelEntity(me);
+		            	//System.out.println("Block VertexArrayID: "+me.getModel().getVertexArrayID()+" Position: "+me.getPosition().getX()+", "+me.getPosition().getY()+", "+me.getPosition().getZ());
 		            }
-        		}            
-        		for(ModelEntity me : background) {
-        			renderer.renderModelEntity(me);
-        		}	            
+        		}  
 	            shader.unbind();
 	            window.swapBuffers();
         	}
         }
  
-        removeModels();
-        shader.remove();
-        window.stop();
+        removeAll();
     }
     
     public static void input() {
@@ -247,7 +241,8 @@ public class Main {
     	        		1.0f, -1.0f, 0, //BOTTOM RIGHT V2
     					-1.0f, -1.0f, 0  //BOTTOM LEFT V3*/
     	
-    	for(int i = 0; i < 20; i=i+18) {
+    	/*Säulen: 
+    	 * for(int i = 0; i < 20; i=i+18) {
     		for(int j = 0; j <= 18; j=j+18) {
     			TexturedModel model = new TexturedModel(new float[] {
     	        		-1.0f, 19.0f, 0,  //TOP LEFT V0
@@ -267,12 +262,14 @@ public class Main {
     	        ModelEntity entity = new ModelEntity(model, new Vector3f(j, 0, i), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
     	        background.add(entity);
     		}
-    	}
+    	}*/
     }
     
-    public static void removeModels() {
+    public static void removeAll() {
     	for(TexturedModel tm : allModels) {
     		tm.remove();
     	}
+    	shader.remove();
+        window.stop();
     }
 }

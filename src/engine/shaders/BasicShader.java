@@ -17,6 +17,9 @@ public class BasicShader extends Shader {
         super(VERTEX_FILE, FRAGMENT_FILE);
     }
  
+    /**
+     * Attribute aus Shadern miteingebunden
+     */
     @Override
     protected void bindAttributes() {
         super.bindAttribute(0, "position");
@@ -28,16 +31,17 @@ public class BasicShader extends Shader {
 		tvpMatrixLocation = super.getUniform("tvpMatrix");
 	}
 	
+	/**
+	 * quasi die sendMVP() Methode
+	 */
 	public void useMatrices() {
-		//NEU
-		super.loadMatrixUniform(tvpMatrixLocation, projectionMatrix.mul(viewMatrix.mul(transformationMatrix)));//ALT (tvpMatrixLocation, transformationMatrix);
+		super.loadMatrixUniform(tvpMatrixLocation, projectionMatrix.mul(viewMatrix.mul(transformationMatrix)));	//ALT (tvpMatrixLocation, transformationMatrix);
 	}
 	
 	public void loadTransformationMatrix(Matrix4f matrix) {
 		transformationMatrix = matrix;
 	}
 	
-	//NEU
 	public void loadProjectionMatrix(Matrix4f matrix) {
 		projectionMatrix = matrix;
 	}
