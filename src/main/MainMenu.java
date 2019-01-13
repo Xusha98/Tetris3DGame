@@ -20,7 +20,7 @@ public class MainMenu {
 	    static Image cheat_mode_button;
 	    static Image help_button,quit_hover,quit_pressed;
 	    //private int WIDTH, HEIGHT, FPS;
-	    
+
 	   /**
 	    public MainMenu(int WIDTH, int HEIGHT, int FPS) {
 			super();
@@ -30,7 +30,7 @@ public class MainMenu {
 		}**/
 
 		private static void init() throws SlickException{
-	    	
+
 	    bg = Image.loadImage("resources/textures/menuBackground.png");
 	    play_button = Image.loadImage("resources/buttons/play.png");
 	    help_button = Image.loadImage("resources/buttons/help.png");
@@ -41,36 +41,36 @@ public class MainMenu {
 	    }
 
 	    public static void render(Window window, Graphics g) throws SlickException{
-	    	
+
 	    		init();
-	    		
+
 	            //bg.draw(0,0);
 	    		//playRectangle.drawRect(205, 206, 207, 208);
 	            //play_button.draw(205,206);
 	            //normal_mode_button.draw(205,286);
 	            //help_button.draw(205, 366);
-	   
+
 	        }
 
 
-	    public static void update(Window window) throws SlickException{ 
+	    public static void update(Window window) throws SlickException{
 	        cheatMode_active = false;
 	        if(playRectangle.contains(Mouse.getX(), Mouse.getY()) && Mouse.isButtonDown(0)) {
-	        	
+
 	        }
 	        if(modeRectangle.contains(Mouse.getX(), Mouse.getY()) && Mouse.isButtonDown(0)) {
 	        	cheatMode_active = true;
 	        	//cheat_mode_button.draw(205,206);
 	            System.out.println("Cheat mode is on!");
 	        }
-	        
+
 	    }
 	    public int getID(){
 	        return 1;
 	    }
 
-	
-	
-	
-	
+
+
+
+
 }
