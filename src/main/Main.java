@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.lwjgl.glfw.GLFW;
+import org.lwjgl.opengl.GL15;
 
 import engine.io.Window;
 import engine.maths.Vector3f;
@@ -15,17 +16,22 @@ import engine.shaders.BasicShader;
  
 public class Main {
 	private static final int WIDTH = 800, HEIGHT = 600, FPS = 60;
-	private static Window window = new Window(WIDTH, HEIGHT, FPS, "LWJGL");
+	private static Window window = new Window(WIDTH, HEIGHT, FPS, "3D Tetris");
 	private static BasicShader shader = new BasicShader();
 	private static Renderer renderer = new Renderer(window, shader);
 	private static Camera cam = new Camera();
+	//private MainMenu mm = new MainMenu();
 	
 	private static List<ModelEntity> blockList = new ArrayList<>();
 	private static List<ModelEntity> formList = new ArrayList<>();
 	private static List<ModelEntity> background = new ArrayList<>();
 	public static List<TexturedModel> allModels = new ArrayList<>();
+	private static GameState state = GameState.MAIN_MENU;
+	private static GameMode mode = GameMode.NORMAL;
 	
     public static void main(String[] args) {
+	
+
     	window.setBackgroundColor(0.0f, 0.0f, 0.0f);
     	window.setIcon("icon.png");
     	//window.setCursor("beautiful.png");
@@ -184,6 +190,25 @@ public class Main {
         		renderer.loadCamera(cam);
         		input();
         		
+        		
+        		switch (state) {
+        		case PAUSE:
+        			GL15.glColor3f(1.0f, 0.0f, 0.0f);
+        			GL15.glRectf(0, 0, 640, 480);
+        			break;
+        		case GAME:
+        			GL15.glColor3f(0.0f, 1.0f, 0.0f);
+        			GL15.glRectf(0, 0, 640, 480);
+        			break;
+        		case MAIN_MENU:
+        			
+        			//mm.render();
+        			
+        			
+        			break;
+        		}
+        		
+        		
         		shader.bind();
         		          
         		for(ModelEntity me : background) {
@@ -205,12 +230,30 @@ public class Main {
     }
     
     public static void input() {
-    	if(window.isKeyPressed(GLFW.GLFW_KEY_ESCAPE))
-    		window.close();
-    	if(window.isKeyPressed(GLFW.GLFW_KEY_U))
-    		window.unlockMouse();
-    	if(window.isKeyPressed(GLFW.GLFW_KEY_L))
-    		window.lockMouse();
+    	if(window.isKeyPressed(GLFW.GLFW_KEY_ESCAPE)) {window.close();}
+    	if(window.isKeyPressed(GLFW.GLFW_KEY_U)){window.unlockMouse();}
+    	if(window.isKeyPressed(GLFW.GLFW_KEY_L)){window.lockMouse();}
+    	
+    	if(window.isKeyPressed(GLFW.GLFW_KEY_SPACE)) {
+    		if(state == GameState.MAIN_MENU) {
+    			state = GameState.GAME;
+    			System.out.println("Current state is:" +state);
+    		} else if(state == GameState.GAME) {
+    			state = GameState.MAIN_MENU;
+    			System.out.println("Current state is:" +state);
+    		}
+    			
+    	}
+    	
+    	if(window.isKeyPressed(GLFW.GLFW_KEY_D)) {
+    		if(state == GameState.GAME) {
+    			state = GameState.PAUSE;
+    			System.out.println("Game is paused!");
+    		} else if(state == GameState.PAUSE) {
+    				state = GameState.GAME;
+    				System.out.println("Game resumed!");
+    		}
+    	}
     }
     
     public static void setBackground() {
@@ -241,7 +284,7 @@ public class Main {
     	        		1.0f, -1.0f, 0, //BOTTOM RIGHT V2
     					-1.0f, -1.0f, 0  //BOTTOM LEFT V3*/
     	
-    	/*Säulen: 
+    	/*Sï¿½ulen: 
     	 * for(int i = 0; i < 20; i=i+18) {
     		for(int j = 0; j <= 18; j=j+18) {
     			TexturedModel model = new TexturedModel(new float[] {
