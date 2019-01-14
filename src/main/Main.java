@@ -229,12 +229,28 @@ public class Main {
         removeAll();
     }
 
+    /*
+     * Achtung: einiges an Input auch in Camera Klasse
+     * 
+     * Vergebene Tasten:
+     * W: Kamera bewegt sich vorwaerts
+     * S: Kamera bewegt sich rueckwaerts
+     * A: Kamera bewegt sich nach links
+     * D: Kamera bewegt sich nach rechts
+     * SPACE: Kamera bewegt sich nach oben
+     * LEFT SHIFT: Kamera bewegt sich nach unten
+     * 
+     * U: Maus angezeigt
+     * L: Maus verschwindet
+     * ENTER: Gamestate switcht von Main menu zu Game oder umgekehrt
+     * P: Spiel pausiert oder beendet Pausierung
+     * */
     public static void input() {
     	if(window.isKeyPressed(GLFW.GLFW_KEY_ESCAPE)) {window.close();}
     	if(window.isKeyPressed(GLFW.GLFW_KEY_U)){window.unlockMouse();}
     	if(window.isKeyPressed(GLFW.GLFW_KEY_L)){window.lockMouse();}
 
-    	if(window.isKeyPressed(GLFW.GLFW_KEY_SPACE)) {
+    	if(window.isKeyPressed(GLFW.GLFW_KEY_ENTER)) {
     		if(state == GameState.MAIN_MENU) {
     			state = GameState.GAME;
     			System.out.println("Current state is:" +state);
@@ -245,7 +261,7 @@ public class Main {
 
     	}
 
-    	if(window.isKeyPressed(GLFW.GLFW_KEY_D)) {
+    	if(window.isKeyPressed(GLFW.GLFW_KEY_P)) {
     		if(state == GameState.GAME) {
     			state = GameState.PAUSE;
     			System.out.println("Game is paused!");
