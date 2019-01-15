@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL15;
-import org.newdawn.slick.SlickException;
 
 import engine.io.Window;
 import engine.maths.Vector3f;
@@ -21,21 +20,21 @@ public class Game {
 	private static List<ModelEntity> formList = new ArrayList<>();
 	private static List<ModelEntity> background = new ArrayList<>();
 	public static List<TexturedModel> allModels = new ArrayList<>();
-	
-	protected static final int WIDTH = 800, HEIGHT = 600, FPS = 60;
-	protected static Window window = new Window(WIDTH, HEIGHT, FPS, "3D Tetris");
-	protected static BasicShader shader = new BasicShader();
-	protected static Renderer renderer = new Renderer(window, shader);
-	protected static Camera cam = new Camera();
-	
+
+	private static final int WIDTH = 800, HEIGHT = 600, FPS = 60;
+	private static Window window = new Window(WIDTH, HEIGHT, FPS, "3D Tetris");
+	private static BasicShader shader = new BasicShader();
+	private static Renderer renderer = new Renderer(window, shader);
+	private static Camera cam = new Camera();
+
 	//TODO: muss spaeter zu MainMenu gesetzt werden, auf Game zu testzwecken gestellt
 	private static GameState state = GameState.GAME;
 	private static GameMode mode = GameMode.CHEAT;
-	
+
 	private static boolean stopTime = false;
-	
-	
-	
+
+
+
 	private static TexturedModel defaultModel;
 	private static ModelEntity defaultEntity;
 
@@ -113,7 +112,7 @@ public class Game {
     	window.create();
     	window.lockMouse();
     	shader.create();
-    	
+
     	setBackground();
 
 	    TexturedModel model = new TexturedModel(new float[] {
@@ -258,7 +257,7 @@ public class Game {
 	}
 
 
-	public static void run() throws SlickException {
+	public static void run() {
 
 		init();
 		defaultInit();
@@ -271,19 +270,19 @@ public class Game {
         		cam.update(window);
         		renderer.loadCamera(cam);
         		input();
-        		
+
         		shader.bind();
 
         		switch (state) {
-        		
+
         		case PAUSE:
         			GL15.glColor3f(1.0f, 0.0f, 0.0f);
         			GL15.glRectf(0, 0, 640, 480);
         			break;
-        			
+
         		case GAME:
         			switch(mode) {
-        			case CHEAT: 
+        			case CHEAT:
         				//Code fuer Normalmode (zeit laeuft)
         				if(!stopTime) {
         					defaultEntity.addRotation(2, 2, 0);
@@ -298,27 +297,27 @@ public class Game {
         			//GL15.glColor3f(0.0f, 1.0f, 0.0f);
         			//GL15.glRectf(0, 0, 640, 480);
         			break;
-        			
+
         		case MAIN_MENU:
-        			
+
         			MainMenu.render();
 
 
         			break;
         		}
-     		
-        		//renderer.renderModelEntity(defaultEntity);
-        		for(ModelEntity me : background) {
-        			renderer.renderModelEntity(me);
-        			//System.out.println("Grund VertexArrayID: "+me.getModel().getVertexArrayID()+" Position: "+me.getPosition().getX()+", "+me.getPosition().getY()+", "+me.getPosition().getZ());
-        		}
-        		if(!blockList.isEmpty()) {
-        			for(ModelEntity me : blockList) {
-        				renderer.renderModelEntity(me);
-		            	//System.out.println("Block VertexArrayID: "+me.getModel().getVertexArrayID()+" Position: "+me.getPosition().getX()+", "+me.getPosition().getY()+", "+me.getPosition().getZ());
-		            }
-        		}
-        		
+
+        		renderer.renderModelEntity(defaultEntity);
+//        		for(ModelEntity me : background) {
+//        			renderer.renderModelEntity(me);
+//        			//System.out.println("Grund VertexArrayID: "+me.getModel().getVertexArrayID()+" Position: "+me.getPosition().getX()+", "+me.getPosition().getY()+", "+me.getPosition().getZ());
+//        		}
+//        		if(!blockList.isEmpty()) {
+//        			for(ModelEntity me : blockList) {
+//        				renderer.renderModelEntity(me);
+//		            	//System.out.println("Block VertexArrayID: "+me.getModel().getVertexArrayID()+" Position: "+me.getPosition().getX()+", "+me.getPosition().getY()+", "+me.getPosition().getZ());
+//		            }
+//        		}
+
         		//System.out.println("X: "+background.get(0).getPosition().getX()+"; Y: "+background.get(0).getPosition().getY()+"; Z: "+background.get(0).getPosition().getZ());
 	            shader.unbind();
 	            window.swapBuffers();
@@ -329,10 +328,10 @@ public class Game {
 
 	}
 
-	
+
 	/*
      * Achtung: einiges an Input auch in Camera Klasse
-     * 
+     *
      * Vergebene Tasten:
      * W: Kamera bewegt sich vorwaerts
      * S: Kamera bewegt sich rueckwaerts
@@ -340,7 +339,7 @@ public class Game {
      * D: Kamera bewegt sich nach rechts
      * SPACE: Kamera bewegt sich nach oben
      * LEFT SHIFT: Kamera bewegt sich nach unten
-     * 
+     *
      * U: Maus angezeigt
      * L: Maus verschwindet
      * ENTER: Gamestate switcht von Main menu zu Game oder umgekehrt
@@ -371,7 +370,7 @@ public class Game {
     				System.out.println("Game resumed!");
     		}
     	}
-    	
+
     	if(window.isKeyPressed(GLFW.GLFW_KEY_T)) {
     		if(mode == GameMode.CHEAT) {
     			if(stopTime)

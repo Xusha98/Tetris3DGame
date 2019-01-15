@@ -28,7 +28,7 @@ public class MainMenu extends Game {
 	    private static final int BUTTON_WIDTH = 35;
 	    private static final int BUTTON_HEIGHT = 35;
 
-	    
+
 		public static void init() {
 
 	    bg = Image.loadImage("resources/textures/menuBackground.png");
@@ -55,29 +55,29 @@ public class MainMenu extends Game {
 	            g2.draw(playRectangle); //play-button
 	            g2.draw(modeRectangle); // mode-button
 	            g2.draw(helpRectangle); // help-button
-			
+
 	            g2.drawString("Lol", 0, 0);
-	         
+
 	    		int x = 0;
 	    		int y = 0;
 	    		int z = 0;
 	    		Vector3f point1 = new Vector3f(x, y, z);
 	            Vector3f point2 = new Vector3f(x + BUTTON_WIDTH, y, z);
 	            Vector3f point3 = new Vector3f(x + BUTTON_WIDTH, y + BUTTON_HEIGHT, z);
-	            
-	    		
+
+
 	            cam.setPosition(0,0,0);
-	    		
+
 	            TexturedModel button = new TexturedModel(new float[] {0f,0f,0f,
-	            													  0f,0f,0f}, 
+	            													  0f,0f,0f},
 	            		new float[] {0f,1f,1f,0f},
-	            		null, 
+	            		null,
 	            		"cheatMode.png");
 	            ModelEntity button2 = new ModelEntity(button, point1, point2, point3);
 	            renderer.renderModelEntity(button2);
 				   **/
-	    		
-	    		
+
+
 	    		 GL11.glBegin(GL11.GL_QUADS);
 	             // >> glVertex commands are used within glBegin/glEnd pairs to specify point, line, and polygon vertices.
 	             // >> glColor sets the current colour. (All subsequent calls to glVertex will be assigned this colour)
@@ -95,8 +95,8 @@ public class MainMenu extends Game {
 	    		 	GL11.glVertex2i(0, 20);                             // Bottom-left
 	             // If we put another four calls to glVertex2i here, a second quadrilateral will be drawn.
 	             GL11.glEnd();
-	    		
-				
+
+
 	        }
 
 
