@@ -27,10 +27,84 @@ public class Game {
 	private static Renderer renderer = new Renderer(window, shader);
 	private static Camera cam = new Camera();
 	
-	private static GameState state = GameState.MAIN_MENU;
-	private static GameMode mode = GameMode.NORMAL;
+	//TODO: muss spaeter zu MainMenu gesetzt werden, auf Game zu testzwecken gestellt
+	private static GameState state = GameState.GAME;
+	private static GameMode mode = GameMode.CHEAT;
+	
+	private static boolean stopTime = false;
+	
+	
+	
+	private static TexturedModel defaultModel;
+	private static ModelEntity defaultEntity;
 
-
+    public static void defaultInit() {
+    	defaultModel = new TexturedModel(new float[] {
+        		-1.0f, 1.0f, -1.0f, //V0
+        		-1.0f, -1.0f, -1.0f, //V1
+        		1.0f, -1.0f, -1.0f, //V2
+        		1.0f, 1.0f, -1.0f, //V3
+        		-1.0f, 1.0f, 1.0f, //V4
+        		-1.0f, -1.0f, 1.0f, //V5
+        		1.0f, -1.0f, 1.0f, //V6
+        		1.0f, 1.0f, 1.0f, //V7
+        		1.0f, 1.0f, -1.0f, //V3
+        		1.0f, -1.0f, -1.0f, //V2
+        		1.0f, -1.0f, 1.0f, //V6
+        		1.0f, 1.0f, 1.0f, //V7
+        		-1.0f, 1.0f, -1.0f, //V0
+        		-1.0f, -1.0f, -1.0f, //V1
+        		-1.0f, -1.0f, 1.0f, //V5
+        		-1.0f, 1.0f, 1.0f, //V4
+        		-1.0f, 1.0f, 1.0f, //V4
+        		-1.0f, 1.0f, -1.0f, //V0
+        		1.0f, 1.0f, -1.0f, //V3
+        		1.0f, 1.0f, 1.0f, //V7
+        		-1.0f, -1.0f, 1.0f, //V5
+        		-1.0f, -1.0f, -1.0f, //V1
+        		1.0f, -1.0f, -1.0f, //V2
+        		1.0f, -1.0f, 1.0f //V6
+        		}, new float[]{
+        				0f, 0f,
+        				0f, 1f,
+        				1f, 1f,
+        				1f, 0f,
+        				0f, 0f,
+        				0f, 1f,
+        				1f, 1f,
+        				1f, 0f,
+        				0f, 0f,
+        				0f, 1f,
+        				1f, 1f,
+        				1f, 0f,
+        				0f, 0f,
+        				0f, 1f,
+        				1f, 1f,
+        				1f, 0f,
+        				0f, 0f,
+        				0f, 1f,
+        				1f, 1f,
+        				1f, 0f,
+        				0f, 0f,
+        				0f, 1f,
+        				1f, 1f,
+        				1f, 0f
+        				}, new int[]{
+        						0, 1, 3,
+        						3, 1, 2,
+        						4, 5, 7,
+        						7, 5, 6,
+        						8, 9, 11,
+        						11, 9, 10,
+        						12, 13, 15,
+        						15, 13, 14,
+        						16, 17, 19,
+        						19, 17, 18,
+        						20, 21, 23,
+        						23, 21, 22
+        						}, "beautiful.png");
+        defaultEntity = new ModelEntity(defaultModel, new Vector3f(5, 10, 5), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
+    }
 	public static void init() {
 
 		window.setBackgroundColor(0.0f, 0.0f, 0.0f);
@@ -186,6 +260,7 @@ public class Game {
 	public static void run() {
 
 		init();
+		defaultInit();
 
 		while (!window.closed()) {
         	if (window.isUpdating()) {
@@ -195,17 +270,34 @@ public class Game {
         		cam.update(window);
         		renderer.loadCamera(cam);
         		input();
-
+        		
+        		shader.bind();
 
         		switch (state) {
+        		
         		case PAUSE:
         			GL15.glColor3f(1.0f, 0.0f, 0.0f);
         			GL15.glRectf(0, 0, 640, 480);
         			break;
+        			
         		case GAME:
-        			GL15.glColor3f(0.0f, 1.0f, 0.0f);
-        			GL15.glRectf(0, 0, 640, 480);
+        			switch(mode) {
+        			case CHEAT: 
+        				//Code fuer Normalmode (zeit laeuft)
+        				if(!stopTime) {
+        					defaultEntity.addRotation(2, 2, 0);
+        				}
+        				//Code fuer Cheatmode (zeit gestoppt)
+        				else {
+        					defaultEntity.addRotation(0, 0, 0);
+        				}
+        				break;
+        			case NORMAL: break;
+        			}
+        			//GL15.glColor3f(0.0f, 1.0f, 0.0f);
+        			//GL15.glRectf(0, 0, 640, 480);
         			break;
+        			
         		case MAIN_MENU:
         			
         			//mm.render();
@@ -213,20 +305,18 @@ public class Game {
 
         			break;
         		}
-
-
-        		shader.bind();
-
-        		for(ModelEntity me : background) {
-        			renderer.renderModelEntity(me);
-        			//System.out.println("Grund VertexArrayID: "+me.getModel().getVertexArrayID()+" Position: "+me.getPosition().getX()+", "+me.getPosition().getY()+", "+me.getPosition().getZ());
-        		}
-        		if(!blockList.isEmpty()) {
-        			for(ModelEntity me : blockList) {
-        				renderer.renderModelEntity(me);
-		            	//System.out.println("Block VertexArrayID: "+me.getModel().getVertexArrayID()+" Position: "+me.getPosition().getX()+", "+me.getPosition().getY()+", "+me.getPosition().getZ());
-		            }
-        		}
+     		
+        		renderer.renderModelEntity(defaultEntity);
+//        		for(ModelEntity me : background) {
+//        			renderer.renderModelEntity(me);
+//        			//System.out.println("Grund VertexArrayID: "+me.getModel().getVertexArrayID()+" Position: "+me.getPosition().getX()+", "+me.getPosition().getY()+", "+me.getPosition().getZ());
+//        		}
+//        		if(!blockList.isEmpty()) {
+//        			for(ModelEntity me : blockList) {
+//        				renderer.renderModelEntity(me);
+//		            	//System.out.println("Block VertexArrayID: "+me.getModel().getVertexArrayID()+" Position: "+me.getPosition().getX()+", "+me.getPosition().getY()+", "+me.getPosition().getZ());
+//		            }
+//        		}
         		
         		//System.out.println("X: "+background.get(0).getPosition().getX()+"; Y: "+background.get(0).getPosition().getY()+"; Z: "+background.get(0).getPosition().getZ());
 	            shader.unbind();
@@ -283,7 +373,11 @@ public class Game {
     	
     	if(window.isKeyPressed(GLFW.GLFW_KEY_T)) {
     		if(mode == GameMode.CHEAT) {
-    			System.out.println("Current mode is:" +mode+". Time is turned off.");
+    			if(stopTime)
+    				stopTime = false;
+    			else
+    				stopTime = true;
+    			System.out.println("Current mode is:" +mode+". Time is turned off. StopTime: "+stopTime);
     		} else if(mode == GameMode.NORMAL) {
     			System.out.println("Current mode is:" +mode+" Time can not be turned off.");
     		}
