@@ -15,7 +15,7 @@ import engine.rendering.Renderer;
 import engine.rendering.models.ModelEntity;
 import engine.rendering.models.TexturedModel;
 import engine.shaders.BasicShader;
- 
+
 public class Main {
 	private static final int WIDTH = 800, HEIGHT = 600, FPS = 60;
 	private static Window window = new Window(WIDTH, HEIGHT, FPS, "3D Tetris");
@@ -23,13 +23,13 @@ public class Main {
 	private static Renderer renderer = new Renderer(window, shader);
 	private static Camera cam = new Camera();
 	//private MainMenu mm = new MainMenu();
-	
-	
+
+
 	private static GameState state = GameState.MAIN_MENU;
 	private static GameMode mode = GameMode.NORMAL;
-	
+
     public static void main(String[] args) throws SlickException {
-	
+
 
     	window.setBackgroundColor(0.0f, 0.0f, 0.0f);
     	window.setIcon("icon.png");
@@ -38,39 +38,55 @@ public class Main {
     	window.create();
     	window.lockMouse();
     	shader.create();
-    	
-    	
-        
+
+
+
         while (!window.closed()) {
         	if (window.isUpdating()) {
         		window.update();
         		renderer.update();
-        		
+
         		cam.update(window);
         		renderer.loadCamera(cam);
         		input();
-        		
-        		
+
+
         		render();
-        		
-        		
+
+
         		shader.bind();
-        		          
-        		
+
+
 	            shader.unbind();
 	            window.swapBuffers();
         	}
         }
- 
+
         Game.removeAll();
     }
-    
+
+    /*
+     * Achtung: einiges an Input auch in Camera Klasse
+     *
+     * Vergebene Tasten:
+     * W: Kamera bewegt sich vorwaerts
+     * S: Kamera bewegt sich rueckwaerts
+     * A: Kamera bewegt sich nach links
+     * D: Kamera bewegt sich nach rechts
+     * SPACE: Kamera bewegt sich nach oben
+     * LEFT SHIFT: Kamera bewegt sich nach unten
+     *
+     * U: Maus angezeigt
+     * L: Maus verschwindet
+     * ENTER: Gamestate switcht von Main menu zu Game oder umgekehrt
+     * P: Spiel pausiert oder beendet Pausierung
+     * */
     public static void input() {
     	if(window.isKeyPressed(GLFW.GLFW_KEY_ESCAPE)) {window.close();}
     	if(window.isKeyPressed(GLFW.GLFW_KEY_U)){window.unlockMouse();}
     	if(window.isKeyPressed(GLFW.GLFW_KEY_L)){window.lockMouse();}
-    	
-    	if(window.isKeyPressed(GLFW.GLFW_KEY_SPACE)) {
+
+    	if(window.isKeyPressed(GLFW.GLFW_KEY_ENTER)) {
     		if(state == GameState.MAIN_MENU) {
     			state = GameState.GAME;
     			System.out.println("Current state is:" +state);
@@ -78,9 +94,9 @@ public class Main {
     			state = GameState.MAIN_MENU;
     			System.out.println("Current state is:" +state);
     		}
-    			
+
     	}
-    	
+
     	if(window.isKeyPressed(GLFW.GLFW_KEY_D)) {
     		if(state == GameState.GAME) {
     			state = GameState.PAUSE;
@@ -91,15 +107,15 @@ public class Main {
     		}
     	}
     }
-    
 
-    	
+
+
     	/*				-1.0f, 1.0f, 0,  //TOP LEFT V0
     	        		1.0f, 1.0f, 0,  //TOP RIGHT V1
     	        		1.0f, -1.0f, 0, //BOTTOM RIGHT V2
     					-1.0f, -1.0f, 0  //BOTTOM LEFT V3*/
-    	
-    	/*Saeulen: 
+
+    	/*Saeulen:
     	 * for(int i = 0; i < 20; i=i+18) {
     		for(int j = 0; j <= 18; j=j+18) {
     			TexturedModel model = new TexturedModel(new float[] {
@@ -121,28 +137,28 @@ public class Main {
     	        background.add(entity);
     		}
     	}*/
-    
-    
+
+
 	public static void render() throws SlickException {
-		
+
 
 		switch(state){
 			case MAIN_MENU:
 				// Just show our background, we can add some cool menus and stuff
 				// here but for now I'm keeping it simple.
-				
+
 				MainMenu.render(window);
 				break;
 			case GAME:
 				// Render both our player and background and in update switch
 				// we enable player1.update()
 				Game.render();
-				
+
 				break;
 			case PAUSE:
 				// Render our player and background but don't allow them to
 				// update
-			
+
 				break;
 
 			default:
@@ -151,6 +167,6 @@ public class Main {
 				break;
 		}
 	}
-    
-  
+
+
 }
