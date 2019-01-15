@@ -71,7 +71,7 @@ public class Camera {
 	}
 	
 	public void update(Window window) {
-		/*//keine Rotation möglich, nur Drehungen
+		/*//keine Rotation moeglich, nur Drehungen
 		if(window.isKeyDown(GLFW.GLFW_KEY_W))
 			this.addPosition(0, 0, moveSpeed);
 		if(window.isKeyDown(GLFW.GLFW_KEY_S))
