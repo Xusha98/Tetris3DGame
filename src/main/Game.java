@@ -280,6 +280,15 @@ public class Game {
     				System.out.println("Game resumed!");
     		}
     	}
+    	
+    	if(window.isKeyPressed(GLFW.GLFW_KEY_T)) {
+    		if(mode == GameMode.CHEAT) {
+    			System.out.println("Current mode is:" +mode+". Time is turned off.");
+    		} else if(mode == GameMode.NORMAL) {
+    			System.out.println("Current mode is:" +mode+" Time can not be turned off.");
+    		}
+
+    	}
     }
 
 
