@@ -44,7 +44,7 @@ public class MainMenu {
 	    public static void render(Window window) throws SlickException{
 
 	    		init();
-	    		Graphics2D g2 = new Graphics2D();
+	    		//Graphics2D g2 = new Graphics2D();
 	    		//Image.drawImage(bg,0,0, 205,206);
 
 	            //Image.drawImage(play_button,0,0, 205,206);
@@ -53,9 +53,9 @@ public class MainMenu {
 	    		playRectangle = new Rectangle(205, 206, 207, 208);
 	    		modeRectangle = new Rectangle(205, 206, 207, 208);
 	    		helpRectangle = new Rectangle(205, 206, 207, 208);
-	            g2.draw(playRectangle); //play-button
-	            g2.draw(modeRectangle); // mode-button
-	            g2.draw(helpRectangle); // help-button
+//	            g2.draw(playRectangle); //play-button
+//	            g2.draw(modeRectangle); // mode-button
+//	            g2.draw(helpRectangle); // help-button
 
 
 	        }
