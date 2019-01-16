@@ -20,7 +20,7 @@ import shader.BasicShader;
 public class Game {
 
 	private static List<ModelEntity> background = new ArrayList<>();
-	public static List<TexturedModel> allModels = new ArrayList<>();
+	public static List<TexturedModel>backgroundModels = new ArrayList<>();
 
 	private static final int WIDTH = 800, HEIGHT = 600, FPS = 60;
 	private static Window window = new Window(WIDTH, HEIGHT, FPS, "3D Tetris");
@@ -244,7 +244,7 @@ public class Game {
     	        		 0, 1, 2,        //Triangle 1
     					 2, 3, 0         //Triangle 2
     	        }, "fieldElement.png");
-    	        allModels.add(model);
+    	        backgroundModels.add(model);
     	        ModelEntity entity = new ModelEntity(model, new Vector3f(j, 0, i), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
     	        background.add(entity);
     		}
@@ -253,7 +253,7 @@ public class Game {
     }
 
     public static void removeAll() {
-    	for(TexturedModel tm : allModels) {
+    	for(TexturedModel tm : backgroundModels) {
     		tm.remove();
     	}
     	for(TexturedModel tm : blockManager.getAllModels()) {
