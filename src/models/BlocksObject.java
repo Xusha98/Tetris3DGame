@@ -140,10 +140,10 @@ public class BlocksObject {
 		me3 = new ModelEntity();
 		me4 = new ModelEntity();
 		
-		createBlockElement(texture, 9, 21, 9);
-		createBlockElement(texture, 11, 21, 9);
-		createBlockElement(texture, 11, 21, 7);
-		createBlockElement(texture, 13, 21, 7);
+		me1 = createBlockElement(texture, 9, 21, 9);
+		me2 = createBlockElement(texture, 11, 21, 9);
+		me3 = createBlockElement(texture, 11, 21, 7);
+		me4 = createBlockElement(texture, 13, 21, 7);
 		
 		blockForms.add(new BlockFormObject(new ArrayList<ModelEntity>(Arrays.asList(me1, me2, me3, me4))));
 	}
@@ -219,6 +219,46 @@ public class BlocksObject {
         blockList.add(entity);
         
         return entity;
+	}
+	
+	//gibt kleinsten X Wert zurueck von allen Bloecken der gegenwaertigen Form
+	public float getMinX(BlockFormObject bfm) {
+		float x = 100.0f;
+		for(ModelEntity me : bfm.getBlocks()) {
+			if(me.getPosition().getX() < x)
+				x = me.getPosition().getX();
+		}
+		return x;
+	}
+	
+	//gibt groeßten X Wert zurueck von allen Bloecken der gegenwaertigen Form
+	public float getMaxX(BlockFormObject bfm) {
+		float x = 0;
+		for(ModelEntity me : bfm.getBlocks()) {
+			if(me.getPosition().getX() > x)
+				x = me.getPosition().getX();
+		}
+		return x;
+	}
+	
+	//gibt kleinsten Y Wert zurueck von allen Bloecken der gegenwaertigen Form
+	public float getMinZ(BlockFormObject bfm) {
+		float z = 100.0f;
+		for(ModelEntity me : bfm.getBlocks()) {
+			if(me.getPosition().getZ() < z)
+				z = me.getPosition().getZ();
+		}
+		return z;
+	}
+	
+	//gibt groeßten Y Wert zurueck von allen Bloecken der gegenwaertigen Form
+	public float getMaxZ(BlockFormObject bfm) {
+		float z = 0;
+		for(ModelEntity me : bfm.getBlocks()) {
+			if(me.getPosition().getZ() > z)
+				z = me.getPosition().getZ();
+		}
+		return z;
 	}
 
 }

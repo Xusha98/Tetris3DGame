@@ -8,6 +8,7 @@ import org.lwjgl.opengl.GL15;
 
 import io.Window;
 import maths.Vector3f;
+import models.BlockFormObject;
 import models.BlocksObject;
 import models.ModelEntity;
 import models.TexturedModel;
@@ -29,6 +30,7 @@ public class Game {
 	private static Camera cam = new Camera();
 	
 	private static BlocksObject blocksObject = new BlocksObject();
+	private static BlockFormObject currentMovingBlocks;
 
 	//TODO: muss spaeter zu MainMenu gesetzt werden, auf Game zu testzwecken gestellt
 	private static GameState state = GameState.GAME;
@@ -485,21 +487,26 @@ public class Game {
     	}
     	
     	if(window.isKeyPressed(GLFW.GLFW_KEY_LEFT)) {
-    		x = -2.0f;
+    		if(blocksObject.getMinX(currentMovingBlocks) != 1)
+    			x = -2.0f;
     	}    	
     	if(window.isKeyPressed(GLFW.GLFW_KEY_RIGHT)) {
-    		x = +2.0f;
+    		if(blocksObject.getMaxX(currentMovingBlocks) != 17)
+    			x = +2.0f;
     	}
     	if(window.isKeyPressed(GLFW.GLFW_KEY_UP)) {
-    		z = +2.0f;
+    		if(blocksObject.getMaxZ(currentMovingBlocks) != 17)
+    			z = +2.0f;
     	}    	
     	if(window.isKeyPressed(GLFW.GLFW_KEY_DOWN)) {
-    		z = -2.0f;
+    		if(blocksObject.getMinZ(currentMovingBlocks) != 1)
+    			z = -2.0f;
     	}
     	
     	//Testinput zum Generieren eines Blocks
     	if(window.isKeyPressed(GLFW.GLFW_KEY_1)) {
     		blocksObject.createNewBlockForm();
+    		currentMovingBlocks = blocksObject.getBlockFormObjects().get(blocksObject.getBlockFormObjects().size()-1);
     	}
     }
 
