@@ -25,20 +25,18 @@ public class MainMenu extends Game {
 
 	 	static boolean cheatMode_active = false;
 	 	static Rectangle playRectangle, modeRectangle, helpRectangle;
-
 	 	static Material bg;
-	  static Material play_button;
-	  static Material normal_mode_button;
-	  static Material cheat_mode_button;
-	  static Material help_button;
+	    static Material play_button;
+	    static Material normal_mode_button;
+	    static Material cheat_mode_button;
+	    static Material help_button;
+	    private static final int BUTTON_WIDTH = 250;
+	    private static final int BUTTON_HEIGHT = 35;
 
-	  private static final int BUTTON_WIDTH = 250;
-	  private static final int BUTTON_HEIGHT = 35;
-
-
+	    
 		public static void init() {
 
-
+			
 		bg = new Material("menuBackground.png");
 		play_button  = new Material("play.png");
 		help_button = new Material("help.png");
@@ -47,12 +45,13 @@ public class MainMenu extends Game {
 
 	    }
 
-
-	    public static void render() {
-
+	    public static void render(){
+	    	
 	    	init();
 	    		// switch to 2d drawing
-
+	    	
+	    	GL11.glEnable(GL11.GL_TEXTURE_2D);
+	    	
 	    	GL11.glBindTexture(GL11.GL_TEXTURE_2D, bg.getTextureID());
 	    	/**
 	    	GL11.glEnable(GL11.GL_TEXTURE_2D);
@@ -66,56 +65,79 @@ public class MainMenu extends Game {
 	    	GLU.gluPerspective((float) 0, WIDTH / HEIGHT, 0.001f, 100);
 	    	GL11.glMatrixMode(GL11.GL_MODELVIEW);
 	    	**/
-	    	GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
-
+	    	GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);	
+	    	 
 	    	// set the color of the quad (R,G,B,A)
-
-	    	GL11.glColor3f(1.0f,0.0f,1.0f);
-
-
+	    	//GL11.glColor3f(1.0f,0.0f,1.0f);
+	    	
 	    	GL11.glBegin(GL11.GL_QUADS);
 	    		GL11.glTexCoord2f(0, 0);
 	        	GL11.glVertex2f(0,0);
-
-
+	        	
 	        	GL11.glTexCoord2f(20, 0);
 	        	GL11.glVertex2f(20,0);
-
+	        	
 	        	GL11.glTexCoord2f(0, 20);
 	        	GL11.glVertex2f(20,20);
-
+	        	
 	        	GL11.glTexCoord2f(20, 20);
 	        	GL11.glVertex2f(0,20);
 	        GL11.glEnd();
-
-	       // GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
-
+	        
+	       // GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);	
+	   
 	    	GL11.glBindTexture(GL11.GL_TEXTURE_2D, help_button.getTextureID());
-
+	        
 	        GL11.glBegin(GL11.GL_QUADS);
     			GL11.glTexCoord2f(0, 0);
     			GL11.glVertex3f(5,5,-0.1f);
-
+        	
     			GL11.glTexCoord2f(0, 250);
     			GL11.glVertex3f(15,5,-0.1f);
-
+        	
     			GL11.glTexCoord2f(35,0);
     			GL11.glVertex3f(15,7,-0.1f);
-
+        	
     			GL11.glTexCoord2f(35, 250);
     			GL11.glVertex3f(5,7,-0.1f);
     		GL11.glEnd();
-	        	GL11.glTexCoord2f(0, 1);
-	        	GL11.glVertex2f(0+20,0);
-
-	        	GL11.glTexCoord2f(1, 1);
-	        	GL11.glVertex2f(0+20,0+20);
-
-	        	GL11.glTexCoord2f(1, 0);
-	        	GL11.glVertex2f(0,0+20);
-	        GL11.glEnd();
-
-
+	        
+    		
+    		
+    		GL11.glBindTexture(GL11.GL_TEXTURE_2D, play_button.getTextureID());
+	        
+	        GL11.glBegin(GL11.GL_QUADS);
+    			GL11.glTexCoord2f(0, 0);
+    			GL11.glVertex3f(5,13,-0.1f);
+        	
+    			GL11.glTexCoord2f(0, 250);
+    			GL11.glVertex3f(5,15,-0.1f);
+        	
+    			GL11.glTexCoord2f(35,0);
+    			GL11.glVertex3f(15,15,-0.1f);
+        	
+    			GL11.glTexCoord2f(35, 250);
+    			GL11.glVertex3f(15,13,-0.1f);
+    		GL11.glEnd();
+    		
+    		
+    		GL11.glBindTexture(GL11.GL_TEXTURE_2D, cheat_mode_button.getTextureID());
+    		
+	        GL11.glBegin(GL11.GL_QUADS);
+    			GL11.glTexCoord2f(0, 0);
+    			GL11.glVertex3f(5,9,-0.1f);
+        	
+    			GL11.glTexCoord2f(0, 250);
+    			GL11.glVertex3f(5,11,-0.1f);
+        	
+    			GL11.glTexCoord2f(35,0);
+    			GL11.glVertex3f(15,11,-0.1f);
+        	
+    			GL11.glTexCoord2f(35, 250);
+    			GL11.glVertex3f(15,9,-0.1f);
+    		GL11.glEnd();
+	       
+    		
 	    		/**
 	    		Graphics2D g2 = (Graphics2D) g;
 	    		//Image.drawImage(bg,0,0, 205,206);
@@ -129,29 +151,29 @@ public class MainMenu extends Game {
 	            g2.draw(playRectangle); //play-button
 	            g2.draw(modeRectangle); // mode-button
 	            g2.draw(helpRectangle); // help-button
-
+			
 	            g2.drawString("Lol", 0, 0);
-
+	         
 	    		int x = 0;
 	    		int y = 0;
 	    		int z = 0;
 	    		Vector3f point1 = new Vector3f(x, y, z);
 	            Vector3f point2 = new Vector3f(x + BUTTON_WIDTH, y, z);
 	            Vector3f point3 = new Vector3f(x + BUTTON_WIDTH, y + BUTTON_HEIGHT, z);
-
-
+	            
+	    		
 	            cam.setPosition(0,0,0);
-
+	    		
 	            TexturedModel button = new TexturedModel(new float[] {0f,0f,0f,
-	            													  0f,0f,0f},
+	            													  0f,0f,0f}, 
 	            		new float[] {0f,1f,1f,0f},
-	            		null,
+	            		null, 
 	            		"cheatMode.png");
 	            ModelEntity button2 = new ModelEntity(button, point1, point2, point3);
 	            renderer.renderModelEntity(button2);
-
-
-
+				  
+	    		
+	    		
 	    		 GL11.glBegin(GL11.GL_QUADS);
 	             // >> glVertex commands are used within glBegin/glEnd pairs to specify point, line, and polygon vertices.
 	             // >> glColor sets the current colour. (All subsequent calls to glVertex will be assigned this colour)
@@ -170,7 +192,7 @@ public class MainMenu extends Game {
 	             // If we put another four calls to glVertex2i here, a second quadrilateral will be drawn.
 	             GL11.glEnd();
 	    		 **/
-
+				
 	        }
 
 	    public static void update() throws SlickException{
@@ -188,6 +210,5 @@ public class MainMenu extends Game {
 	    public int getID(){
 	        return 1;
 	    }
-
 
 }
