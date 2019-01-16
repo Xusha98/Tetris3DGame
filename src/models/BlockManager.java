@@ -8,7 +8,7 @@ import java.util.Random;
 import maths.Vector3f;
 
 
-public class BlocksObject {
+public class BlockManager {
 
 	private List <BlockFormObject> blockForms = new ArrayList<>();
 	private List<ModelEntity> blockList = new ArrayList<>();

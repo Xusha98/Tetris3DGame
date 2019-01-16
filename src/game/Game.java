@@ -9,7 +9,7 @@ import org.lwjgl.opengl.GL15;
 import io.Window;
 import maths.Vector3f;
 import models.BlockFormObject;
-import models.BlocksObject;
+import models.BlockManager;
 import models.ModelEntity;
 import models.TexturedModel;
 import rendering.Camera;
@@ -29,7 +29,7 @@ public class Game {
 	private static Renderer renderer = new Renderer(window, shader);
 	private static Camera cam = new Camera();
 	
-	private static BlocksObject blocksObject = new BlocksObject();
+	private static BlockManager blocksObject = new BlockManager();
 	private static BlockFormObject currentMovingBlocks;
 
 	//TODO: muss spaeter zu MainMenu gesetzt werden, auf Game zu testzwecken gestellt
