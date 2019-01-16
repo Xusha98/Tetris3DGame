@@ -111,9 +111,11 @@ public class Game {
     	        			renderer.renderModelEntity(me);
     	        			if(me.getPosition().getY() > -0.0000001 && me.getPosition().getY() <= 1) {
     	        				me.setPosition(new Vector3f(me.getPosition().getX(), 1, me.getPosition().getZ()));
+    	        				
     	        			}
-    	        			else
+    	        			else {
     	        				me.addPosition(x, -0.02f-y, z);
+    	        			}
     	        		}
         				break;
         			}

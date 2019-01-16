@@ -12,6 +12,7 @@ import java.util.List;
 public class BlockFormObject {
 	
 	private List<ModelEntity> blocks;
+	private boolean hasFinalPos = false;
 	
 	public BlockFormObject(ArrayList<ModelEntity> blocks) {
 		this.blocks = blocks;
@@ -27,6 +28,14 @@ public class BlockFormObject {
 	
 	public void removeBlock(ModelEntity me) {
 		blocks.remove(me);
+	}
+
+	public boolean isHasFinalPos() {
+		return hasFinalPos;
+	}
+
+	public void setHasFinalPos(boolean hasFinalPos) {
+		this.hasFinalPos = hasFinalPos;
 	}
 
 }
