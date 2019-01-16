@@ -327,6 +327,8 @@ public class Game {
 	}
 
 
+	public static float x = 0;
+	public static float z = 0;
 	public static void run() {
 
 		init();
@@ -334,6 +336,8 @@ public class Game {
 
 		while (!window.closed()) {
         	if (window.isUpdating()) {
+        		x = 0; z = 0;
+        		
         		window.update();
         		renderer.update();
 
@@ -390,6 +394,7 @@ public class Game {
     	        		}
     	        		for(ModelEntity me : blocksObject.getAllBlocks()) {
     	        			renderer.renderModelEntity(me);
+    	        			me.addPosition(0+x, -0.02f, 0+z);
     	        		}
         				break;
         			}
@@ -422,6 +427,12 @@ public class Game {
      * Achtung: einiges an Input auch in Camera Klasse
      *
      * Vergebene Tasten:
+     * 
+     * UP: Block bewegt sich in positive z-Richtung
+     * DOWN: Block bewegt sich in negative z-Richtung
+     * LEFT: Block bewegt sich in negative x-Richtung
+     * RIGHT: Block bewegt sich in positive x-Richtung
+     * 
      * W: Kamera bewegt sich vorwaerts
      * S: Kamera bewegt sich rueckwaerts
      * A: Kamera bewegt sich nach links
@@ -473,6 +484,20 @@ public class Game {
 
     	}
     	
+    	if(window.isKeyPressed(GLFW.GLFW_KEY_LEFT)) {
+    		x = -2.0f;
+    	}    	
+    	if(window.isKeyPressed(GLFW.GLFW_KEY_RIGHT)) {
+    		x = +2.0f;
+    	}
+    	if(window.isKeyPressed(GLFW.GLFW_KEY_UP)) {
+    		z = +2.0f;
+    	}    	
+    	if(window.isKeyPressed(GLFW.GLFW_KEY_DOWN)) {
+    		z = -2.0f;
+    	}
+    	
+    	//Testinput zum Generieren eines Blocks
     	if(window.isKeyPressed(GLFW.GLFW_KEY_1)) {
     		blocksObject.createNewBlockForm();
     	}
