@@ -53,6 +53,7 @@ public class Game {
 
 	public static float x = 0;
 	public static float z = 0;
+	public static float y = 0;
 	public static void run() {
 
 		init();
@@ -112,7 +113,7 @@ public class Game {
     	        				me.setPosition(new Vector3f(me.getPosition().getX(), 1, me.getPosition().getZ()));
     	        			}
     	        			else
-    	        				me.addPosition(x, -0.02f, z);
+    	        				me.addPosition(x, -0.02f-y, z);
     	        		}
         				break;
         			}
@@ -217,6 +218,12 @@ public class Game {
     	if(window.isKeyPressed(GLFW.GLFW_KEY_DOWN)) {
     		if(blockManager.getMinZ(currentMovingBlocks) != 1)
     			z = -2.0f;
+    	}
+    	if(window.isKeyPressed(GLFW.GLFW_KEY_2)) {
+    		y = 0.2f;
+    	}
+    	if(window.isKeyReleased(GLFW.GLFW_KEY_2)) {
+    		y = 0;
     	}
     	
     	//Testinput zum Generieren eines Blocks
