@@ -1,3 +1,12 @@
+/audio/
 /engine/
 /main/
-/audio/
+<<<<<<< HEAD
+=======
+/rendering/
+/models/
+/maths/
+/shader/
+/io/
+/game/
+>>>>>>> a2b400d343a57d28368754de9ec2357bbfd08286
