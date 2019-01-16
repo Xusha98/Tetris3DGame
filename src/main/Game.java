@@ -34,12 +34,17 @@ public class Game {
 	private static boolean stopTime = false;
 
 
+	public static void init() {
 
-	private static TexturedModel defaultModel;
-	private static ModelEntity defaultEntity;
+		window.setBackgroundColor(0.0f, 0.0f, 0.0f);
+    	window.setIcon("icon.png");
+    	window.create();
+    	window.lockMouse();
+    	shader.create();
 
-    public static void defaultInit() {
-    	defaultModel = new TexturedModel(new float[] {
+    	setBackground();
+
+        TexturedModel model = new TexturedModel(new float[] {
         		-1.0f, 1.0f, -1.0f, //V0
         		-1.0f, -1.0f, -1.0f, //V1
         		1.0f, -1.0f, -1.0f, //V2
@@ -102,165 +107,227 @@ public class Game {
         						19, 17, 18,
         						20, 21, 23,
         						23, 21, 22
-        						}, "beautiful.png");
-        defaultEntity = new ModelEntity(defaultModel, new Vector3f(5, 10, 5), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
-    }
-	public static void init() {
+        						}, "blue.png");
+        allModels.add(model);
 
-		window.setBackgroundColor(0.0f, 0.0f, 0.0f);
-    	window.setIcon("icon.png");
-    	window.create();
-    	window.lockMouse();
-    	shader.create();
-
-    	setBackground();
-
-	    TexturedModel model = new TexturedModel(new float[] {
-	    		-1.0f, 1.0f, -1.0f, //V0
-	    		-1.0f, -1.0f, -1.0f, //V1
-	    		1.0f, -1.0f, -1.0f, //V2
-	    		1.0f, 1.0f, -1.0f, //V3
-	    		-1.0f, 1.0f, 1.0f, //V4
-	    		-1.0f, -1.0f, 1.0f, //V5
-	    		1.0f, -1.0f, 1.0f, //V6
-	    		1.0f, 1.0f, 1.0f, //V7
-	    		1.0f, 1.0f, -1.0f, //V3
-	    		1.0f, -1.0f, -1.0f, //V2
-	    		1.0f, -1.0f, 1.0f, //V6
-	    		1.0f, 1.0f, 1.0f, //V7
-	    		-1.0f, 1.0f, -1.0f, //V0
-	    		-1.0f, -1.0f, -1.0f, //V1
-	    		-1.0f, -1.0f, 1.0f, //V5
-	    		-1.0f, 1.0f, 1.0f, //V4
-	    		-1.0f, 1.0f, 1.0f, //V4
-	    		-1.0f, 1.0f, -1.0f, //V0
-	    		1.0f, 1.0f, -1.0f, //V3
-	    		1.0f, 1.0f, 1.0f, //V7
-	    		-1.0f, -1.0f, 1.0f, //V5
-	    		-1.0f, -1.0f, -1.0f, //V1
-	    		1.0f, -1.0f, -1.0f, //V2
-	    		1.0f, -1.0f, 1.0f //V6
-	    		}, new float[]{
-	    				0f, 0f,
-	    				0f, 1f,
-	    				1f, 1f,
-	    				1f, 0f,
-	    				0f, 0f,
-	    				0f, 1f,
-	    				1f, 1f,
-	    				1f, 0f,
-	    				0f, 0f,
-	    				0f, 1f,
-	    				1f, 1f,
-	    				1f, 0f,
-	    				0f, 0f,
-	    				0f, 1f,
-	    				1f, 1f,
-	    				1f, 0f,
-	    				0f, 0f,
-	    				0f, 1f,
-	    				1f, 1f,
-	    				1f, 0f,
-	    				0f, 0f,
-	    				0f, 1f,
-	    				1f, 1f,
-	    				1f, 0f
-	    				}, new int[]{
-	    						0, 1, 3,
-	    						3, 1, 2,
-	    						4, 5, 7,
-	    						7, 5, 6,
-	    						8, 9, 11,
-	    						11, 9, 10,
-	    						12, 13, 15,
-	    						15, 13, 14,
-	    						16, 17, 19,
-	    						19, 17, 18,
-	    						20, 21, 23,
-	    						23, 21, 22
-	    						}, "beautiful.png");
-	    allModels.add(model);
-
-	    ModelEntity entity = new ModelEntity(model, new Vector3f(5, 10, 5), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
-	    blockList.add(entity);
+        ModelEntity entity = new ModelEntity(model, new Vector3f(1, 1, 1), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
+        blockList.add(entity);
 
 
-	    TexturedModel model2 = new TexturedModel(new float[] {
-	    		-1.0f, 1.0f, -1.0f, //V0
-	    		-1.0f, -1.0f, -1.0f, //V1
-	    		1.0f, -1.0f, -1.0f, //V2
-	    		1.0f, 1.0f, -1.0f, //V3
-	    		-1.0f, 1.0f, 1.0f, //V4
-	    		-1.0f, -1.0f, 1.0f, //V5
-	    		1.0f, -1.0f, 1.0f, //V6
-	    		1.0f, 1.0f, 1.0f, //V7
-	    		1.0f, 1.0f, -1.0f, //V3
-	    		1.0f, -1.0f, -1.0f, //V2
-	    		1.0f, -1.0f, 1.0f, //V6
-	    		1.0f, 1.0f, 1.0f, //V7
-	    		-1.0f, 1.0f, -1.0f, //V0
-	    		-1.0f, -1.0f, -1.0f, //V1
-	    		-1.0f, -1.0f, 1.0f, //V5
-	    		-1.0f, 1.0f, 1.0f, //V4
-	    		-1.0f, 1.0f, 1.0f, //V4
-	    		-1.0f, 1.0f, -1.0f, //V0
-	    		1.0f, 1.0f, -1.0f, //V3
-	    		1.0f, 1.0f, 1.0f, //V7
-	    		-1.0f, -1.0f, 1.0f, //V5
-	    		-1.0f, -1.0f, -1.0f, //V1
-	    		1.0f, -1.0f, -1.0f, //V2
-	    		1.0f, -1.0f, 1.0f //V6
-	    		}, new float[]{
-	    				0f, 0f,
-	    				0f, 1f,
-	    				1f, 1f,
-	    				1f, 0f,
-	    				0f, 0f,
-	    				0f, 1f,
-	    				1f, 1f,
-	    				1f, 0f,
-	    				0f, 0f,
-	    				0f, 1f,
-	    				1f, 1f,
-	    				1f, 0f,
-	    				0f, 0f,
-	    				0f, 1f,
-	    				1f, 1f,
-	    				1f, 0f,
-	    				0f, 0f,
-	    				0f, 1f,
-	    				1f, 1f,
-	    				1f, 0f,
-	    				0f, 0f,
-	    				0f, 1f,
-	    				1f, 1f,
-	    				1f, 0f
-	    				}, new int[]{
-	    						0, 1, 3,
-	    						3, 1, 2,
-	    						4, 5, 7,
-	    						7, 5, 6,
-	    						8, 9, 11,
-	    						11, 9, 10,
-	    						12, 13, 15,
-	    						15, 13, 14,
-	    						16, 17, 19,
-	    						19, 17, 18,
-	    						20, 21, 23,
-	    						23, 21, 22
-	    						}, "beautiful.png");
-	    allModels.add(model2);
+        TexturedModel model2 = new TexturedModel(new float[] {
+        		-1.0f, 1.0f, -1.0f, //V0
+        		-1.0f, -1.0f, -1.0f, //V1
+        		1.0f, -1.0f, -1.0f, //V2
+        		1.0f, 1.0f, -1.0f, //V3
+        		-1.0f, 1.0f, 1.0f, //V4
+        		-1.0f, -1.0f, 1.0f, //V5
+        		1.0f, -1.0f, 1.0f, //V6
+        		1.0f, 1.0f, 1.0f, //V7
+        		1.0f, 1.0f, -1.0f, //V3
+        		1.0f, -1.0f, -1.0f, //V2
+        		1.0f, -1.0f, 1.0f, //V6
+        		1.0f, 1.0f, 1.0f, //V7
+        		-1.0f, 1.0f, -1.0f, //V0
+        		-1.0f, -1.0f, -1.0f, //V1
+        		-1.0f, -1.0f, 1.0f, //V5
+        		-1.0f, 1.0f, 1.0f, //V4
+        		-1.0f, 1.0f, 1.0f, //V4
+        		-1.0f, 1.0f, -1.0f, //V0
+        		1.0f, 1.0f, -1.0f, //V3
+        		1.0f, 1.0f, 1.0f, //V7
+        		-1.0f, -1.0f, 1.0f, //V5
+        		-1.0f, -1.0f, -1.0f, //V1
+        		1.0f, -1.0f, -1.0f, //V2
+        		1.0f, -1.0f, 1.0f //V6
+        		}, new float[]{
+        				0f, 0f,
+        				0f, 1f,
+        				1f, 1f,
+        				1f, 0f,
+        				0f, 0f,
+        				0f, 1f,
+        				1f, 1f,
+        				1f, 0f,
+        				0f, 0f,
+        				0f, 1f,
+        				1f, 1f,
+        				1f, 0f,
+        				0f, 0f,
+        				0f, 1f,
+        				1f, 1f,
+        				1f, 0f,
+        				0f, 0f,
+        				0f, 1f,
+        				1f, 1f,
+        				1f, 0f,
+        				0f, 0f,
+        				0f, 1f,
+        				1f, 1f,
+        				1f, 0f
+        				}, new int[]{
+        						0, 1, 3,
+        						3, 1, 2,
+        						4, 5, 7,
+        						7, 5, 6,
+        						8, 9, 11,
+        						11, 9, 10,
+        						12, 13, 15,
+        						15, 13, 14,
+        						16, 17, 19,
+        						19, 17, 18,
+        						20, 21, 23,
+        						23, 21, 22
+        						}, "green.png");
+        allModels.add(model2);
 
-	    ModelEntity entity2 = new ModelEntity(model2, new Vector3f(8, 5, 8), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
-	    blockList.add(entity2);
+        ModelEntity entity2 = new ModelEntity(model2, new Vector3f(3, 3, 3), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
+        blockList.add(entity2);
+        
+        TexturedModel model3 = new TexturedModel(new float[] {
+        		-1.0f, 1.0f, -1.0f, //V0
+        		-1.0f, -1.0f, -1.0f, //V1
+        		1.0f, -1.0f, -1.0f, //V2
+        		1.0f, 1.0f, -1.0f, //V3
+        		-1.0f, 1.0f, 1.0f, //V4
+        		-1.0f, -1.0f, 1.0f, //V5
+        		1.0f, -1.0f, 1.0f, //V6
+        		1.0f, 1.0f, 1.0f, //V7
+        		1.0f, 1.0f, -1.0f, //V3
+        		1.0f, -1.0f, -1.0f, //V2
+        		1.0f, -1.0f, 1.0f, //V6
+        		1.0f, 1.0f, 1.0f, //V7
+        		-1.0f, 1.0f, -1.0f, //V0
+        		-1.0f, -1.0f, -1.0f, //V1
+        		-1.0f, -1.0f, 1.0f, //V5
+        		-1.0f, 1.0f, 1.0f, //V4
+        		-1.0f, 1.0f, 1.0f, //V4
+        		-1.0f, 1.0f, -1.0f, //V0
+        		1.0f, 1.0f, -1.0f, //V3
+        		1.0f, 1.0f, 1.0f, //V7
+        		-1.0f, -1.0f, 1.0f, //V5
+        		-1.0f, -1.0f, -1.0f, //V1
+        		1.0f, -1.0f, -1.0f, //V2
+        		1.0f, -1.0f, 1.0f //V6
+        		}, new float[]{
+        				0f, 0f,
+        				0f, 1f,
+        				1f, 1f,
+        				1f, 0f,
+        				0f, 0f,
+        				0f, 1f,
+        				1f, 1f,
+        				1f, 0f,
+        				0f, 0f,
+        				0f, 1f,
+        				1f, 1f,
+        				1f, 0f,
+        				0f, 0f,
+        				0f, 1f,
+        				1f, 1f,
+        				1f, 0f,
+        				0f, 0f,
+        				0f, 1f,
+        				1f, 1f,
+        				1f, 0f,
+        				0f, 0f,
+        				0f, 1f,
+        				1f, 1f,
+        				1f, 0f
+        				}, new int[]{
+        						0, 1, 3,
+        						3, 1, 2,
+        						4, 5, 7,
+        						7, 5, 6,
+        						8, 9, 11,
+        						11, 9, 10,
+        						12, 13, 15,
+        						15, 13, 14,
+        						16, 17, 19,
+        						19, 17, 18,
+        						20, 21, 23,
+        						23, 21, 22
+        						}, "yellow.png");
+        allModels.add(model3);
 
+        ModelEntity entity3 = new ModelEntity(model3, new Vector3f(5, 5, 5), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
+        blockList.add(entity3);
+        
+        TexturedModel model4 = new TexturedModel(new float[] {
+        		-1.0f, 1.0f, -1.0f, //V0
+        		-1.0f, -1.0f, -1.0f, //V1
+        		1.0f, -1.0f, -1.0f, //V2
+        		1.0f, 1.0f, -1.0f, //V3
+        		-1.0f, 1.0f, 1.0f, //V4
+        		-1.0f, -1.0f, 1.0f, //V5
+        		1.0f, -1.0f, 1.0f, //V6
+        		1.0f, 1.0f, 1.0f, //V7
+        		1.0f, 1.0f, -1.0f, //V3
+        		1.0f, -1.0f, -1.0f, //V2
+        		1.0f, -1.0f, 1.0f, //V6
+        		1.0f, 1.0f, 1.0f, //V7
+        		-1.0f, 1.0f, -1.0f, //V0
+        		-1.0f, -1.0f, -1.0f, //V1
+        		-1.0f, -1.0f, 1.0f, //V5
+        		-1.0f, 1.0f, 1.0f, //V4
+        		-1.0f, 1.0f, 1.0f, //V4
+        		-1.0f, 1.0f, -1.0f, //V0
+        		1.0f, 1.0f, -1.0f, //V3
+        		1.0f, 1.0f, 1.0f, //V7
+        		-1.0f, -1.0f, 1.0f, //V5
+        		-1.0f, -1.0f, -1.0f, //V1
+        		1.0f, -1.0f, -1.0f, //V2
+        		1.0f, -1.0f, 1.0f //V6
+        		}, new float[]{
+        				0f, 0f,
+        				0f, 1f,
+        				1f, 1f,
+        				1f, 0f,
+        				0f, 0f,
+        				0f, 1f,
+        				1f, 1f,
+        				1f, 0f,
+        				0f, 0f,
+        				0f, 1f,
+        				1f, 1f,
+        				1f, 0f,
+        				0f, 0f,
+        				0f, 1f,
+        				1f, 1f,
+        				1f, 0f,
+        				0f, 0f,
+        				0f, 1f,
+        				1f, 1f,
+        				1f, 0f,
+        				0f, 0f,
+        				0f, 1f,
+        				1f, 1f,
+        				1f, 0f
+        				}, new int[]{
+        						0, 1, 3,
+        						3, 1, 2,
+        						4, 5, 7,
+        						7, 5, 6,
+        						8, 9, 11,
+        						11, 9, 10,
+        						12, 13, 15,
+        						15, 13, 14,
+        						16, 17, 19,
+        						19, 17, 18,
+        						20, 21, 23,
+        						23, 21, 22
+        						}, "red.png");
+        allModels.add(model4);
+
+        ModelEntity entity4 = new ModelEntity(model4, new Vector3f(7, 7, 7), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
+        blockList.add(entity4);
+        
 	}
 
 
 	public static void run() {
 
 		init();
-		defaultInit();
+		//defaultInit();
 
 		while (!window.closed()) {
         	if (window.isUpdating()) {
@@ -285,11 +352,27 @@ public class Game {
         			case CHEAT:
         				//Code fuer Normalmode (zeit laeuft)
         				if(!stopTime) {
-        					defaultEntity.addRotation(2, 2, 0);
+        					for(ModelEntity me : background) {
+        	        			renderer.renderModelEntity(me); 	        			
+        	        		}
+        	        		if(!blockList.isEmpty()) {
+        	        			for(ModelEntity me : blockList) {
+        	        				renderer.renderModelEntity(me);
+        	        				me.addRotation(2, 2, 2);
+        			            }
+        	        		}
         				}
         				//Code fuer Cheatmode (zeit gestoppt)
         				else {
-        					defaultEntity.addRotation(0, 0, 0);
+        					for(ModelEntity me : background) {
+        	        			renderer.renderModelEntity(me); 	        			
+        	        		}
+        	        		if(!blockList.isEmpty()) {
+        	        			for(ModelEntity me : blockList) {
+        	        				renderer.renderModelEntity(me);
+        	        				me.addRotation(0, 0, 0);
+        			            }
+        	        		}
         				}
         				break;
         			case NORMAL: break;
@@ -300,26 +383,16 @@ public class Game {
 
         		case MAIN_MENU:
 
-        			MainMenu.render();
+        			//MainMenu.render();
 
 
         			break;
         		}
 
-        		renderer.renderModelEntity(defaultEntity);
-//        		for(ModelEntity me : background) {
-//        			renderer.renderModelEntity(me);
-//        			//System.out.println("Grund VertexArrayID: "+me.getModel().getVertexArrayID()+" Position: "+me.getPosition().getX()+", "+me.getPosition().getY()+", "+me.getPosition().getZ());
-//        		}
-//        		if(!blockList.isEmpty()) {
-//        			for(ModelEntity me : blockList) {
-//        				renderer.renderModelEntity(me);
-//		            	//System.out.println("Block VertexArrayID: "+me.getModel().getVertexArrayID()+" Position: "+me.getPosition().getX()+", "+me.getPosition().getY()+", "+me.getPosition().getZ());
-//		            }
-//        		}
+        		//renderer.renderModelEntity(defaultEntity);
+        		
 
-        		//System.out.println("X: "+background.get(0).getPosition().getX()+"; Y: "+background.get(0).getPosition().getY()+"; Z: "+background.get(0).getPosition().getZ());
-	            shader.unbind();
+        		shader.unbind();
 	            window.swapBuffers();
         	}
         }
@@ -418,4 +491,76 @@ public class Game {
     	shader.remove();
         window.stop();
     }
+    
+    
+    /*private static TexturedModel defaultModel;
+	private static ModelEntity defaultEntity;
+
+    public static void defaultInit() {
+    	defaultModel = new TexturedModel(new float[] {
+        		-1.0f, 1.0f, -1.0f, //V0
+        		-1.0f, -1.0f, -1.0f, //V1
+        		1.0f, -1.0f, -1.0f, //V2
+        		1.0f, 1.0f, -1.0f, //V3
+        		-1.0f, 1.0f, 1.0f, //V4
+        		-1.0f, -1.0f, 1.0f, //V5
+        		1.0f, -1.0f, 1.0f, //V6
+        		1.0f, 1.0f, 1.0f, //V7
+        		1.0f, 1.0f, -1.0f, //V3
+        		1.0f, -1.0f, -1.0f, //V2
+        		1.0f, -1.0f, 1.0f, //V6
+        		1.0f, 1.0f, 1.0f, //V7
+        		-1.0f, 1.0f, -1.0f, //V0
+        		-1.0f, -1.0f, -1.0f, //V1
+        		-1.0f, -1.0f, 1.0f, //V5
+        		-1.0f, 1.0f, 1.0f, //V4
+        		-1.0f, 1.0f, 1.0f, //V4
+        		-1.0f, 1.0f, -1.0f, //V0
+        		1.0f, 1.0f, -1.0f, //V3
+        		1.0f, 1.0f, 1.0f, //V7
+        		-1.0f, -1.0f, 1.0f, //V5
+        		-1.0f, -1.0f, -1.0f, //V1
+        		1.0f, -1.0f, -1.0f, //V2
+        		1.0f, -1.0f, 1.0f //V6
+        		}, new float[]{
+        				0f, 0f,
+        				0f, 1f,
+        				1f, 1f,
+        				1f, 0f,
+        				0f, 0f,
+        				0f, 1f,
+        				1f, 1f,
+        				1f, 0f,
+        				0f, 0f,
+        				0f, 1f,
+        				1f, 1f,
+        				1f, 0f,
+        				0f, 0f,
+        				0f, 1f,
+        				1f, 1f,
+        				1f, 0f,
+        				0f, 0f,
+        				0f, 1f,
+        				1f, 1f,
+        				1f, 0f,
+        				0f, 0f,
+        				0f, 1f,
+        				1f, 1f,
+        				1f, 0f
+        				}, new int[]{
+        						0, 1, 3,
+        						3, 1, 2,
+        						4, 5, 7,
+        						7, 5, 6,
+        						8, 9, 11,
+        						11, 9, 10,
+        						12, 13, 15,
+        						15, 13, 14,
+        						16, 17, 19,
+        						19, 17, 18,
+        						20, 21, 23,
+        						23, 21, 22
+        						}, "beautiful.png");
+        defaultEntity = new ModelEntity(defaultModel, new Vector3f(5, 10, 5), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
+    }*/
 }

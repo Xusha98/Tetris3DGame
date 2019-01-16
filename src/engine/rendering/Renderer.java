@@ -56,11 +56,11 @@ public class Renderer {
      * @param entity
      */
     public void renderModelEntity(ModelEntity entity){
+    	shader.loadTransformationMatrix(entity.getTransformationMatrix());
+        shader.useMatrices();
         GL30.glBindVertexArray(entity.getModel().getVertexArrayID()); //soll zur Geometrie gehoeren
         GL20.glEnableVertexAttribArray(0);
         GL20.glEnableVertexAttribArray(1);
-        shader.useMatrices();
-        shader.loadTransformationMatrix(entity.getTransformationMatrix());
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, entity.getModel().getMaterial().getTextureID());
         GL11.glDrawElements(GL11.GL_TRIANGLES, entity.getModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
