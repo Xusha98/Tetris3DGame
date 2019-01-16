@@ -111,15 +111,15 @@ public class Game {
         				
         			case NORMAL: 
     	        		if(!blockManager.getAllBlocks().isEmpty()) {
-    	        			for(ModelEntity me : blockManager.getAllBlocks()) {
-    	        				renderer.renderModelEntity(me);
-    	        				me.addRotation(2, 2, 2);
-    			            }
+//    	        			for(ModelEntity me : blockManager.getAllBlocks()) {
+//    	        				renderer.renderModelEntity(me);
+//    	        				me.addRotation(2, 2, 2);
+//    			            }
     	        		}
     	        		for(ModelEntity me : blockManager.getAllBlocks()) {
     	        			renderer.renderModelEntity(me);
     	        			if(me.getPosition().getY() > -0.0000001 && me.getPosition().getY() < 0.2) {
-    	        				me.setPosition(new Vector3f(x, 1, z));
+    	        				me.setPosition(new Vector3f(me.getPosition().getX(), 1, me.getPosition().getZ()));
     	        				System.out.println(me.getPosition().getY());
     	        			}
     	        			else
