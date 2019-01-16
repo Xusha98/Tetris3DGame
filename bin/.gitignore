@@ -1,3 +1,9 @@
 /audio/
 /engine/
 /main/
+/rendering/
+/models/
+/maths/
+/shader/
+/io/
+/game/
