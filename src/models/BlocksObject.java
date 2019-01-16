@@ -1,6 +1,7 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -9,9 +10,19 @@ import maths.Vector3f;
 
 public class BlocksObject {
 
-	//private List <> blockForms = new ArrayList<>();
+	private List <BlockFormObject> blockForms = new ArrayList<>();
 	private List<ModelEntity> blockList = new ArrayList<>();
-	public static List<TexturedModel> allModels = new ArrayList<>();
+	private List<TexturedModel> allModels = new ArrayList<>();
+	
+	private ModelEntity me1, me2, me3, me4;
+	
+	public void addModel(TexturedModel model) {
+		allModels.add(model);
+	}
+	
+	public List<TexturedModel> getAllModels() {
+		return allModels;
+	}
 
 	public void addBlock(ModelEntity block) {
 		blockList.add(block);
@@ -19,6 +30,10 @@ public class BlocksObject {
 
 	public List<ModelEntity> getAllBlocks() {
 		return blockList;
+	}
+	
+	public List<BlockFormObject> getBlockFormObjects() {
+		return blockForms;
 	}
 
 	public int blockFormGenerator() {
@@ -64,41 +79,76 @@ public class BlocksObject {
 	}
 
 	public void create_REC_Object(String texture) {
-		createBlockElement(texture, 9, 21, 9);
-		createBlockElement(texture, 9, 21, 11);
-		createBlockElement(texture, 11, 21, 11);
-		createBlockElement(texture, 11, 21, 9);
+		me1 = new ModelEntity();
+		me2 = new ModelEntity();
+		me3 = new ModelEntity();
+		me4 = new ModelEntity();
+		
+		me1 = createBlockElement(texture, 9, 21, 9);
+		me2 = createBlockElement(texture, 9, 21, 11);
+		me3 = createBlockElement(texture, 11, 21, 11);
+		me4 = createBlockElement(texture, 11, 21, 9);
+		
+		blockForms.add(new BlockFormObject(new ArrayList<ModelEntity>(Arrays.asList(me1, me2, me3, me4))));
 	}
 
 	public void create_T_Object(String texture) {
-		createBlockElement(texture, 0, 21, 0);
-		createBlockElement(texture, 0, 21, 0);
-		createBlockElement(texture, 0, 21, 0);
-		createBlockElement(texture, 0, 21, 0);
+		me1 = new ModelEntity();
+		me2 = new ModelEntity();
+		me3 = new ModelEntity();
+		me4 = new ModelEntity();
+		
+		me1 = createBlockElement(texture, 7, 21, 11);
+		me2 = createBlockElement(texture, 9, 21, 11);
+		me3 = createBlockElement(texture, 11, 21, 11);
+		me4 = createBlockElement(texture, 9, 21, 9);
+		
+		blockForms.add(new BlockFormObject(new ArrayList<ModelEntity>(Arrays.asList(me1, me2, me3, me4))));
 	}
 
 	public void create_L_Object(String texture) {
-		createBlockElement(texture, 7, 21, 9);
-		createBlockElement(texture, 9, 21, 9);
-		createBlockElement(texture, 11, 21, 9);
-		createBlockElement(texture, 11, 21, 7);
+		me1 = new ModelEntity();
+		me2 = new ModelEntity();
+		me3 = new ModelEntity();
+		me4 = new ModelEntity();
+		
+		me1 = createBlockElement(texture, 7, 21, 9);
+		me2 = createBlockElement(texture, 9, 21, 9);
+		me3 = createBlockElement(texture, 11, 21, 9);
+		me4 = createBlockElement(texture, 11, 21, 7);
+		
+		blockForms.add(new BlockFormObject(new ArrayList<ModelEntity>(Arrays.asList(me1, me2, me3, me4))));
 	}
 
 	public void create_I_Object(String texture) {
-		createBlockElement(texture, 7, 21, 9);
-		createBlockElement(texture, 9, 21, 9);
-		createBlockElement(texture, 11, 21, 9);
-		createBlockElement(texture, 13, 21, 9);
+		me1 = new ModelEntity();
+		me2 = new ModelEntity();
+		me3 = new ModelEntity();
+		me4 = new ModelEntity();
+		
+		me1 = createBlockElement(texture, 7, 21, 9);
+		me2 = createBlockElement(texture, 9, 21, 9);
+		me3 = createBlockElement(texture, 11, 21, 9);
+		me4 = createBlockElement(texture, 13, 21, 9);
+		
+		blockForms.add(new BlockFormObject(new ArrayList<ModelEntity>(Arrays.asList(me1, me2, me3, me4))));
 	}
 
 	public void create_Z_Object(String texture) {
+		me1 = new ModelEntity();
+		me2 = new ModelEntity();
+		me3 = new ModelEntity();
+		me4 = new ModelEntity();
+		
 		createBlockElement(texture, 9, 21, 9);
 		createBlockElement(texture, 11, 21, 9);
 		createBlockElement(texture, 11, 21, 7);
 		createBlockElement(texture, 13, 21, 7);
+		
+		blockForms.add(new BlockFormObject(new ArrayList<ModelEntity>(Arrays.asList(me1, me2, me3, me4))));
 	}
 	
-	public void createBlockElement(String texture, int xPos, int yPos, int zPos) {
+	public ModelEntity createBlockElement(String texture, int xPos, int yPos, int zPos) {
 		TexturedModel model = new TexturedModel(new float[] {
         		-1.0f, 1.0f, -1.0f, //V0
         		-1.0f, -1.0f, -1.0f, //V1
@@ -167,6 +217,8 @@ public class BlocksObject {
 
         ModelEntity entity = new ModelEntity(model, new Vector3f(xPos, yPos, zPos), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
         blockList.add(entity);
+        
+        return entity;
 	}
 
 }

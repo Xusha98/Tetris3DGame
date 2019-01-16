@@ -12,6 +12,10 @@ public class ModelEntity {
 		transformation = new Transformations(position, angle, scale);
 	}
 	
+	public ModelEntity() {
+		
+	}
+	
 	public Matrix4f getTransformationMatrix() {
 		return transformation.getTransformation();
 	}

@@ -8,6 +8,7 @@ import org.lwjgl.opengl.GL15;
 
 import io.Window;
 import maths.Vector3f;
+import models.BlocksObject;
 import models.ModelEntity;
 import models.TexturedModel;
 import rendering.Camera;
@@ -26,6 +27,8 @@ public class Game {
 	private static BasicShader shader = new BasicShader();
 	private static Renderer renderer = new Renderer(window, shader);
 	private static Camera cam = new Camera();
+	
+	private static BlocksObject blocksObject = new BlocksObject();
 
 	//TODO: muss spaeter zu MainMenu gesetzt werden, auf Game zu testzwecken gestellt
 	private static GameState state = GameState.GAME;
@@ -385,6 +388,9 @@ public class Game {
     	        				me.addRotation(2, 2, 2);
     			            }
     	        		}
+    	        		for(ModelEntity me : blocksObject.getAllBlocks()) {
+    	        			renderer.renderModelEntity(me);
+    	        		}
         				break;
         			}
         			//GL15.glColor3f(0.0f, 1.0f, 0.0f);
@@ -465,6 +471,10 @@ public class Game {
     			System.out.println("Current mode is:" +mode+" Time can not be turned off.");
     		}
 
+    	}
+    	
+    	if(window.isKeyPressed(GLFW.GLFW_KEY_1)) {
+    		blocksObject.createNewBlockForm();
     	}
     }
 
