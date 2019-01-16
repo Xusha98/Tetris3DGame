@@ -89,38 +89,27 @@ public class Game {
         			case CHEAT:
         				//Zeit laeuft
         				if(!stopTime) {
-        	        		if(!blockManager.getAllBlocks().isEmpty()) {
-        	        			for(ModelEntity me : blockManager.getAllBlocks()) {
-        	        				renderer.renderModelEntity(me);
-        	        				me.addRotation(2, 2, 2);
-        			            }
-        	        		}
+        	        		for(ModelEntity me : blockManager.getAllBlocks()) {
+        	        			renderer.renderModelEntity(me);
+        	        			me.addRotation(2, 2, 2);
+        			        }
         				}
         				//Zeit gestoppt
         				else {
-        					if(!blockManager.getAllBlocks().isEmpty()) {
-        	        			for(ModelEntity me : blockManager.getAllBlocks()) {
-        	        				renderer.renderModelEntity(me);
-        	        				me.addRotation(0, 0, 0);
-        			            }
-        	        		}
+        					for(ModelEntity me : blockManager.getAllBlocks()) {
+        	        			renderer.renderModelEntity(me);
+        	        			me.addRotation(0, 0, 0);
+        			        }
         				}
         				break;
         	
         		/*___________________________________________________________________________________________________________*/		
         				
         			case NORMAL: 
-    	        		if(!blockManager.getAllBlocks().isEmpty()) {
-//    	        			for(ModelEntity me : blockManager.getAllBlocks()) {
-//    	        				renderer.renderModelEntity(me);
-//    	        				me.addRotation(2, 2, 2);
-//    			            }
-    	        		}
     	        		for(ModelEntity me : blockManager.getAllBlocks()) {
     	        			renderer.renderModelEntity(me);
-    	        			if(me.getPosition().getY() > -0.0000001 && me.getPosition().getY() < 0.2) {
+    	        			if(me.getPosition().getY() > -0.0000001 && me.getPosition().getY() <= 1) {
     	        				me.setPosition(new Vector3f(me.getPosition().getX(), 1, me.getPosition().getZ()));
-    	        				System.out.println(me.getPosition().getY());
     	        			}
     	        			else
     	        				me.addPosition(x, -0.02f, z);
