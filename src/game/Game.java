@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL15;
+import org.newdawn.slick.SlickException;
 
 import io.Window;
 import maths.Vector3f;
@@ -18,8 +19,6 @@ import shader.BasicShader;
 
 public class Game {
 
-	private static List<ModelEntity> blockList = new ArrayList<>();
-	private static List<ModelEntity> formList = new ArrayList<>();
 	private static List<ModelEntity> background = new ArrayList<>();
 	public static List<TexturedModel> allModels = new ArrayList<>();
 
@@ -29,7 +28,7 @@ public class Game {
 	private static Renderer renderer = new Renderer(window, shader);
 	private static Camera cam = new Camera();
 	
-	private static BlockManager blocksObject = new BlockManager();
+	private static BlockManager blockManager = new BlockManager();
 	private static BlockFormObject currentMovingBlocks;
 
 	//TODO: muss spaeter zu MainMenu gesetzt werden, auf Game zu testzwecken gestellt
@@ -48,8 +47,237 @@ public class Game {
     	shader.create();
 
     	setBackground();
+       
+	}
 
-        TexturedModel model = new TexturedModel(new float[] {
+
+	public static float x = 0;
+	public static float z = 0;
+	public static void run() {
+
+		init();
+		
+		while (!window.closed()) {
+        	if (window.isUpdating()) {
+        		x = 0; z = 0;
+        		
+        		window.update();
+        		renderer.update();
+
+        		cam.update(window);
+        		renderer.loadCamera(cam);
+        		input();
+
+        		shader.bind();
+
+        		switch (state) {
+
+        		case PAUSE:
+        			//TODO: Pausebild laden?
+        			GL15.glColor3f(1.0f, 0.0f, 0.0f);
+        			GL15.glRectf(0, 0, 640, 480);
+        			break;
+
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------*/       			
+        		case GAME:
+        			for(ModelEntity me : background) {
+	        			renderer.renderModelEntity(me); 	        			
+	        		}
+        			
+        			switch(mode) {
+        			
+        			case CHEAT:
+        				//Zeit laeuft
+        				if(!stopTime) {
+        	        		if(!blockManager.getAllBlocks().isEmpty()) {
+        	        			for(ModelEntity me : blockManager.getAllBlocks()) {
+        	        				renderer.renderModelEntity(me);
+        	        				me.addRotation(2, 2, 2);
+        			            }
+        	        		}
+        				}
+        				//Zeit gestoppt
+        				else {
+        					if(!blockManager.getAllBlocks().isEmpty()) {
+        	        			for(ModelEntity me : blockManager.getAllBlocks()) {
+        	        				renderer.renderModelEntity(me);
+        	        				me.addRotation(0, 0, 0);
+        			            }
+        	        		}
+        				}
+        				break;
+        	
+        		/*___________________________________________________________________________________________________________*/		
+        				
+        			case NORMAL: 
+    	        		if(!blockManager.getAllBlocks().isEmpty()) {
+    	        			for(ModelEntity me : blockManager.getAllBlocks()) {
+    	        				renderer.renderModelEntity(me);
+    	        				me.addRotation(2, 2, 2);
+    			            }
+    	        		}
+    	        		for(ModelEntity me : blockManager.getAllBlocks()) {
+    	        			renderer.renderModelEntity(me);
+    	        			if(me.getPosition().getY() > -0.0000001 && me.getPosition().getY() < 0.2) {
+    	        				me.setPosition(new Vector3f(x, 1, z));
+    	        				System.out.println(me.getPosition().getY());
+    	        			}
+    	        			else
+    	        				me.addPosition(x, -0.02f, z);
+    	        		}
+        				break;
+        			}
+        			//GL15.glColor3f(0.0f, 1.0f, 0.0f);
+        			//GL15.glRectf(0, 0, 640, 480);
+        			break;
+
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------*/       			
+        		case MAIN_MENU:
+        			try {
+						MainMenu.render();
+					} catch (SlickException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+        			break;
+        		}
+
+        		shader.unbind();
+	            window.swapBuffers();
+        	}
+        }
+
+        removeAll();
+
+	}
+
+
+	/*
+     * Achtung: einiges an Input auch in Camera Klasse
+     *
+     * Vergebene Tasten:
+     * 
+     * UP: Block bewegt sich in positive z-Richtung
+     * DOWN: Block bewegt sich in negative z-Richtung
+     * LEFT: Block bewegt sich in negative x-Richtung
+     * RIGHT: Block bewegt sich in positive x-Richtung
+     * 
+     * W: Kamera bewegt sich vorwaerts
+     * S: Kamera bewegt sich rueckwaerts
+     * A: Kamera bewegt sich nach links
+     * D: Kamera bewegt sich nach rechts
+     * SPACE: Kamera bewegt sich nach oben
+     * LEFT SHIFT: Kamera bewegt sich nach unten
+     *
+     * U: Maus angezeigt
+     * L: Maus verschwindet
+     * ENTER: Gamestate switcht von Main menu zu Game oder umgekehrt
+     * P: Spiel pausiert oder beendet Pausierung
+     * */
+    public static void input() {
+    	if(window.isKeyPressed(GLFW.GLFW_KEY_ESCAPE)) {window.close();}
+    	if(window.isKeyPressed(GLFW.GLFW_KEY_U)){window.unlockMouse();}
+    	if(window.isKeyPressed(GLFW.GLFW_KEY_L)){window.lockMouse();}
+
+    	if(window.isKeyPressed(GLFW.GLFW_KEY_ENTER)) {
+    		if(state == GameState.MAIN_MENU) {
+    			state = GameState.GAME;
+    			System.out.println("Current state is:" +state);
+    		} else if(state == GameState.GAME) {
+    			state = GameState.MAIN_MENU;
+    			System.out.println("Current state is:" +state);
+    		}
+
+    	}
+
+    	if(window.isKeyPressed(GLFW.GLFW_KEY_P)) {
+    		if(state == GameState.GAME) {
+    			state = GameState.PAUSE;
+    			System.out.println("Game is paused!");
+    		} else if(state == GameState.PAUSE) {
+    				state = GameState.GAME;
+    				System.out.println("Game resumed!");
+    		}
+    	}
+
+    	if(window.isKeyPressed(GLFW.GLFW_KEY_T)) {
+    		if(mode == GameMode.CHEAT) {
+    			if(stopTime)
+    				stopTime = false;
+    			else
+    				stopTime = true;
+    			System.out.println("Current mode is:" +mode+". Time is turned off. StopTime: "+stopTime);
+    		} else if(mode == GameMode.NORMAL) {
+    			System.out.println("Current mode is:" +mode+" Time can not be turned off.");
+    		}
+
+    	}
+    	
+    	if(window.isKeyPressed(GLFW.GLFW_KEY_LEFT)) {
+    		if(blockManager.getMinX(currentMovingBlocks) != 1)
+    			x = -2.0f;
+    	}    	
+    	if(window.isKeyPressed(GLFW.GLFW_KEY_RIGHT)) {
+    		if(blockManager.getMaxX(currentMovingBlocks) != 17)
+    			x = +2.0f;
+    	}
+    	if(window.isKeyPressed(GLFW.GLFW_KEY_UP)) {
+    		if(blockManager.getMaxZ(currentMovingBlocks) != 17)
+    			z = +2.0f;
+    	}    	
+    	if(window.isKeyPressed(GLFW.GLFW_KEY_DOWN)) {
+    		if(blockManager.getMinZ(currentMovingBlocks) != 1)
+    			z = -2.0f;
+    	}
+    	
+    	//Testinput zum Generieren eines Blocks
+    	if(window.isKeyPressed(GLFW.GLFW_KEY_1)) {
+    		blockManager.createNewBlockForm();
+    		currentMovingBlocks = blockManager.getBlockFormObjects().get(blockManager.getBlockFormObjects().size()-1);
+    	}
+    }
+
+
+    public static void setBackground() {
+    	for(int i = 1; i <= 18; i=i+2) {
+    		for(int j = 1; j <= 18; j=j+2) {
+    			TexturedModel model = new TexturedModel(new float[] {
+    	        		-1.0f, 0, 1.0f,  //TOP LEFT V0
+    	        		1.0f, 0, 1.0f,  //TOP RIGHT V1
+    	        		1.0f, 0, -1.0f, //BOTTOM RIGHT V2
+    					-1.0f, 0, -1.0f  //BOTTOM LEFT V3
+    	        }, new float[] {
+    	        		 0, 0,           //TOP LEFT V0
+    	        		 1, 0,           //TOP RIGHT V1
+    	        		 1, 1,           //BOTTOM RIGHT V2
+    	        		 0, 1            //BOTTOM LEFT V3
+    	        }, new int[] {
+    	        		 0, 1, 2,        //Triangle 1
+    					 2, 3, 0         //Triangle 2
+    	        }, "fieldElement.png");
+    	        allModels.add(model);
+    	        ModelEntity entity = new ModelEntity(model, new Vector3f(j, 0, i), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
+    	        background.add(entity);
+    		}
+    	}
+
+    }
+
+    public static void removeAll() {
+    	for(TexturedModel tm : allModels) {
+    		tm.remove();
+    	}
+    	for(TexturedModel tm : blockManager.getAllModels()) {
+    		tm.remove();
+    	}
+    	shader.remove();
+        window.stop();
+    }
+    
+    
+    /*Aus der init():
+     * 
+     *  TexturedModel model = new TexturedModel(new float[] {
         		-1.0f, 1.0f, -1.0f, //V0
         		-1.0f, -1.0f, -1.0f, //V1
         		1.0f, -1.0f, -1.0f, //V2
@@ -325,225 +553,7 @@ public class Game {
 
         ModelEntity entity4 = new ModelEntity(model4, new Vector3f(7, 7, 7), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
         blockList.add(entity4);
-        
-	}
-
-
-	public static float x = 0;
-	public static float z = 0;
-	public static void run() {
-
-		init();
-		//defaultInit();
-
-		while (!window.closed()) {
-        	if (window.isUpdating()) {
-        		x = 0; z = 0;
-        		
-        		window.update();
-        		renderer.update();
-
-        		cam.update(window);
-        		renderer.loadCamera(cam);
-        		input();
-
-        		shader.bind();
-
-        		switch (state) {
-
-        		case PAUSE:
-        			GL15.glColor3f(1.0f, 0.0f, 0.0f);
-        			GL15.glRectf(0, 0, 640, 480);
-        			break;
-
-        		case GAME:
-        			switch(mode) {
-        			case CHEAT:
-        				//Code fuer Normalmode (zeit laeuft)
-        				if(!stopTime) {
-        					for(ModelEntity me : background) {
-        	        			renderer.renderModelEntity(me); 	        			
-        	        		}
-        	        		if(!blockList.isEmpty()) {
-        	        			for(ModelEntity me : blockList) {
-        	        				renderer.renderModelEntity(me);
-        	        				me.addRotation(2, 2, 2);
-        			            }
-        	        		}
-        				}
-        				//Code fuer Cheatmode (zeit gestoppt)
-        				else {
-        					for(ModelEntity me : background) {
-        	        			renderer.renderModelEntity(me); 	        			
-        	        		}
-        	        		if(!blockList.isEmpty()) {
-        	        			for(ModelEntity me : blockList) {
-        	        				renderer.renderModelEntity(me);
-        	        				me.addRotation(0, 0, 0);
-        			            }
-        	        		}
-        				}
-        				break;
-        			case NORMAL: 
-        				for(ModelEntity me : background) {
-    	        			renderer.renderModelEntity(me); 	        			
-    	        		}
-    	        		if(!blockList.isEmpty()) {
-    	        			for(ModelEntity me : blockList) {
-    	        				renderer.renderModelEntity(me);
-    	        				me.addRotation(2, 2, 2);
-    			            }
-    	        		}
-    	        		for(ModelEntity me : blocksObject.getAllBlocks()) {
-    	        			renderer.renderModelEntity(me);
-    	        			me.addPosition(0+x, -0.02f, 0+z);
-    	        		}
-        				break;
-        			}
-        			//GL15.glColor3f(0.0f, 1.0f, 0.0f);
-        			//GL15.glRectf(0, 0, 640, 480);
-        			break;
-
-        		case MAIN_MENU:
-
-        			//MainMenu.render();
-
-
-        			break;
-        		}
-
-        		//renderer.renderModelEntity(defaultEntity);
-        		
-
-        		shader.unbind();
-	            window.swapBuffers();
-        	}
-        }
-
-        removeAll();
-
-	}
-
-
-	/*
-     * Achtung: einiges an Input auch in Camera Klasse
-     *
-     * Vergebene Tasten:
-     * 
-     * UP: Block bewegt sich in positive z-Richtung
-     * DOWN: Block bewegt sich in negative z-Richtung
-     * LEFT: Block bewegt sich in negative x-Richtung
-     * RIGHT: Block bewegt sich in positive x-Richtung
-     * 
-     * W: Kamera bewegt sich vorwaerts
-     * S: Kamera bewegt sich rueckwaerts
-     * A: Kamera bewegt sich nach links
-     * D: Kamera bewegt sich nach rechts
-     * SPACE: Kamera bewegt sich nach oben
-     * LEFT SHIFT: Kamera bewegt sich nach unten
-     *
-     * U: Maus angezeigt
-     * L: Maus verschwindet
-     * ENTER: Gamestate switcht von Main menu zu Game oder umgekehrt
-     * P: Spiel pausiert oder beendet Pausierung
-     * */
-    public static void input() {
-    	if(window.isKeyPressed(GLFW.GLFW_KEY_ESCAPE)) {window.close();}
-    	if(window.isKeyPressed(GLFW.GLFW_KEY_U)){window.unlockMouse();}
-    	if(window.isKeyPressed(GLFW.GLFW_KEY_L)){window.lockMouse();}
-
-    	if(window.isKeyPressed(GLFW.GLFW_KEY_ENTER)) {
-    		if(state == GameState.MAIN_MENU) {
-    			state = GameState.GAME;
-    			System.out.println("Current state is:" +state);
-    		} else if(state == GameState.GAME) {
-    			state = GameState.MAIN_MENU;
-    			System.out.println("Current state is:" +state);
-    		}
-
-    	}
-
-    	if(window.isKeyPressed(GLFW.GLFW_KEY_P)) {
-    		if(state == GameState.GAME) {
-    			state = GameState.PAUSE;
-    			System.out.println("Game is paused!");
-    		} else if(state == GameState.PAUSE) {
-    				state = GameState.GAME;
-    				System.out.println("Game resumed!");
-    		}
-    	}
-
-    	if(window.isKeyPressed(GLFW.GLFW_KEY_T)) {
-    		if(mode == GameMode.CHEAT) {
-    			if(stopTime)
-    				stopTime = false;
-    			else
-    				stopTime = true;
-    			System.out.println("Current mode is:" +mode+". Time is turned off. StopTime: "+stopTime);
-    		} else if(mode == GameMode.NORMAL) {
-    			System.out.println("Current mode is:" +mode+" Time can not be turned off.");
-    		}
-
-    	}
-    	
-    	if(window.isKeyPressed(GLFW.GLFW_KEY_LEFT)) {
-    		if(blocksObject.getMinX(currentMovingBlocks) != 1)
-    			x = -2.0f;
-    	}    	
-    	if(window.isKeyPressed(GLFW.GLFW_KEY_RIGHT)) {
-    		if(blocksObject.getMaxX(currentMovingBlocks) != 17)
-    			x = +2.0f;
-    	}
-    	if(window.isKeyPressed(GLFW.GLFW_KEY_UP)) {
-    		if(blocksObject.getMaxZ(currentMovingBlocks) != 17)
-    			z = +2.0f;
-    	}    	
-    	if(window.isKeyPressed(GLFW.GLFW_KEY_DOWN)) {
-    		if(blocksObject.getMinZ(currentMovingBlocks) != 1)
-    			z = -2.0f;
-    	}
-    	
-    	//Testinput zum Generieren eines Blocks
-    	if(window.isKeyPressed(GLFW.GLFW_KEY_1)) {
-    		blocksObject.createNewBlockForm();
-    		currentMovingBlocks = blocksObject.getBlockFormObjects().get(blocksObject.getBlockFormObjects().size()-1);
-    	}
-    }
-
-
-    public static void setBackground() {
-    	for(int i = 1; i <= 18; i=i+2) {
-    		for(int j = 1; j <= 18; j=j+2) {
-    			TexturedModel model = new TexturedModel(new float[] {
-    	        		-1.0f, 0, 1.0f,  //TOP LEFT V0
-    	        		1.0f, 0, 1.0f,  //TOP RIGHT V1
-    	        		1.0f, 0, -1.0f, //BOTTOM RIGHT V2
-    					-1.0f, 0, -1.0f  //BOTTOM LEFT V3
-    	        }, new float[] {
-    	        		 0, 0,           //TOP LEFT V0
-    	        		 1, 0,           //TOP RIGHT V1
-    	        		 1, 1,           //BOTTOM RIGHT V2
-    	        		 0, 1            //BOTTOM LEFT V3
-    	        }, new int[] {
-    	        		 0, 1, 2,        //Triangle 1
-    					 2, 3, 0         //Triangle 2
-    	        }, "fieldElement.png");
-    	        allModels.add(model);
-    	        ModelEntity entity = new ModelEntity(model, new Vector3f(j, 0, i), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
-    	        background.add(entity);
-    		}
-    	}
-
-    }
-
-    public static void removeAll() {
-    	for(TexturedModel tm : allModels) {
-    		tm.remove();
-    	}
-    	shader.remove();
-        window.stop();
-    }
-    
+        */
     
     /*private static TexturedModel defaultModel;
 	private static ModelEntity defaultEntity;
