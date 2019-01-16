@@ -4,8 +4,8 @@ import maths.Matrix4f;
 
 public class BasicShader extends Shader {
      
-    private static final String VERTEX_FILE = "src/engine/shaders/basicVertexShader.glsl";
-    private static final String FRAGMENT_FILE = "src/engine/shaders/basicFragmentShader.glsl";
+    private static final String VERTEX_FILE = "src/shader/basicVertexShader.glsl";
+    private static final String FRAGMENT_FILE = "src/shader/basicFragmentShader.glsl";
     
     private int tvpMatrixLocation;
     
