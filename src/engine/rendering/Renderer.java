@@ -11,25 +11,25 @@ import engine.rendering.models.ModelEntity;
 import engine.rendering.models.TexturedModel;
 import engine.rendering.models.UntexturedModel;
 import engine.shaders.BasicShader;
- 
+
 public class Renderer {
 	private BasicShader shader;
 	private Window window; //NEU
-	
+
 	public Renderer(Window window, BasicShader shader) {
 		this.shader = shader;
 		this.window = window;
 	}
-	
+
 	//NEU
 	public void update() {
 		shader.loadProjectionMatrix(new Matrix4f().projection(70.0f, (float) window.getWidth() / window.getHeight(), 0.1f, 1000.0f));
 	}
-	
+
 	public void loadCamera(Camera cam) {
 		shader.loadViewMatrix(cam.getViewMatrix());
 	}
-	
+
 //    public void renderModel(UntexturedModel model){
 //        GL30.glBindVertexArray(model.getVertexArrayID());
 //        GL20.glEnableVertexAttribArray(0);
@@ -37,7 +37,7 @@ public class Renderer {
 //        GL20.glDisableVertexAttribArray(0);
 //        GL30.glBindVertexArray(0);
 //    }
-    
+
 //    public void renderTexturedModel(TexturedModel model){
 //        GL30.glBindVertexArray(model.getVertexArrayID());
 //        GL20.glEnableVertexAttribArray(0);
@@ -50,7 +50,7 @@ public class Renderer {
 //        GL30.glBindVertexArray(0);
 //        shader.useMatrices();
 //    }
-    
+
     /**
      * Rendert das Model und nutzt Shader
      * @param entity
