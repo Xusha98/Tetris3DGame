@@ -54,6 +54,9 @@ public class Game {
 	public static float x = 0;
 	public static float z = 0;
 	public static float y = 0;
+	public static float rX = 0;
+	public static float rZ = 0;
+	public static float rY = 0;
 	public static void run() {
 
 		init();
@@ -61,6 +64,7 @@ public class Game {
 		while (!window.closed()) {
         	if (window.isUpdating()) {
         		x = 0; z = 0;
+        		rX = 0; rZ = 0; rY = 0;
         		
         		window.update();
         		renderer.update();
@@ -115,6 +119,8 @@ public class Game {
     	        			}
     	        			else {
     	        				me.addPosition(x, -0.02f-y, z);
+    	        				me.addRotation(rX, rY, rZ);
+    	        				me.setRotation(new Vector3f(rX, rY, rZ));
     	        			}
     	        		}
         				break;
@@ -153,6 +159,7 @@ public class Game {
      * DOWN: Block bewegt sich in negative z-Richtung
      * LEFT: Block bewegt sich in negative x-Richtung
      * RIGHT: Block bewegt sich in positive x-Richtung
+     * 2: Block bewegt sich schneller nach unten
      * 
      * W: Kamera bewegt sich vorwaerts
      * S: Kamera bewegt sich rueckwaerts
@@ -221,11 +228,14 @@ public class Game {
     		if(blockManager.getMinZ(currentMovingBlocks) != 1)
     			z = -2.0f;
     	}
-    	if(window.isKeyPressed(GLFW.GLFW_KEY_2)) {
-    		y = 0.2f;
+    	if(window.isKeyPressed(GLFW.GLFW_KEY_B)) {
+    		rX = 1.0f;
     	}
-    	if(window.isKeyReleased(GLFW.GLFW_KEY_2)) {
-    		y = 0;
+    	if(window.isKeyReleased(GLFW.GLFW_KEY_N)) {
+    		rZ = 1.0f;
+    	}
+    	if(window.isKeyPressed(GLFW.GLFW_KEY_M)) {
+    		rY = 1.0f;
     	}
     	
     	//Testinput zum Generieren eines Blocks
