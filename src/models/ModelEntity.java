@@ -7,6 +7,8 @@ import rendering.Transformations;
 public class ModelEntity {
 	private TexturedModel model;
 	private Transformations transformation;
+	private boolean hasFinalPos = false;
+	
 	public ModelEntity(TexturedModel model, Vector3f position, Vector3f angle, Vector3f scale) {
 		this.model = model;
 		transformation = new Transformations(position, angle, scale);
@@ -62,5 +64,13 @@ public class ModelEntity {
 	
 	public void setScale(Vector3f vector) {
 		transformation.setScale(vector);
+	}
+
+	public boolean isHasFinalPos() {
+		return hasFinalPos;
+	}
+
+	public void setHasFinalPos(boolean hasFinalPos) {
+		this.hasFinalPos = hasFinalPos;
 	}
 }

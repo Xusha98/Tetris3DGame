@@ -36,6 +36,11 @@ public class BlockFormObject {
 
 	public void setHasFinalPos(boolean hasFinalPos) {
 		this.hasFinalPos = hasFinalPos;
+		if(this.hasFinalPos) {
+			for(ModelEntity me : blocks) {
+				me.setHasFinalPos(true);
+			}
+		}
 	}
 
 }
