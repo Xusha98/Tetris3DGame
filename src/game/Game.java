@@ -183,13 +183,13 @@ public class Game {
 			int indexZ = zCoord / 2;
 			int indexX = xCoord / 2;
 			
-			System.out.println(indexY+" "+indexZ+" "+indexX);
-			
 			if(me.isHasFinalPos()) {
 				fieldOccupied[indexY][indexZ][indexX] = true;
 			}
 			else {
-				fieldOccupied[indexY][indexZ][indexX] = false;
+				if(indexY < 9) {
+					fieldOccupied[indexY][indexZ][indexX] = false;
+				}				
 			}
 		}
 		
