@@ -138,15 +138,16 @@ public class Game {
 						for (ModelEntity me : blockManager.getAllBlocks()) {
 							renderer.renderModelEntity(me);
 							if(currentMovingBlocks.getBlocks().contains(me)) {
-								if (!me.isHasFinalPos() && me.getPosition().getY() <= getHighestPos()+1) { // && me.getPosition().getY() > -0.0000001 TODO me.getPosition().getY() > -0.0000001 && me.getPosition().getY() <= 1
-									me.setPosition(new Vector3f(me.getPosition().getX(), getHighestPos()+1, me.getPosition().getZ())); //TODO: 1 bei y
+								float yMax = getHighestPos(); //+1
+								System.out.println("Pos: "+yMax);
+								if (!me.isHasFinalPos() && me.getPosition().getY() <= yMax) { // && me.getPosition().getY() > -0.0000001 TODO me.getPosition().getY() > -0.0000001 && me.getPosition().getY() <= 1
+									me.setPosition(new Vector3f(me.getPosition().getX(), yMax, me.getPosition().getZ())); //TODO: 1 bei y
 									me.setHasFinalPos(true);
 									for(ModelEntity mE : currentMovingBlocks.getBlocks()) {
 										me.setHasFinalPos(true);
 									}
 								} else if(!me.isHasFinalPos()) {
-									me.addPosition(x, -0.02f - y, z);
-									//me.addRotation(rX, rY, rZ);						
+									me.addPosition(x, -0.02f - y, z);					
 								}
 							}					
 						}
@@ -232,6 +233,7 @@ public class Game {
 	public static float getHighestPos() {
 		float x = 0, z = 0, y = 0;
 		int yI = 0;
+		boolean notOccupied = true;
 		for(ModelEntity me : currentMovingBlocks.getBlocks()) {
 			x = me.getPosition().getX();
 			z = me.getPosition().getZ();
@@ -241,6 +243,7 @@ public class Game {
 			
 			for(int indexY = 0; indexY < 9; indexY++) {
 				if(fieldOccupied[indexY][indexZ][indexX]) {
+					notOccupied = false;
 					if(indexY >= yI) {
 						yI = indexY;
 					}				
@@ -249,9 +252,12 @@ public class Game {
 			}
 		}
 		
-		y = yI * 2 + 1;
-		System.out.println(y);
-		return y+1;
+		if(notOccupied)
+			return 1;
+		else
+			y = yI * 2 + 1;
+		//System.out.println(y);
+		return y+2;
 	}
 
 	/*
