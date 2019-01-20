@@ -139,7 +139,12 @@ public class Game {
 							renderer.renderModelEntity(me);
 							if(currentMovingBlocks.getBlocks().contains(me)) {
 								float yMax = getHighestPos(); //+1
-								System.out.println("Pos: "+yMax);
+//								System.out.println("Pos: "+yMax);
+//								System.out.println("0: "+fieldOccupied[0][8][8]);
+//								System.out.println("1: "+fieldOccupied[1][8][8]);
+//								System.out.println("2: "+fieldOccupied[2][8][8]);
+//								System.out.println("3: "+fieldOccupied[3][8][8]);
+//								System.out.println("4: "+fieldOccupied[4][8][8]);
 								if (!me.isHasFinalPos() && me.getPosition().getY() <= yMax) { // && me.getPosition().getY() > -0.0000001 TODO me.getPosition().getY() > -0.0000001 && me.getPosition().getY() <= 1
 									me.setPosition(new Vector3f(me.getPosition().getX(), yMax, me.getPosition().getZ())); //TODO: 1 bei y
 									me.setHasFinalPos(true);
@@ -247,7 +252,6 @@ public class Game {
 					if(indexY >= yI) {
 						yI = indexY;
 					}				
-					break;
 				}				
 			}
 		}
