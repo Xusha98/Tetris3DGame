@@ -109,7 +109,7 @@ public class Game {
 						newBlock = false;
 					}
 					
-					//controllFields();
+					controllFields();
 
 					switch (mode) {
 
@@ -138,8 +138,8 @@ public class Game {
 						for (ModelEntity me : blockManager.getAllBlocks()) {
 							renderer.renderModelEntity(me);
 							if(currentMovingBlocks.getBlocks().contains(me)) {
-								if (!me.isHasFinalPos() && me.getPosition().getY() > -0.0000001 && me.getPosition().getY() <= 1) {
-									me.setPosition(new Vector3f(me.getPosition().getX(), 1, me.getPosition().getZ()));
+								if (!me.isHasFinalPos() && me.getPosition().getY() <= getHighestPos()+1) { // && me.getPosition().getY() > -0.0000001 TODO me.getPosition().getY() > -0.0000001 && me.getPosition().getY() <= 1
+									me.setPosition(new Vector3f(me.getPosition().getX(), getHighestPos()+1, me.getPosition().getZ())); //TODO: 1 bei y
 									me.setHasFinalPos(true);
 									for(ModelEntity mE : currentMovingBlocks.getBlocks()) {
 										me.setHasFinalPos(true);
@@ -229,8 +229,29 @@ public class Game {
 	 * gibt derzeit hoechste moegliche Blockposition bei bestimmter x und z Coordinate vom currentMovingBlocks an
 	 * @return
 	 */
-	public static int getHighestPos() {
-		return 0;
+	public static float getHighestPos() {
+		float x = 0, z = 0, y = 0;
+		int yI = 0;
+		for(ModelEntity me : currentMovingBlocks.getBlocks()) {
+			x = me.getPosition().getX();
+			z = me.getPosition().getZ();
+			
+			int indexZ = (int) z / 2;
+			int indexX = (int) x / 2;
+			
+			for(int indexY = 0; indexY < 9; indexY++) {
+				if(fieldOccupied[indexY][indexZ][indexX]) {
+					if(indexY >= yI) {
+						yI = indexY;
+					}				
+					break;
+				}				
+			}
+		}
+		
+		y = yI * 2 + 1;
+		System.out.println(y);
+		return y+1;
 	}
 
 	/*
