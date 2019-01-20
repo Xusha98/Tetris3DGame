@@ -172,6 +172,10 @@ public class Game {
 
 	}
 	
+	/**
+	 * wenn bewegte Bloecke Position finden, Position gespeichert
+	 * checkt ob eine Flaeche mit Bloecken ausgefuellt ist
+	 */
 	public static void controllFields() {
 		int yCoord = 0, zCoord = 0, xCoord = 0;
 		for(ModelEntity me : blockManager.getAllBlocks()) {
@@ -207,6 +211,26 @@ public class Game {
 				System.out.println("ein Layer gefuellt");
 			}
 		}
+	}
+	
+	/**
+	 * wenn ein Block aus Blockform geloescht wird, muessen andere nachruecken
+	 */
+	public static void moveBlocksDown() {
+		for(BlockFormObject bfo : blockManager.getBlockFormObjects()) {
+			if(bfo.getCountBlocks() > bfo.getBlocks().size()) {
+				// check field nach Form + nachruecken + field update
+				bfo.setCountBlocks(bfo.getBlocks().size());
+			}
+		}
+	}
+	
+	/**
+	 * gibt derzeit hoechste moegliche Blockposition bei bestimmter x und z Coordinate vom currentMovingBlocks an
+	 * @return
+	 */
+	public static int getHighestPos() {
+		return 0;
 	}
 
 	/*
