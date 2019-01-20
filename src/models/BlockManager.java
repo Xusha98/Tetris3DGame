@@ -16,6 +16,15 @@ public class BlockManager {
 	
 	private ModelEntity me1, me2, me3, me4;
 	
+	public void clear() {
+		for (TexturedModel tm : getAllModels()) {
+			tm.remove();
+		}
+		this.blockList.clear();
+		this.allModels.clear();
+		this.blockForms.clear();
+	}
+	
 	public void addModel(TexturedModel model) {
 		allModels.add(model);
 	}

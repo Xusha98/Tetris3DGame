@@ -138,13 +138,7 @@ public class Game {
 						for (ModelEntity me : blockManager.getAllBlocks()) {
 							renderer.renderModelEntity(me);
 							if(currentMovingBlocks.getBlocks().contains(me)) {
-								float yMax = getHighestPos(); //+1
-//								System.out.println("Pos: "+yMax);
-//								System.out.println("0: "+fieldOccupied[0][8][8]);
-//								System.out.println("1: "+fieldOccupied[1][8][8]);
-//								System.out.println("2: "+fieldOccupied[2][8][8]);
-//								System.out.println("3: "+fieldOccupied[3][8][8]);
-//								System.out.println("4: "+fieldOccupied[4][8][8]);
+								float yMax = getHighestPos();
 								if (!me.isHasFinalPos() && me.getPosition().getY() <= yMax) { // && me.getPosition().getY() > -0.0000001 TODO me.getPosition().getY() > -0.0000001 && me.getPosition().getY() <= 1
 									me.setPosition(new Vector3f(me.getPosition().getX(), yMax, me.getPosition().getZ())); //TODO: 1 bei y
 									me.setHasFinalPos(true);
@@ -164,6 +158,7 @@ public class Game {
 
 				/*-------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 				case MAIN_MENU:
+					removeAll();
 					MainMenu.render();
 					
 					break;
@@ -175,6 +170,7 @@ public class Game {
 		}
 
 		removeAll();
+		finish();
 
 	}
 	
@@ -184,37 +180,42 @@ public class Game {
 	 */
 	public static void controllFields() {
 		int yCoord = 0, zCoord = 0, xCoord = 0;
-		for(ModelEntity me : blockManager.getAllBlocks()) {
-			yCoord = (int) me.getPosition().getY();
-			zCoord = (int) me.getPosition().getZ();
-			xCoord = (int) me.getPosition().getX();
-			
-			int indexY = yCoord / 2;
-			int indexZ = zCoord / 2;
-			int indexX = xCoord / 2;
-			
-			if(me.isHasFinalPos()) {
-				fieldOccupied[indexY][indexZ][indexX] = true;
-			}
-			else {
-				if(indexY < 9) {
-					fieldOccupied[indexY][indexZ][indexX] = false;
-				}				
-			}
-		}
-		
-		int sum = 0;
-		for(int y = 0; y < 9; y++) {
-			sum = 0;
-			for(int z = 0; z < 9; z++) {
-				for(int x = 0; x < 9; x++) {
-					if(fieldOccupied[y][z][x]) {
-						sum += 1;
-					}
+		if(state == GameState.GAME) {
+			for(ModelEntity me : blockManager.getAllBlocks()) {
+				yCoord = (int) me.getPosition().getY();
+				zCoord = (int) me.getPosition().getZ();
+				xCoord = (int) me.getPosition().getX();
+				
+				int indexY = yCoord / 2;
+				int indexZ = zCoord / 2;
+				int indexX = xCoord / 2;
+				
+				if(me.isHasFinalPos() && indexY == 9) {
+					state = GameState.MAIN_MENU;
+				}
+				if(me.isHasFinalPos() && indexY < 9) {
+					fieldOccupied[indexY][indexZ][indexX] = true;
+				}
+				else {
+					if(indexY < 9) {
+						fieldOccupied[indexY][indexZ][indexX] = false;
+					}				
 				}
 			}
-			if(sum == 81) {
-				System.out.println("ein Layer gefuellt");
+			
+			int sum = 0;
+			for(int y = 0; y < 9; y++) {
+				sum = 0;
+				for(int z = 0; z < 9; z++) {
+					for(int x = 0; x < 9; x++) {
+						if(fieldOccupied[y][z][x]) {
+							sum += 1;
+						}
+					}
+				}
+				if(sum == 81) {
+					System.out.println("ein Layer gefuellt");
+				}
 			}
 		}
 	}
@@ -260,7 +261,6 @@ public class Game {
 			return 1;
 		else
 			y = yI * 2 + 1;
-		//System.out.println(y);
 		return y+2;
 	}
 
@@ -360,19 +360,14 @@ public class Game {
 
 		// Testinput zum Generieren eines Blocks
 		if (window.isKeyPressed(GLFW.GLFW_KEY_1)) {
-			blockManager.createNewBlockForm();
-			currentMovingBlocks = blockManager.getBlockFormObjects().get(blockManager.getBlockFormObjects().size() - 1);
+			state = GameState.GAME;
 		}
 		if (window.isKeyPressed(GLFW.GLFW_KEY_2)) {
-
 			y = 0.2f;
-
 		}
 
 		if (window.isKeyReleased(GLFW.GLFW_KEY_2)) {
-
 			y = 0;
-
 		}
 	}
 
@@ -407,12 +402,14 @@ public class Game {
 	}
 
 	public static void removeAll() {
+		blockManager.clear();		
+	}
+	
+	public static void finish() {
 		for (TexturedModel tm : backgroundModels) {
 			tm.remove();
 		}
-		for (TexturedModel tm : blockManager.getAllModels()) {
-			tm.remove();
-		}
+		
 		shader.remove();
 		window.stop();
 	}
