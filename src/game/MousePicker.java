@@ -27,7 +27,9 @@ public class MousePicker {
 	}
 	
 	public void update() {
-		// viewMatrix = Maths.createViewMatrix();	
+		viewMatrix = cam.getViewMatrix();
+		
+		if (projectionMatrix == null) {System.out.println("Projection matrix is null"); }
 		currentRay = calculateMouseRay();
 	}
 	

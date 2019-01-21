@@ -13,6 +13,7 @@ import shader.BasicShader;
 public class Renderer {
 	private BasicShader shader;
 	private Window window; //NEU
+	private Matrix4f projectionMatrix;
 	
 	public Renderer(Window window, BasicShader shader) {
 		this.shader = shader;
@@ -21,13 +22,19 @@ public class Renderer {
 	
 	//NEU
 	public void update() {
-		shader.loadProjectionMatrix(new Matrix4f().projection(70.0f, (float) window.getWidth() / window.getHeight(), 0.1f, 1000.0f));
+		projectionMatrix = new Matrix4f().projection(70.0f, (float) window.getWidth() / window.getHeight(), 0.1f, 1000.0f);
+		shader.loadProjectionMatrix(projectionMatrix);
 	}
 	
 	public void loadCamera(Camera cam) {
 		shader.loadViewMatrix(cam.getViewMatrix());
 	}
     
+	public Matrix4f getProjectionMatrix() {
+		
+		return projectionMatrix;
+	}
+	
     /**
      * Rendert das Model und nutzt Shader
      * @param entity
