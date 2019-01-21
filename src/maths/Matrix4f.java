@@ -109,6 +109,114 @@ public class Matrix4f {
 		return result;
 	}
 
+	
+	public static Vector4f transform(Matrix4f left, Vector4f right, Vector4f dest) {
+		if (dest == null)
+			dest = new Vector4f();
+
+		float x = left.get(0,0) * right.getX() + left.get(1,0) * right.getY() + left.get(2,0) * right.getZ() + left.get(3,0) * right.getW();
+		float y = left.get(0,1) * right.getX() + left.get(1,1) * right.getY() + left.get(2,1) * right.getZ() + left.get(3,1) * right.getW();
+		float z = left.get(0,2) * right.getX() + left.get(1,2) * right.getY() + left.get(2,2) * right.getZ() + left.get(3,2) * right.getW();
+		float w = left.get(0,3) * right.getX() + left.get(1,3) * right.getY() + left.get(2,3) * right.getZ() + left.get(3,3) * right.getW();
+
+		dest.setX(x);
+		dest.setY(y);
+		dest.setZ(z);
+		dest.setW(w);
+
+		return dest;
+	}
+	public static Matrix4f invert(Matrix4f src, Matrix4f dest) {
+		float determinant = src.determinant();
+
+		if (determinant != 0) {
+			/*
+			 * m00 m01 m02 m03
+			 * m10 m11 m12 m13
+			 * m20 m21 m22 m23
+			 * m30 m31 m32 m33
+			 */
+			if (dest == null)
+				dest = new Matrix4f();
+			float determinant_inv = 1f/determinant;
+
+			// first row
+			float t00 =  determinant3x3(src.get(1,1), src.get(1,2), src.get(1,3), src.get(2,1), src.get(2,2), src.get(2,2), src.get(3,1), src.get(3,2), src.get(3,3));
+			float t01 = -determinant3x3(src.get(1,0), src.get(1,2), src.get(1,3), src.get(2,0), src.get(2,2), src.get(2,3), src.get(3,0), src.get(3,2), src.get(3,3));
+			float t02 =  determinant3x3(src.get(1,0), src.get(1,1), src.get(1,3), src.get(2,0), src.get(2,1), src.get(2,3), src.get(3,0), src.get(3,1), src.get(3,3));
+			float t03 = -determinant3x3(src.get(1,0), src.get(1,1), src.get(1,2), src.get(2,0), src.get(2,1), src.get(2,2), src.get(3,0), src.get(3,1), src.get(3,2));
+			// second row
+			float t10 = -determinant3x3(src.get(0,1), src.get(0,2), src.get(0,3), src.get(2,1), src.get(2,2), src.get(2,3), src.get(3,1), src.get(3,2), src.get(3,3));
+			float t11 =  determinant3x3(src.get(0,0), src.get(0,2), src.get(0,3), src.get(2,0), src.get(2,2), src.get(2,3), src.get(3,0), src.get(3,2), src.get(3,3));
+			float t12 = -determinant3x3(src.get(0,0), src.get(0,1), src.get(0,3), src.get(2,0), src.get(2,1), src.get(2,3), src.get(3,0), src.get(3,1), src.get(3,3));
+			float t13 =  determinant3x3(src.get(0,0), src.get(0,1), src.get(0,2), src.get(2,0), src.get(2,1), src.get(2,2), src.get(3,0), src.get(3,1), src.get(3,2));
+			// third row
+			float t20 =  determinant3x3(src.get(0,1), src.get(0,2), src.get(0,3), src.get(1,1), src.get(1,2), src.get(1,3), src.get(3,1), src.get(3,2), src.get(3,3));
+			float t21 = -determinant3x3(src.get(0,0), src.get(0,2), src.get(0,3), src.get(1,0), src.get(1,2), src.get(1,3), src.get(3,0), src.get(3,2), src.get(3,3));
+			float t22 =  determinant3x3(src.get(0,0), src.get(0,1), src.get(0,3), src.get(1,0), src.get(1,1), src.get(1,3), src.get(3,0), src.get(3,1), src.get(3,3));
+			float t23 = -determinant3x3(src.get(0,0), src.get(0,1), src.get(0,2), src.get(1,0), src.get(1,1), src.get(1,2), src.get(3,0), src.get(3,1), src.get(3,2));
+			// fourth row
+			float t30 = -determinant3x3(src.get(0,1), src.get(0,2), src.get(0,3), src.get(1,1), src.get(1,2), src.get(1,3), src.get(2,1), src.get(2,2), src.get(2,3));
+			float t31 =  determinant3x3(src.get(0,0), src.get(0,2), src.get(0,3), src.get(1,0), src.get(1,2), src.get(1,3), src.get(2,0), src.get(2,2), src.get(2,3));
+			float t32 = -determinant3x3(src.get(0,0), src.get(0,1), src.get(0,3), src.get(1,0), src.get(1,1), src.get(1,3), src.get(2,0), src.get(2,1), src.get(2,3));
+			float t33 =  determinant3x3(src.get(0,0), src.get(0,1), src.get(0,2), src.get(1,0), src.get(1,1), src.get(1,2), src.get(2,0), src.get(2,1), src.get(2,2));
+
+			// transpose and divide by the determinant
+			dest.set(0, 0, t00*determinant_inv);
+			dest.set(1, 1, t11*determinant_inv);
+			dest.set(2 ,2, t22*determinant_inv);
+			dest.set(3, 3, t33*determinant_inv);
+			dest.set(0, 1, t10*determinant_inv);
+			dest.set(1, 0, t01*determinant_inv);
+			dest.set(2, 0, t02*determinant_inv);
+			dest.set(0, 2, t20*determinant_inv);
+			dest.set(1, 2, t21*determinant_inv);
+			dest.set(2, 1, t12*determinant_inv);
+			dest.set(0, 3, t30*determinant_inv);
+			dest.set(3, 0, t03*determinant_inv);
+			dest.set(1, 3, t31*determinant_inv);
+			dest.set(3, 1, t13*determinant_inv);
+			dest.set(3, 2, t23*determinant_inv);
+			dest.set(2, 3, t32*determinant_inv);
+			return dest;
+		} else
+			return null;
+	}
+	
+	public float determinant() {
+		float f = matrix[0][0]
+				* ((matrix[1][1] * matrix[2][2] * matrix[3][3] + matrix[1][2] * matrix[2][3] * matrix[3][1] + matrix[1][3] * matrix[2][1] * matrix[3][2])
+					- matrix[1][3] * matrix[2][2] * matrix[3][1]
+					- matrix[1][1] * matrix[2][3] * matrix[3][2]
+					- matrix[1][2] * matrix[2][1] * matrix[3][3]);
+		f -= matrix[0][1]
+			* ((matrix[1][0] * matrix[2][2] * matrix[3][3] + matrix[1][2] * matrix[2][3] * matrix[3][0] + matrix[1][3] * matrix[2][0] * matrix[3][2])
+				- matrix[1][3] * matrix[2][2] * matrix[3][0]
+				- matrix[1][0] * matrix[2][3] * matrix[3][2]
+				- matrix[1][2] * matrix[2][0] * matrix[3][3]);
+		f += matrix[0][2]
+			* ((matrix[1][0] * matrix[2][1] * matrix[3][3] + matrix[1][1] * matrix[2][3] * matrix[3][0] + matrix[1][3] * matrix[2][0] * matrix[3][1])
+				- matrix[1][3] * matrix[2][1] * matrix[3][0]
+				- matrix[1][0] * matrix[2][3] * matrix[3][1]
+				- matrix[1][1] * matrix[2][0] * matrix[3][3]);
+		f -= matrix[0][3]
+			* ((matrix[1][0] * matrix[2][1] * matrix[3][2] + matrix[1][1] * matrix[2][2] * matrix[3][0] + matrix[1][2] * matrix[2][0] * matrix[3][1])
+				- matrix[1][2] * matrix[2][1] * matrix[3][0]
+				- matrix[1][0] * matrix[2][2] * matrix[3][1]
+				- matrix[1][1] * matrix[2][0] * matrix[3][2]);
+		return f;
+	}
+
+	
+	private static float determinant3x3(float t00, float t01, float t02,
+		     float t10, float t11, float t12,
+		     float t20, float t21, float t22)
+{
+return   t00 * (t11 * t22 - t12 * t21)
+      + t01 * (t12 * t20 - t10 * t22)
+      + t02 * (t10 * t21 - t11 * t20);
+}
+	
 	public float[][] getMatrix() {
 		return matrix;
 	}
@@ -124,6 +232,8 @@ public class Matrix4f {
 	public void set(int x, int y, float value) {
 		matrix[x][y] = value;
 	}
+	
+	
 	
 	public String toString() {
 		String matrix = "";
