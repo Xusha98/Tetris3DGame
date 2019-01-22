@@ -1,25 +1,11 @@
 package game;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.nio.FloatBuffer;
 import java.util.ArrayList;
 
-import org.lwjgl.BufferUtils;
-import org.lwjgl.glfw.GLFW;
-import org.lwjgl.opengl.GL11;
 import org.lwjglx.input.Mouse;
-import org.lwjglx.util.glu.GLU;
-import org.lwjglx.util.vector.Vector2f;
-import org.newdawn.slick.SlickException;
-
-import io.Image;
-import io.Window;
 import maths.Vector3f;
 import models.ModelEntity;
 import models.TexturedModel;
-import rendering.TextureLoader;
 
 public class MainMenu extends Game {
 
@@ -33,14 +19,14 @@ public class MainMenu extends Game {
 	static MousePicker mp = new MousePicker(window, renderer.getProjectionMatrix(), cam);
 	
 	
-	/*
+	/**
 	 * static Image bg,Game_Title; static Image play_button,play_hover,play_pressed;
 	 * static Image normal_mode_button,option_hover,option_pressed; static Image
 	 * cheat_mode_button; static Image help_button,quit_hover,quit_pressed;
-	 */
+	 
 	private static final int BUTTON_WIDTH = 35;
 	private static final int BUTTON_HEIGHT = 35;
-
+**/
 	public static void init() {
 			
 		TexturedModel background = new TexturedModel(new float[] { -10, 10, 0, // TOP LEFT V0
@@ -124,6 +110,7 @@ public class MainMenu extends Game {
 	public static void render() {
 
 		init();
+		//window.unlockMouse();
 		
 		
 		for (ModelEntity menu : menuModels) {
@@ -132,16 +119,29 @@ public class MainMenu extends Game {
 			menu.addRotation(0, 0, 0);
 			
 		}
-		mp.update();
-		System.out.println(mp.getCurrentRay());
+		
 
 	}
 
 	public static void update()  {
 		
+		mp.update();
+		  
+		//System.out.println(mp.getCurrentRay());
+		
+		if(window.isMouseDown(0)) {
+		
+		//Mouse.setCursorPosition(WIDTH/2, HEIGHT /2);
+	    float x = (float) window.getMouseX();
+	    float y = (float) window.getMouseY();
+	   
+	
+	System.out.println("MOUSE DOWN @ X: " + x + " Y: " + y);  }   
+		
 
 	}
 
+	
 	public int getID() {
 		return 1;
 	}

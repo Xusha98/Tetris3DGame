@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL15;
+import org.lwjglx.input.Mouse;
 import org.newdawn.slick.SlickException;
 
 import io.Window;
@@ -160,6 +161,7 @@ public class Game {
 				case MAIN_MENU:
 					removeAll();
 					MainMenu.render();
+					MainMenu.update();
 					
 					break;
 				}
@@ -331,7 +333,8 @@ public class Game {
 			}
 
 		}
-
+ 
+			
 		if (window.isKeyPressed(GLFW.GLFW_KEY_LEFT)) {
 			if (blockManager.getMinX(currentMovingBlocks) != 1)
 				x = -2.0f;
