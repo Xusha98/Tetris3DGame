@@ -132,15 +132,12 @@ public class MainMenu extends Game {
 		 float x = (float) window.getMouseX();
 		 float y = (float) window.getMouseY();
 		 
-		 isInButton(play_button, mp.getCurrentRay(), x, y);
+		 
 		
-	//	if(window.isMousePressed(0) && isInButton(play_button, mp.getCurrentRay(), x, y) ) {
+	if(window.isMousePressed(0) && isInButton(play_button, mp.getCurrentRay(), x, y) ) {
 		
-		//Mouse.setCursorPosition(WIDTH/2, HEIGHT /2);
-	   
-	   
-	
-//	System.out.println("MOUSE DOWN @ X: " + x + " Y: " + y);  }   
+		
+	  System.out.println("MOUSE DOWN @ X: " + x + " Y: " + y);  }   
 		
 
 	}
@@ -149,10 +146,14 @@ public class MainMenu extends Game {
 		
 		Vector3f pos = button.getPosition();
 		
-		if(currentRay.getX() == 0) {
-			
+		boolean inX = currentRay.getX() < pos.getX() + 7.5f && currentRay.getX() > pos.getX() - 7.5f;
+		boolean inY = currentRay.getY() < pos.getY() + 1.0f && currentRay.getY() > pos.getY() - 1.0f;
+		boolean inZ = currentRay.getZ() == 1.1f;
+		
+		if(inZ && inY && inZ) {
+			System.out.print("Woooohooo");
 		}
-		System.out.println(pos);
+		System.out.println(currentRay);
 		
 		return false;
 		
