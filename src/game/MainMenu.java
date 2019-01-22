@@ -88,19 +88,19 @@ public class MainMenu extends Game {
 	
 		
 		
-		ModelEntity bg = new ModelEntity(background, new Vector3f(7.5f, 20, -1.0f), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
+		bg = new ModelEntity(background, new Vector3f(7.5f, 20, -1.0f), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
 		menuModels.add(bg);
 		
-		ModelEntity play_button = new ModelEntity(play_model,new Vector3f(7.5f, 25, -1.1f), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
+		play_button = new ModelEntity(play_model,new Vector3f(7.5f, 25, -1.1f), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
 		menuModels.add(play_button);
 		
-		ModelEntity help_button = new ModelEntity(help_model,new Vector3f(7.5f, 22, -1.1f), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
+		help_button = new ModelEntity(help_model,new Vector3f(7.5f, 22, -1.1f), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
 		menuModels.add(help_button);
 		
-		ModelEntity normal_mode_button = new ModelEntity(normal_mode, new Vector3f(7.5f, 19, -1.1f), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
+		normal_mode_button = new ModelEntity(normal_mode, new Vector3f(7.5f, 19, -1.1f), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
 		menuModels.add(normal_mode_button);
 		
-		ModelEntity cheat_mode_button = new ModelEntity(cheat_mode, new Vector3f(7.5f, 16, -1.1f), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1)); 
+		cheat_mode_button = new ModelEntity(cheat_mode, new Vector3f(7.5f, 16, -1.1f), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1)); 
 		menuModels.add(cheat_mode_button);
 		
 		
@@ -110,8 +110,8 @@ public class MainMenu extends Game {
 	public static void render() {
 
 		init();
-		//window.unlockMouse();
-		
+		window.unlockMouse();
+		if (play_button == null) {System.out.println("button is null");}
 		
 		for (ModelEntity menu : menuModels) {
 			
@@ -125,22 +125,39 @@ public class MainMenu extends Game {
 
 	public static void update()  {
 		
+		
 		mp.update();
 		  
 		//System.out.println(mp.getCurrentRay());
+		 float x = (float) window.getMouseX();
+		 float y = (float) window.getMouseY();
+		 
+		 isInButton(play_button, mp.getCurrentRay(), x, y);
 		
-		if(window.isMouseDown(0)) {
+	//	if(window.isMousePressed(0) && isInButton(play_button, mp.getCurrentRay(), x, y) ) {
 		
 		//Mouse.setCursorPosition(WIDTH/2, HEIGHT /2);
-	    float x = (float) window.getMouseX();
-	    float y = (float) window.getMouseY();
+	   
 	   
 	
-	System.out.println("MOUSE DOWN @ X: " + x + " Y: " + y);  }   
+//	System.out.println("MOUSE DOWN @ X: " + x + " Y: " + y);  }   
 		
 
 	}
 
+	private static boolean isInButton(ModelEntity button, Vector3f currentRay, float x, float y) {
+		
+		Vector3f pos = button.getPosition();
+		
+		if(currentRay.getX() == 0) {
+			
+		}
+		System.out.println(pos);
+		
+		return false;
+		
+	}
+	
 	
 	public int getID() {
 		return 1;
