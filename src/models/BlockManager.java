@@ -15,6 +15,7 @@ public class BlockManager {
 	private List<TexturedModel> allModels = new ArrayList<>();
 	
 	private ModelEntity me1, me2, me3, me4;
+	private ArrayList<ModelEntity> invisible;
 	
 	public void clear() {
 		for (TexturedModel tm : getAllModels()) {
@@ -93,12 +94,32 @@ public class BlockManager {
 		me3 = new ModelEntity();
 		me4 = new ModelEntity();
 		
-		me1 = createBlockElement(texture, 9, 21, 9);
-		me2 = createBlockElement(texture, 9, 21, 11);
-		me3 = createBlockElement(texture, 11, 21, 11);
-		me4 = createBlockElement(texture, 11, 21, 9);
+		me1 = createBlockElement(texture, 9, 21, 9, true);
+		me2 = createBlockElement(texture, 9, 21, 11, true);
+		me3 = createBlockElement(texture, 11, 21, 11, true);
+		me4 = createBlockElement(texture, 11, 21, 9, true);
 		
-		blockForms.add(new BlockFormObject(new ArrayList<ModelEntity>(Arrays.asList(me1, me2, me3, me4))));
+		invisible = new ArrayList<>();
+		int y = 19, z = 9, x = 9;
+		for(int i = 0; i < 23; i++) {
+			if(x == 9 && y == 21 && z == 9 || x == 9 && y == 21 && z == 11 || x == 11 && y == 21 && z == 11 || x == 11 && y == 21 && z == 9) {
+				i = i-1;
+			}
+			else
+				invisible.add(createBlockElement(null, x, y, z, false));
+			x += 2;
+			if(x == 15) {
+				x = 9;
+				z += 2;
+			}
+			if(z == 15) {
+				x = 9;
+				z = 9;
+				y += 2;
+			}
+		}
+		
+		blockForms.add(new BlockFormObject(new ArrayList<ModelEntity>(Arrays.asList(me1, me2, me3, me4)), invisible, BlockForm.REC));
 	}
 
 	public void create_T_Object(String texture) {
@@ -107,12 +128,32 @@ public class BlockManager {
 		me3 = new ModelEntity();
 		me4 = new ModelEntity();
 		
-		me1 = createBlockElement(texture, 7, 21, 11);
-		me2 = createBlockElement(texture, 9, 21, 11);
-		me3 = createBlockElement(texture, 11, 21, 11);
-		me4 = createBlockElement(texture, 9, 21, 9);
+		me1 = createBlockElement(texture, 7, 21, 11, true);
+		me2 = createBlockElement(texture, 9, 21, 11, true);
+		me3 = createBlockElement(texture, 11, 21, 11, true);
+		me4 = createBlockElement(texture, 9, 21, 9, true);
 		
-		blockForms.add(new BlockFormObject(new ArrayList<ModelEntity>(Arrays.asList(me1, me2, me3, me4))));
+		invisible = new ArrayList<>();
+		int y = 19, z = 7, x = 7;
+		for(int i = 0; i < 23; i++) {
+			if(x == 7 && y == 21 && z == 11 || x == 9 && y == 21 && z == 11 || x == 11 && y == 21 && z == 11 || x == 9 && y == 21 && z == 9) {
+				i = i-1;
+			}
+			else
+				invisible.add(createBlockElement(null, x, y, z, false));
+			x += 2;
+			if(x == 13) {
+				x = 7;
+				z += 2;
+			}
+			if(z == 13) {
+				x = 7;
+				z = 7;
+				y += 2;
+			}
+		}
+		
+		blockForms.add(new BlockFormObject(new ArrayList<ModelEntity>(Arrays.asList(me1, me2, me3, me4)), invisible, BlockForm.T));
 	}
 
 	public void create_L_Object(String texture) {
@@ -121,26 +162,67 @@ public class BlockManager {
 		me3 = new ModelEntity();
 		me4 = new ModelEntity();
 		
-		me1 = createBlockElement(texture, 7, 21, 9);
-		me2 = createBlockElement(texture, 9, 21, 9);
-		me3 = createBlockElement(texture, 11, 21, 9);
-		me4 = createBlockElement(texture, 11, 21, 7);
+		me1 = createBlockElement(texture, 7, 21, 9, true);
+		me2 = createBlockElement(texture, 9, 21, 9, true);
+		me3 = createBlockElement(texture, 11, 21, 9, true);
+		me4 = createBlockElement(texture, 11, 21, 7, true);
 		
-		blockForms.add(new BlockFormObject(new ArrayList<ModelEntity>(Arrays.asList(me1, me2, me3, me4))));
+		invisible = new ArrayList<>();
+		int y = 19, z = 7, x = 7;
+		for(int i = 0; i < 23; i++) {
+			if(x == 7 && y == 21 && z == 9 || x == 9 && y == 21 && z == 9 || x == 11 && y == 21 && z == 9 || x == 11 && y == 21 && z == 7) {
+				i = i-1;
+			}
+			else
+				invisible.add(createBlockElement(null, x, y, z, false));
+			x += 2;
+			if(x == 13) {
+				x = 7;
+				z += 2;
+			}
+			if(z == 13) {
+				x = 7;
+				z = 7;
+				y += 2;
+			}
+		}
+		
+		blockForms.add(new BlockFormObject(new ArrayList<ModelEntity>(Arrays.asList(me1, me2, me3, me4)), invisible, BlockForm.L));
 	}
 
+	//TODO: Block anpassen
 	public void create_I_Object(String texture) {
 		me1 = new ModelEntity();
 		me2 = new ModelEntity();
 		me3 = new ModelEntity();
 		me4 = new ModelEntity();
 		
-		me1 = createBlockElement(texture, 7, 21, 9);
-		me2 = createBlockElement(texture, 9, 21, 9);
-		me3 = createBlockElement(texture, 11, 21, 9);
-		me4 = createBlockElement(texture, 13, 21, 9);
+		me1 = createBlockElement(texture, 7, 21, 9, true);
+		me2 = createBlockElement(texture, 9, 21, 9, true);
+		me3 = createBlockElement(texture, 11, 21, 9, true);
+		me4 = createBlockElement(texture, 13, 21, 9, true);
 		
-		blockForms.add(new BlockFormObject(new ArrayList<ModelEntity>(Arrays.asList(me1, me2, me3, me4))));
+		invisible = new ArrayList();
+		int y = 19, z = 7, x = 7;
+		for(int i = 0; i < 60; i++) {
+			if(x == 7 && y == 21 && z == 9 || x == 9 && y == 21 && z == 9 || x == 11 && y == 21 && z == 9 || x == 13 && y == 21 && z == 9) {
+				i = i-1;
+			}
+			else
+				invisible.add(createBlockElement(null, x, y, z, false));
+			x += 2;
+			if(x == 15) {
+				x = 7;
+				z += 2;
+			}
+			if(z == 15) {
+				x = 7;
+				z = 7;
+				y += 2;
+			}
+		}
+		
+		blockForms.add(new BlockFormObject(new ArrayList<ModelEntity>(Arrays.asList(me1, me2, me3, me4)), invisible, BlockForm.I));
 	}
 
 	public void create_Z_Object(String texture) {
@@ -149,15 +231,35 @@ public class BlockManager {
 		me3 = new ModelEntity();
 		me4 = new ModelEntity();
 		
-		me1 = createBlockElement(texture, 9, 21, 9);
-		me2 = createBlockElement(texture, 11, 21, 9);
-		me3 = createBlockElement(texture, 11, 21, 7);
-		me4 = createBlockElement(texture, 13, 21, 7);
+		me1 = createBlockElement(texture, 9, 21, 9, true);
+		me2 = createBlockElement(texture, 11, 21, 9, true);
+		me3 = createBlockElement(texture, 11, 21, 7, true);
+		me4 = createBlockElement(texture, 13, 21, 7, true);
 		
-		blockForms.add(new BlockFormObject(new ArrayList<ModelEntity>(Arrays.asList(me1, me2, me3, me4))));
+		invisible = new ArrayList<>();
+		int y = 19, z = 7, x = 9;
+		for(int i = 0; i < 23; i++) {
+			if(x == 9 && y == 21 && z == 9 || x == 11 && y == 21 && z == 9 || x == 11 && y == 21 && z == 7 || x == 13 && y == 21 && z == 7) {
+				i = i-1;
+			}
+			else
+				invisible.add(createBlockElement(null, x, y, z, false));
+			x += 2;
+			if(x == 15) {
+				x = 9;
+				z += 2;
+			}
+			if(z == 13) {
+				x = 9;
+				z = 7;
+				y += 2;
+			}
+		}
+		
+		blockForms.add(new BlockFormObject(new ArrayList<ModelEntity>(Arrays.asList(me1, me2, me3, me4)), invisible, BlockForm.Z));
 	}
 	
-	public ModelEntity createBlockElement(String texture, int xPos, int yPos, int zPos) {
+	public ModelEntity createBlockElement(String texture, int xPos, int yPos, int zPos, boolean show) {
 		TexturedModel model = new TexturedModel(new float[] {
         		-1.0f, 1.0f, -1.0f, //V0
         		-1.0f, -1.0f, -1.0f, //V1
@@ -222,10 +324,12 @@ public class BlockManager {
         						20, 21, 23,
         						23, 21, 22
         						}, texture);
-        allModels.add(model);
+		if(show)
+			allModels.add(model);
 
         ModelEntity entity = new ModelEntity(model, new Vector3f(xPos, yPos, zPos), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
-        blockList.add(entity);
+        if(show)
+        	blockList.add(entity);
         
         return entity;
 	}

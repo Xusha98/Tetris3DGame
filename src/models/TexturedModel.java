@@ -17,7 +17,8 @@ public class TexturedModel extends Model {
         textureCoordsBufferID = super.storeData(1, 2, textureCoords);
 		vertexCount = indices.length;
         GL30.glBindVertexArray(0);
-        material = new TextureLoader(file);
+        if(file != null)
+        	material = new TextureLoader(file);
     }
     
     /**

@@ -57,10 +57,7 @@ public class Game {
 	public static float x = 0;
 	public static float z = 0;
 	public static float y = 0;
-	public static float rX = 0;
-	public static float rZ = 0;
-	public static float rY = 0;
-
+	
 	public static void run() {
 
 		init();
@@ -69,9 +66,6 @@ public class Game {
 			if (window.isUpdating()) {
 				x = 0;
 				z = 0;
-				rX = 0;
-				rZ = 0;
-				rY = 0;
 
 				window.update();
 				renderer.update();
@@ -146,15 +140,21 @@ public class Game {
 									for(ModelEntity mE : currentMovingBlocks.getBlocks()) {
 										me.setHasFinalPos(true);
 									}
+									for(ModelEntity mE : currentMovingBlocks.getInvisible()) {
+										me.setHasFinalPos(true);
+									}
 								} else if(!me.isHasFinalPos()) {
 									me.addPosition(x, -0.02f - y, z);					
 								}
 							}					
 						}
+						for(ModelEntity mE : currentMovingBlocks.getInvisible()) {
+							if(!mE.isHasFinalPos()) {
+								mE.addPosition(x, -0.02f - y, z);
+							}
+						}
 						break;
 					}
-					// GL15.glColor3f(0.0f, 1.0f, 0.0f);
-					// GL15.glRectf(0, 0, 640, 480);
 					break;
 
 				/*-------------------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -352,13 +352,13 @@ public class Game {
 				z = -2.0f;
 		}
 		if (window.isKeyPressed(GLFW.GLFW_KEY_B)) {
-			rX += 1.0f;
+			currentMovingBlocks.turnZX();
 		}
 		if (window.isKeyReleased(GLFW.GLFW_KEY_N)) {
-			rZ += 1.0f;
+			currentMovingBlocks.turnYX();
 		}
 		if (window.isKeyPressed(GLFW.GLFW_KEY_M)) {
-			rY += 1.0f;
+			currentMovingBlocks.turnYZ();
 		}
 
 		// Testinput zum Generieren eines Blocks
@@ -416,103 +416,4 @@ public class Game {
 		shader.remove();
 		window.stop();
 	}
-
-	/*
-	 * Aus der init():
-	 * 
-	 * TexturedModel model = new TexturedModel(new float[] { -1.0f, 1.0f, -1.0f,
-	 * //V0 -1.0f, -1.0f, -1.0f, //V1 1.0f, -1.0f, -1.0f, //V2 1.0f, 1.0f, -1.0f,
-	 * //V3 -1.0f, 1.0f, 1.0f, //V4 -1.0f, -1.0f, 1.0f, //V5 1.0f, -1.0f, 1.0f, //V6
-	 * 1.0f, 1.0f, 1.0f, //V7 1.0f, 1.0f, -1.0f, //V3 1.0f, -1.0f, -1.0f, //V2 1.0f,
-	 * -1.0f, 1.0f, //V6 1.0f, 1.0f, 1.0f, //V7 -1.0f, 1.0f, -1.0f, //V0 -1.0f,
-	 * -1.0f, -1.0f, //V1 -1.0f, -1.0f, 1.0f, //V5 -1.0f, 1.0f, 1.0f, //V4 -1.0f,
-	 * 1.0f, 1.0f, //V4 -1.0f, 1.0f, -1.0f, //V0 1.0f, 1.0f, -1.0f, //V3 1.0f, 1.0f,
-	 * 1.0f, //V7 -1.0f, -1.0f, 1.0f, //V5 -1.0f, -1.0f, -1.0f, //V1 1.0f, -1.0f,
-	 * -1.0f, //V2 1.0f, -1.0f, 1.0f //V6 }, new float[]{ 0f, 0f, 0f, 1f, 1f, 1f,
-	 * 1f, 0f, 0f, 0f, 0f, 1f, 1f, 1f, 1f, 0f, 0f, 0f, 0f, 1f, 1f, 1f, 1f, 0f, 0f,
-	 * 0f, 0f, 1f, 1f, 1f, 1f, 0f, 0f, 0f, 0f, 1f, 1f, 1f, 1f, 0f, 0f, 0f, 0f, 1f,
-	 * 1f, 1f, 1f, 0f }, new int[]{ 0, 1, 3, 3, 1, 2, 4, 5, 7, 7, 5, 6, 8, 9, 11,
-	 * 11, 9, 10, 12, 13, 15, 15, 13, 14, 16, 17, 19, 19, 17, 18, 20, 21, 23, 23,
-	 * 21, 22 }, "blue.png"); allModels.add(model);
-	 * 
-	 * ModelEntity entity = new ModelEntity(model, new Vector3f(1, 1, 1), new
-	 * Vector3f(0, 0, 0), new Vector3f(1, 1, 1)); blockList.add(entity);
-	 * 
-	 * 
-	 * TexturedModel model2 = new TexturedModel(new float[] { -1.0f, 1.0f, -1.0f,
-	 * //V0 -1.0f, -1.0f, -1.0f, //V1 1.0f, -1.0f, -1.0f, //V2 1.0f, 1.0f, -1.0f,
-	 * //V3 -1.0f, 1.0f, 1.0f, //V4 -1.0f, -1.0f, 1.0f, //V5 1.0f, -1.0f, 1.0f, //V6
-	 * 1.0f, 1.0f, 1.0f, //V7 1.0f, 1.0f, -1.0f, //V3 1.0f, -1.0f, -1.0f, //V2 1.0f,
-	 * -1.0f, 1.0f, //V6 1.0f, 1.0f, 1.0f, //V7 -1.0f, 1.0f, -1.0f, //V0 -1.0f,
-	 * -1.0f, -1.0f, //V1 -1.0f, -1.0f, 1.0f, //V5 -1.0f, 1.0f, 1.0f, //V4 -1.0f,
-	 * 1.0f, 1.0f, //V4 -1.0f, 1.0f, -1.0f, //V0 1.0f, 1.0f, -1.0f, //V3 1.0f, 1.0f,
-	 * 1.0f, //V7 -1.0f, -1.0f, 1.0f, //V5 -1.0f, -1.0f, -1.0f, //V1 1.0f, -1.0f,
-	 * -1.0f, //V2 1.0f, -1.0f, 1.0f //V6 }, new float[]{ 0f, 0f, 0f, 1f, 1f, 1f,
-	 * 1f, 0f, 0f, 0f, 0f, 1f, 1f, 1f, 1f, 0f, 0f, 0f, 0f, 1f, 1f, 1f, 1f, 0f, 0f,
-	 * 0f, 0f, 1f, 1f, 1f, 1f, 0f, 0f, 0f, 0f, 1f, 1f, 1f, 1f, 0f, 0f, 0f, 0f, 1f,
-	 * 1f, 1f, 1f, 0f }, new int[]{ 0, 1, 3, 3, 1, 2, 4, 5, 7, 7, 5, 6, 8, 9, 11,
-	 * 11, 9, 10, 12, 13, 15, 15, 13, 14, 16, 17, 19, 19, 17, 18, 20, 21, 23, 23,
-	 * 21, 22 }, "green.png"); allModels.add(model2);
-	 * 
-	 * ModelEntity entity2 = new ModelEntity(model2, new Vector3f(3, 3, 3), new
-	 * Vector3f(0, 0, 0), new Vector3f(1, 1, 1)); blockList.add(entity2);
-	 * 
-	 * TexturedModel model3 = new TexturedModel(new float[] { -1.0f, 1.0f, -1.0f,
-	 * //V0 -1.0f, -1.0f, -1.0f, //V1 1.0f, -1.0f, -1.0f, //V2 1.0f, 1.0f, -1.0f,
-	 * //V3 -1.0f, 1.0f, 1.0f, //V4 -1.0f, -1.0f, 1.0f, //V5 1.0f, -1.0f, 1.0f, //V6
-	 * 1.0f, 1.0f, 1.0f, //V7 1.0f, 1.0f, -1.0f, //V3 1.0f, -1.0f, -1.0f, //V2 1.0f,
-	 * -1.0f, 1.0f, //V6 1.0f, 1.0f, 1.0f, //V7 -1.0f, 1.0f, -1.0f, //V0 -1.0f,
-	 * -1.0f, -1.0f, //V1 -1.0f, -1.0f, 1.0f, //V5 -1.0f, 1.0f, 1.0f, //V4 -1.0f,
-	 * 1.0f, 1.0f, //V4 -1.0f, 1.0f, -1.0f, //V0 1.0f, 1.0f, -1.0f, //V3 1.0f, 1.0f,
-	 * 1.0f, //V7 -1.0f, -1.0f, 1.0f, //V5 -1.0f, -1.0f, -1.0f, //V1 1.0f, -1.0f,
-	 * -1.0f, //V2 1.0f, -1.0f, 1.0f //V6 }, new float[]{ 0f, 0f, 0f, 1f, 1f, 1f,
-	 * 1f, 0f, 0f, 0f, 0f, 1f, 1f, 1f, 1f, 0f, 0f, 0f, 0f, 1f, 1f, 1f, 1f, 0f, 0f,
-	 * 0f, 0f, 1f, 1f, 1f, 1f, 0f, 0f, 0f, 0f, 1f, 1f, 1f, 1f, 0f, 0f, 0f, 0f, 1f,
-	 * 1f, 1f, 1f, 0f }, new int[]{ 0, 1, 3, 3, 1, 2, 4, 5, 7, 7, 5, 6, 8, 9, 11,
-	 * 11, 9, 10, 12, 13, 15, 15, 13, 14, 16, 17, 19, 19, 17, 18, 20, 21, 23, 23,
-	 * 21, 22 }, "yellow.png"); allModels.add(model3);
-	 * 
-	 * ModelEntity entity3 = new ModelEntity(model3, new Vector3f(5, 5, 5), new
-	 * Vector3f(0, 0, 0), new Vector3f(1, 1, 1)); blockList.add(entity3);
-	 * 
-	 * TexturedModel model4 = new TexturedModel(new float[] { -1.0f, 1.0f, -1.0f,
-	 * //V0 -1.0f, -1.0f, -1.0f, //V1 1.0f, -1.0f, -1.0f, //V2 1.0f, 1.0f, -1.0f,
-	 * //V3 -1.0f, 1.0f, 1.0f, //V4 -1.0f, -1.0f, 1.0f, //V5 1.0f, -1.0f, 1.0f, //V6
-	 * 1.0f, 1.0f, 1.0f, //V7 1.0f, 1.0f, -1.0f, //V3 1.0f, -1.0f, -1.0f, //V2 1.0f,
-	 * -1.0f, 1.0f, //V6 1.0f, 1.0f, 1.0f, //V7 -1.0f, 1.0f, -1.0f, //V0 -1.0f,
-	 * -1.0f, -1.0f, //V1 -1.0f, -1.0f, 1.0f, //V5 -1.0f, 1.0f, 1.0f, //V4 -1.0f,
-	 * 1.0f, 1.0f, //V4 -1.0f, 1.0f, -1.0f, //V0 1.0f, 1.0f, -1.0f, //V3 1.0f, 1.0f,
-	 * 1.0f, //V7 -1.0f, -1.0f, 1.0f, //V5 -1.0f, -1.0f, -1.0f, //V1 1.0f, -1.0f,
-	 * -1.0f, //V2 1.0f, -1.0f, 1.0f //V6 }, new float[]{ 0f, 0f, 0f, 1f, 1f, 1f,
-	 * 1f, 0f, 0f, 0f, 0f, 1f, 1f, 1f, 1f, 0f, 0f, 0f, 0f, 1f, 1f, 1f, 1f, 0f, 0f,
-	 * 0f, 0f, 1f, 1f, 1f, 1f, 0f, 0f, 0f, 0f, 1f, 1f, 1f, 1f, 0f, 0f, 0f, 0f, 1f,
-	 * 1f, 1f, 1f, 0f }, new int[]{ 0, 1, 3, 3, 1, 2, 4, 5, 7, 7, 5, 6, 8, 9, 11,
-	 * 11, 9, 10, 12, 13, 15, 15, 13, 14, 16, 17, 19, 19, 17, 18, 20, 21, 23, 23,
-	 * 21, 22 }, "red.png"); allModels.add(model4);
-	 * 
-	 * ModelEntity entity4 = new ModelEntity(model4, new Vector3f(7, 7, 7), new
-	 * Vector3f(0, 0, 0), new Vector3f(1, 1, 1)); blockList.add(entity4);
-	 */
-
-	/*
-	 * private static TexturedModel defaultModel; private static ModelEntity
-	 * defaultEntity;
-	 * 
-	 * public static void defaultInit() { defaultModel = new TexturedModel(new
-	 * float[] { -1.0f, 1.0f, -1.0f, //V0 -1.0f, -1.0f, -1.0f, //V1 1.0f, -1.0f,
-	 * -1.0f, //V2 1.0f, 1.0f, -1.0f, //V3 -1.0f, 1.0f, 1.0f, //V4 -1.0f, -1.0f,
-	 * 1.0f, //V5 1.0f, -1.0f, 1.0f, //V6 1.0f, 1.0f, 1.0f, //V7 1.0f, 1.0f, -1.0f,
-	 * //V3 1.0f, -1.0f, -1.0f, //V2 1.0f, -1.0f, 1.0f, //V6 1.0f, 1.0f, 1.0f, //V7
-	 * -1.0f, 1.0f, -1.0f, //V0 -1.0f, -1.0f, -1.0f, //V1 -1.0f, -1.0f, 1.0f, //V5
-	 * -1.0f, 1.0f, 1.0f, //V4 -1.0f, 1.0f, 1.0f, //V4 -1.0f, 1.0f, -1.0f, //V0
-	 * 1.0f, 1.0f, -1.0f, //V3 1.0f, 1.0f, 1.0f, //V7 -1.0f, -1.0f, 1.0f, //V5
-	 * -1.0f, -1.0f, -1.0f, //V1 1.0f, -1.0f, -1.0f, //V2 1.0f, -1.0f, 1.0f //V6 },
-	 * new float[]{ 0f, 0f, 0f, 1f, 1f, 1f, 1f, 0f, 0f, 0f, 0f, 1f, 1f, 1f, 1f, 0f,
-	 * 0f, 0f, 0f, 1f, 1f, 1f, 1f, 0f, 0f, 0f, 0f, 1f, 1f, 1f, 1f, 0f, 0f, 0f, 0f,
-	 * 1f, 1f, 1f, 1f, 0f, 0f, 0f, 0f, 1f, 1f, 1f, 1f, 0f }, new int[]{ 0, 1, 3, 3,
-	 * 1, 2, 4, 5, 7, 7, 5, 6, 8, 9, 11, 11, 9, 10, 12, 13, 15, 15, 13, 14, 16, 17,
-	 * 19, 19, 17, 18, 20, 21, 23, 23, 21, 22 }, "beautiful.png"); defaultEntity =
-	 * new ModelEntity(defaultModel, new Vector3f(5, 10, 5), new Vector3f(0, 0, 0),
-	 * new Vector3f(1, 1, 1)); }
-	 */
 }

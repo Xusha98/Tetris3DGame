@@ -3,6 +3,8 @@ package models;
 import java.util.ArrayList;
 import java.util.List;
 
+import maths.Vector3f;
+
 /**
  * Verwaltet alle Blockelemente, die zu einer Figur gehoeren
  * 
@@ -10,24 +12,384 @@ import java.util.List;
  *
  */
 public class BlockFormObject {
-	
+
 	private List<ModelEntity> blocks;
+	private List<ModelEntity> invisible; // even the invisible
+	private List<ModelEntity> all;
 	private boolean hasFinalPos = false;
 	private int lastLength;
-	
-	public BlockFormObject(ArrayList<ModelEntity> blocks) {
+	private BlockForm blockform;
+
+	public BlockFormObject(ArrayList<ModelEntity> blocks, ArrayList<ModelEntity> invisible, BlockForm blockform) {
 		this.blocks = blocks;
 		lastLength = blocks.size();
+		this.invisible = invisible;
+		this.blockform = blockform;
+
+		all = new ArrayList<>();
+		all.addAll(blocks);
+		all.addAll(invisible);
 	}
-	
+
+	public float[][] initRotArray(char axis) {
+		float xMin = 100, xMax = 0, yMin = 100, yMax = 0, zMin = 100, zMax = 0;
+		float[][] coords = null;
+		switch (blockform) {
+		case I:
+			coords = new float[4][4];
+			break;
+		default:
+			coords = new float[3][3];
+			break;
+		}
+		if (axis == 'z') {
+			for (ModelEntity me : all) {
+				if (me.getPosition().getZ() < zMin)
+					zMin = me.getPosition().getZ();
+				if (me.getPosition().getZ() > zMax)
+					zMax = me.getPosition().getZ();
+			}
+			System.out.println("z " + zMin + " " + zMax + "\n");
+
+			for (int z = 0; z < coords.length; z++) {
+				for (int j = 0; j < coords.length; j++) {
+					coords[z][j] = zMax;
+				}
+				zMax -= 2.0f;
+			}
+
+			for (int i = 0; i < coords.length; i++) {
+				for (int j = 0; j < coords.length; j++) {
+					System.out.print(coords[i][j] + "   ");
+				}
+				System.out.println();
+			}
+		} else if (axis == 'x') {
+			for (ModelEntity me : all) {
+				if (me.getPosition().getX() < xMin)
+					xMin = me.getPosition().getX();
+				if (me.getPosition().getX() > xMax)
+					xMax = me.getPosition().getX();
+			}
+			System.out.println("x " + xMin + " " + xMax + "\n");
+
+			for (int x = 0; x < coords.length; x++) {
+				for (int i = 0; i < coords.length; i++) {
+					coords[i][x] = xMin;
+				}
+				xMin += 2.0f;
+			}
+
+			for (int i = 0; i < coords.length; i++) {
+				for (int j = 0; j < coords.length; j++) {
+					System.out.print(coords[i][j] + "   ");
+				}
+				System.out.println();
+			}
+		} else if (axis == 'y') {
+			for (ModelEntity me : all) {
+				if (me.getPosition().getY() < yMin)
+					yMin = me.getPosition().getY();
+				if (me.getPosition().getY() > yMax)
+					yMax = me.getPosition().getY();
+			}
+			System.out.println("y " + yMin + " " + yMax + "\n");
+			for (int y = 0; y < coords.length; y++) {
+				for (int j = 0; j < coords.length; j++) {
+					coords[y][j] = yMax;
+				}
+				yMax -= 2.0f;
+			}
+			for (int i = 0; i < coords.length; i++) {
+				for (int j = 0; j < coords.length; j++) {
+					System.out.print(coords[i][j] + "   ");
+				}
+				System.out.println();
+			}
+		}
+		return coords;
+	}
+
+	//funktioniert mit kleinen Bugs
+	public void turnZX() {
+		float[][] z = initRotArray('z');
+		float[][] x = initRotArray('x');
+		System.out.println();
+
+		switch (z.length) {
+		case 3:
+			for (ModelEntity me : blocks) {
+				boolean next = true;
+				if (next && me.getPosition().getX() == x[0][0] && me.getPosition().getZ() == z[0][0]) {
+					me.setPosition(new Vector3f(x[0][2], me.getPosition().getY(), z[0][2]));
+					next = false;
+				}
+				if (next && me.getPosition().getX() == x[0][2] && me.getPosition().getZ() == z[0][2]) {
+					me.setPosition(new Vector3f(x[2][2], me.getPosition().getY(), z[2][2]));
+					next = false;
+				}
+				if (next && me.getPosition().getX() == x[2][2] && me.getPosition().getZ() == z[2][2]) {
+					me.setPosition(new Vector3f(x[2][0], me.getPosition().getY(), z[2][0]));
+					next = false;
+				}
+				if (next && me.getPosition().getX() == x[2][0] && me.getPosition().getZ() == z[2][0]) {
+					me.setPosition(new Vector3f(x[0][0], me.getPosition().getY(), z[0][0]));
+					next = false;
+				}
+
+				if (next && me.getPosition().getX() == x[0][1] && me.getPosition().getZ() == z[0][1]) {
+					me.setPosition(new Vector3f(x[1][2], me.getPosition().getY(), z[1][2]));
+					next = false;
+				}
+				if (next && me.getPosition().getX() == x[1][2] && me.getPosition().getZ() == z[1][2]) {
+					me.setPosition(new Vector3f(x[2][1], me.getPosition().getY(), z[2][1]));
+					next = false;
+				}
+				if (next && me.getPosition().getX() == x[2][1] && me.getPosition().getZ() == z[2][1]) {
+					me.setPosition(new Vector3f(x[1][0], me.getPosition().getY(), z[1][0]));
+					next = false;
+				}
+				if (next && me.getPosition().getX() == x[1][0] && me.getPosition().getZ() == z[1][0]) {
+					me.setPosition(new Vector3f(x[0][1], me.getPosition().getY(), z[0][1]));
+					next = false;
+				}
+			}
+			break;
+		case 4:
+			for (ModelEntity me : blocks) {
+				boolean next = true;
+				if (next && me.getPosition().getX() == x[0][1] && me.getPosition().getZ() == z[0][1]) {
+					me.setPosition(new Vector3f(x[1][3], me.getPosition().getY(), z[1][3]));
+					next = false;
+				}
+				if (next && me.getPosition().getX() == x[1][3] && me.getPosition().getZ() == z[1][3]) {
+					me.setPosition(new Vector3f(x[3][2], me.getPosition().getY(), z[3][2]));
+					next = false;
+				}
+				if (next && me.getPosition().getX() == x[3][2] && me.getPosition().getZ() == z[3][2]) {
+					me.setPosition(new Vector3f(x[2][0], me.getPosition().getY(), z[2][0]));
+					next = false;
+				}
+				if (next && me.getPosition().getX() == x[2][0] && me.getPosition().getZ() == z[2][0]) {
+					me.setPosition(new Vector3f(x[0][1], me.getPosition().getY(), z[0][1]));
+					next = false;
+				}
+
+				if (next && me.getPosition().getX() == x[1][1] && me.getPosition().getZ() == z[1][1]) {
+					me.setPosition(new Vector3f(x[1][2], me.getPosition().getY(), z[1][2]));
+					next = false;
+				}
+				if (next && me.getPosition().getX() == x[1][2] && me.getPosition().getZ() == z[1][2]) {
+					me.setPosition(new Vector3f(x[2][2], me.getPosition().getY(), z[2][2]));
+					next = false;
+				}
+				if (next && me.getPosition().getX() == x[2][2] && me.getPosition().getZ() == z[2][2]) {
+					me.setPosition(new Vector3f(x[2][1], me.getPosition().getY(), z[2][1]));
+					next = false;
+				}
+				if (next && me.getPosition().getX() == x[2][1] && me.getPosition().getZ() == z[2][1]) {
+					me.setPosition(new Vector3f(x[1][1], me.getPosition().getY(), z[1][1]));
+					next = false;
+				}
+
+				if (next && me.getPosition().getX() == x[2][3] && me.getPosition().getZ() == z[2][3]) {
+					me.setPosition(new Vector3f(x[3][1], me.getPosition().getY(), z[3][1]));
+					next = false;
+				}
+				if (next && me.getPosition().getX() == x[3][1] && me.getPosition().getZ() == z[3][1]) {
+					me.setPosition(new Vector3f(x[1][0], me.getPosition().getY(), z[1][0]));
+					next = false;
+				}
+				if (next && me.getPosition().getX() == x[1][0] && me.getPosition().getZ() == z[1][0]) {
+					me.setPosition(new Vector3f(x[0][2], me.getPosition().getY(), z[0][2]));
+					next = false;
+				}
+				if (next && me.getPosition().getX() == x[0][2] && me.getPosition().getZ() == z[0][2]) {
+					me.setPosition(new Vector3f(x[2][3], me.getPosition().getY(), z[2][3]));
+					next = false;
+				}
+			}
+			break;
+		default:
+			System.out.println("Ein Fehler ist eingetreten.");
+			break;
+		}
+		for (ModelEntity me : blocks) {
+			if (me.getPosition().getX() < 1) {
+				for(ModelEntity mE : blocks) {
+					mE.addPosition(2.0f, 0, 0);
+				}
+				//break;
+			}
+			if (me.getPosition().getX() > 17) {
+				for(ModelEntity mE : blocks) {
+					mE.addPosition(-2.0f, 0, 0);
+				}
+				//break;
+			}
+			if (me.getPosition().getZ() < 1) {
+				for(ModelEntity mE : blocks) {
+					mE.addPosition(0, 0, 2.0f);
+				}
+				//break;
+			}
+			if (me.getPosition().getZ() > 17) {
+				for(ModelEntity mE : blocks) {
+					mE.addPosition(0, 0, -2.0f);
+				}
+				//break;
+			}
+		}
+	}
+
+	public void turnYX() {
+		float[][] y = initRotArray('y');
+		float[][] x = initRotArray('x');
+		System.out.println();
+
+		switch (y.length) {
+		case 3:
+			for (ModelEntity me : blocks) {
+				boolean next = true;
+				if (next && me.getPosition().getX() == x[0][0] && me.getPosition().getY() == y[0][0]) {
+					me.setPosition(new Vector3f(x[0][2], y[0][2], me.getPosition().getZ()));
+					next = false;
+				}
+				if (next && me.getPosition().getX() == x[0][2] && me.getPosition().getY() == y[0][2]) {
+					me.setPosition(new Vector3f(x[2][2], y[2][2], me.getPosition().getZ()));
+					next = false;
+				}
+				if (next && me.getPosition().getX() == x[2][2] && me.getPosition().getY() == y[2][2]) {
+					me.setPosition(new Vector3f(x[2][0], y[2][0], me.getPosition().getZ()));
+					next = false;
+				}
+				if (next && me.getPosition().getX() == x[2][0] && me.getPosition().getY() == y[2][0]) {
+					me.setPosition(new Vector3f(x[0][0], y[0][0], me.getPosition().getZ()));
+					next = false;
+				}
+
+				if (next && me.getPosition().getX() == x[0][1] && me.getPosition().getY() == y[0][1]) {
+					me.setPosition(new Vector3f(x[1][2], y[1][2], me.getPosition().getZ()));
+					next = false;
+				}
+				if (next && me.getPosition().getX() == x[1][2] && me.getPosition().getY() == y[1][2]) {
+					me.setPosition(new Vector3f(x[2][1], y[2][1], me.getPosition().getZ()));
+					next = false;
+				}
+				if (next && me.getPosition().getX() == x[2][1] && me.getPosition().getY() == y[2][1]) {
+					me.setPosition(new Vector3f(x[1][0], y[1][0], me.getPosition().getZ()));
+					next = false;
+				}
+				if (next && me.getPosition().getX() == x[1][0] && me.getPosition().getY() == y[1][0]) {
+					me.setPosition(new Vector3f(x[0][1], y[0][1], me.getPosition().getZ()));
+					next = false;
+				}
+			}
+			break;
+		case 4:
+			for (ModelEntity me : blocks) {
+				boolean next = true;
+				if (next && me.getPosition().getX() == x[0][1] && me.getPosition().getY() == y[0][1]) {
+					me.setPosition(new Vector3f(x[1][3], y[1][3], me.getPosition().getZ()));
+					next = false;
+				}
+				if (next && me.getPosition().getX() == x[1][3] && me.getPosition().getY() == y[1][3]) {
+					me.setPosition(new Vector3f(x[3][2], y[3][2], me.getPosition().getZ()));
+					next = false;
+				}
+				if (next && me.getPosition().getX() == x[3][2] && me.getPosition().getY() == y[3][2]) {
+					me.setPosition(new Vector3f(x[2][0], y[2][0], me.getPosition().getZ()));
+					next = false;
+				}
+				if (next && me.getPosition().getX() == x[2][0] && me.getPosition().getY() == y[2][0]) {
+					me.setPosition(new Vector3f(x[0][1], y[0][1], me.getPosition().getZ()));
+					next = false;
+				}
+
+				if (next && me.getPosition().getX() == x[1][1] && me.getPosition().getY() == y[1][1]) {
+					me.setPosition(new Vector3f(x[1][2], y[1][2], me.getPosition().getZ()));
+					next = false;
+				}
+				if (next && me.getPosition().getX() == x[1][2] && me.getPosition().getY() == y[1][2]) {
+					me.setPosition(new Vector3f(x[2][2], y[2][2], me.getPosition().getZ()));
+					next = false;
+				}
+				if (next && me.getPosition().getX() == x[2][2] && me.getPosition().getY() == y[2][2]) {
+					me.setPosition(new Vector3f(x[2][1], y[2][1], me.getPosition().getZ()));
+					next = false;
+				}
+				if (next && me.getPosition().getX() == x[2][1] && me.getPosition().getY() == y[2][1]) {
+					me.setPosition(new Vector3f(x[1][1], y[1][1], me.getPosition().getZ()));
+					next = false;
+				}
+
+				if (next && me.getPosition().getX() == x[2][3] && me.getPosition().getY() == y[2][3]) {
+					me.setPosition(new Vector3f(x[3][1], y[3][1], me.getPosition().getZ()));
+					next = false;
+				}
+				if (next && me.getPosition().getX() == x[3][1] && me.getPosition().getY() == y[3][1]) {
+					me.setPosition(new Vector3f(x[1][0], y[1][0], me.getPosition().getZ()));
+					next = false;
+				}
+				if (next && me.getPosition().getX() == x[1][0] && me.getPosition().getY() == y[1][0]) {
+					me.setPosition(new Vector3f(x[0][2], y[0][2], me.getPosition().getZ()));
+					next = false;
+				}
+				if (next && me.getPosition().getX() == x[0][2] && me.getPosition().getY() == y[0][2]) {
+					me.setPosition(new Vector3f(x[2][3], y[2][3], me.getPosition().getZ()));
+					next = false;
+				}
+			}
+			break;
+		default:
+			System.out.println("Ein Fehler ist eingetreten.");
+			break;
+		}
+		for (ModelEntity me : blocks) {
+			if (me.getPosition().getX() < 1) {
+				for(ModelEntity mE : blocks) {
+					mE.addPosition(2.0f, 0, 0);
+				}
+				//break;
+			}
+			if (me.getPosition().getX() > 17) {
+				for(ModelEntity mE : blocks) {
+					mE.addPosition(-2.0f, 0, 0);
+				}
+				//break;
+			}
+			if (me.getPosition().getZ() < 1) {
+				for(ModelEntity mE : blocks) {
+					mE.addPosition(0, 0, 2.0f);
+				}
+				//break;
+			}
+			if (me.getPosition().getZ() > 17) {
+				for(ModelEntity mE : blocks) {
+					mE.addPosition(0, 0, -2.0f);
+				}
+				//break;
+			}
+		}
+	}
+
+	public void turnYZ() {
+		float[][] y = initRotArray('y');
+		float[][] z = initRotArray('z');
+	}
+
+	public BlockForm getBlockform() {
+		return blockform;
+	}
+
 	public void updateLength() {
 		lastLength = lastLength - 1;
 	}
-	
+
 	public int getCountBlocks() {
 		return lastLength;
 	}
-	
+
 	public void setCountBlocks(int length1) {
 		this.lastLength = length1;
 	}
@@ -39,7 +401,7 @@ public class BlockFormObject {
 	public void setBlocks(List<ModelEntity> blocks) {
 		this.blocks = blocks;
 	}
-	
+
 	public void removeBlock(ModelEntity me) {
 		blocks.remove(me);
 	}
@@ -50,11 +412,15 @@ public class BlockFormObject {
 
 	public void setHasFinalPos(boolean hasFinalPos) {
 		this.hasFinalPos = hasFinalPos;
-		if(this.hasFinalPos) {
-			for(ModelEntity me : blocks) {
+		if (this.hasFinalPos) {
+			for (ModelEntity me : blocks) {
 				me.setHasFinalPos(true);
 			}
 		}
+	}
+
+	public List<ModelEntity> getInvisible() {
+		return invisible;
 	}
 
 }
