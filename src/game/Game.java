@@ -197,6 +197,7 @@ public class Game {
 				}
 				if(me.isHasFinalPos() && indexY < 9) {
 					fieldOccupied[indexY][indexZ][indexX] = true;
+					System.out.println("Feld besetzt: "+indexY+"y, "+indexZ+"z, "+indexX+"x");
 				}
 				else {
 					if(indexY < 9) {

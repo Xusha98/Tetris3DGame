@@ -49,20 +49,11 @@ public class BlockFormObject {
 				if (me.getPosition().getZ() > zMax)
 					zMax = me.getPosition().getZ();
 			}
-			System.out.println("z " + zMin + " " + zMax + "\n");
-
 			for (int z = 0; z < coords.length; z++) {
 				for (int j = 0; j < coords.length; j++) {
 					coords[z][j] = zMax;
 				}
 				zMax -= 2.0f;
-			}
-
-			for (int i = 0; i < coords.length; i++) {
-				for (int j = 0; j < coords.length; j++) {
-					System.out.print(coords[i][j] + "   ");
-				}
-				System.out.println();
 			}
 		} else if (axis == 'x') {
 			for (ModelEntity me : all) {
@@ -71,20 +62,11 @@ public class BlockFormObject {
 				if (me.getPosition().getX() > xMax)
 					xMax = me.getPosition().getX();
 			}
-			System.out.println("x " + xMin + " " + xMax + "\n");
-
 			for (int x = 0; x < coords.length; x++) {
 				for (int i = 0; i < coords.length; i++) {
 					coords[i][x] = xMin;
 				}
 				xMin += 2.0f;
-			}
-
-			for (int i = 0; i < coords.length; i++) {
-				for (int j = 0; j < coords.length; j++) {
-					System.out.print(coords[i][j] + "   ");
-				}
-				System.out.println();
 			}
 		} else if (axis == 'y') {
 			for (ModelEntity me : all) {
@@ -93,18 +75,11 @@ public class BlockFormObject {
 				if (me.getPosition().getY() > yMax)
 					yMax = me.getPosition().getY();
 			}
-			System.out.println("y " + yMin + " " + yMax + "\n");
 			for (int y = 0; y < coords.length; y++) {
 				for (int j = 0; j < coords.length; j++) {
 					coords[y][j] = yMax;
 				}
 				yMax -= 2.0f;
-			}
-			for (int i = 0; i < coords.length; i++) {
-				for (int j = 0; j < coords.length; j++) {
-					System.out.print(coords[i][j] + "   ");
-				}
-				System.out.println();
 			}
 		} else if (axis == 'u') {
 			for (ModelEntity me : all) {
@@ -113,20 +88,11 @@ public class BlockFormObject {
 				if (me.getPosition().getZ() > zMax)
 					zMax = me.getPosition().getZ();
 			}
-			System.out.println("z " + zMin + " " + zMax + "\n");
-
 			for (int z = 0; z < coords.length; z++) {
 				for (int i = 0; i < coords.length; i++) {
 					coords[i][z] = zMin;
 				}
 				zMin += 2.0f;
-			}
-
-			for (int i = 0; i < coords.length; i++) {
-				for (int j = 0; j < coords.length; j++) {
-					System.out.print(coords[i][j] + "   ");
-				}
-				System.out.println();
 			}
 		}
 		return coords;
