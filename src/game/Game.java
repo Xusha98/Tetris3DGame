@@ -281,7 +281,7 @@ public class Game {
 							xCoord = x * 2 + 1;
 							zCoord = z * 2 + 1;
 							yCoord = y * 2 + 1;
-							for(int j = blockManager.getAllBlocks().size(); j >= 0; j--) {
+							for(int j = blockManager.getAllBlocks().size()-1; j >= 0; j--) {
 								ModelEntity me = blockManager.getAllBlocks().get(j);
 								if(me.getPosition().getX() == xCoord && me.getPosition().getY() == yCoord && me.getPosition().getZ() == zCoord) {
 									blockManager.getAllModels().remove(me.getModel());
