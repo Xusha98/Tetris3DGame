@@ -273,6 +273,7 @@ public class Game {
 									}
 								}
 							}
+							fieldOccupied[y][z][x] = false;
 						}
 					}
 				}
@@ -287,7 +288,23 @@ public class Game {
 	 * wenn ein Block aus Blockform geloescht wird, muessen andere nachruecken
 	 */
 	public static void moveBlocksDown() {
-		float x = 0, y = 100, z = 0, currentDistance = 99;
+		for(int y = 0; y < 9; y++) {
+			if(!fieldOccupied[y][0][0]) {
+				
+			}
+		}
+//		float x = 0, y = 100, z = 0, currentDistance = 99;
+//		for(BlockFormObject bfo : blockManager.getBlockFormObjects()) {
+//			x = 0; y = 100; z = 0;
+//			if(bfo.isHasFinalPos()) {
+//				for(ModelEntity me : bfo.getBlocks()) {
+//					
+//				}
+//			}
+//		}
+	}
+	/*unbrauchbar:
+	 * float x = 0, y = 100, z = 0, currentDistance = 99;
 		for(BlockFormObject bfo : blockManager.getBlockFormObjects()) {
 			x = 0; y = 100; z = 0;
 			if(bfo.isHasFinalPos()) {
@@ -303,40 +320,8 @@ public class Game {
 //					me.setPosition(new Vector3f(me.getPosition().getX(), currentDistance, me.getPosition().getZ())); //me.getPosition().getY() - 
 //				}
 			}
-		}
-	}
+		}*/
 	
-	/**
-	 * gibt derzeit hoechste moegliche Blockposition bei bestimmter x und z Coordinate vom currentMovingBlocks an
-	 * @return
-	 */
-//	public static float getHighestPos() {
-//		float x = 0, z = 0, y = 0;
-//		int yI = 0;
-//		boolean notOccupied = true;
-//		for(ModelEntity me : currentMovingBlocks.getBlocks()) {
-//			x = me.getPosition().getX();
-//			z = me.getPosition().getZ();
-//			
-//			int indexZ = (int) z / 2;
-//			int indexX = (int) x / 2;
-//			
-//			for(int indexY = 0; indexY < 9; indexY++) {
-//				if(fieldOccupied[indexY][indexZ][indexX]) {
-//					notOccupied = false;
-//					if(indexY >= yI) {
-//						yI = indexY;
-//					}				
-//				}				
-//			}
-//		}
-//		
-//		if(notOccupied)
-//			return 1;
-//		else
-//			y = yI * 2 + 1;
-//		return y+2;
-//	}
 	
 	/**
 	 * gibt hoechste moegliche Blockposition bei einem Block von currentMovingBlocks mit bestimmter x und z Koordinate
