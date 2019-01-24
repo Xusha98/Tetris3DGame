@@ -238,6 +238,7 @@ public class Game {
 				}
 			}
 			
+			boolean moveBlocksDown = false;
 			int sum = 0;
 			for(int y = 0; y < 9; y++) {
 				sum = 0;
@@ -250,7 +251,49 @@ public class Game {
 				}
 				if(sum == 81) {
 					System.out.println("ein Layer gefuellt");
+					moveBlocksDown = true;
+					for(int z = 0; z < 9; z++) {
+						for(int x = 0; x < 9; x++) {
+							xCoord = x * 2 + 1;
+							zCoord = z * 2 + 1;
+							yCoord = y * 2 + 1;
+							for(ModelEntity me : blockManager.getAllBlocks()) {
+								blockManager.getAllModels().remove(me.getModel());
+								blockManager.getAllBlocks().removeIf(mE -> mE.getPosition().getX() == xCoord && mE.getPosition().getY() == yCoord && mE.getPosition().getZ() == zCoord);
+								for(int i = 0; i < blockManager.getBlockFormObjects().size(); i++) {
+									BlockFormObject bfo = blockManager.getBlockFormObjects().get(i);
+									if(bfo.getBlocks().contains(me)) {
+										bfo.removeBlock(me);
+										bfo.setCountBlocks(bfo.getBlocks().size());
+									}
+								}
+							}
+						}
+					}
+					/*for(int z = 0; z < 9; z++) {
+						for(int x = 0; x < 9; x++) {
+							xCoord = x * 2 + 1;
+							zCoord = z * 2 + 1;
+							yCoord = y * 2 + 1;
+							for(ModelEntity me : blockManager.getAllBlocks()) {
+								if(me.getPosition().getX() == xCoord && me.getPosition().getY() == yCoord && me.getPosition().getZ() == zCoord) {
+									blockManager.getAllModels().remove(me.getModel());
+									blockManager.getAllBlocks().remove(me);
+									for(int i = 0; i < blockManager.getBlockFormObjects().size(); i++) {
+										BlockFormObject bfo = blockManager.getBlockFormObjects().get(i);
+										if(bfo.getBlocks().contains(me)) {
+											bfo.removeBlock(me);
+											bfo.setCountBlocks(bfo.getBlocks().size());
+										}
+									}
+								}
+							}
+						}
+					}*/
 				}
+			}
+			if(moveBlocksDown) {
+				moveBlocksDown();
 			}
 		}
 	}
@@ -259,10 +302,18 @@ public class Game {
 	 * wenn ein Block aus Blockform geloescht wird, muessen andere nachruecken
 	 */
 	public static void moveBlocksDown() {
+		float x = 0, y = 100, z = 0, currentDistance = 99;
 		for(BlockFormObject bfo : blockManager.getBlockFormObjects()) {
-			if(bfo.getCountBlocks() > bfo.getBlocks().size()) {
-				// check field nach Form + nachruecken + field update
-				bfo.setCountBlocks(bfo.getBlocks().size());
+			x = 0; y = 100; z = 0;
+			if(bfo.isHasFinalPos()) {
+				for(ModelEntity me : bfo.getBlocks()) {
+					if(currentDistance > me.getPosition().getY() - getHighestPos(me.getPosition().getX(), me.getPosition().getZ())) {
+						currentDistance = me.getPosition().getY() - getHighestPos(me.getPosition().getX(), me.getPosition().getZ());					
+					}
+				}
+				for(ModelEntity me : bfo.getBlocks()) {
+					me.setPosition(new Vector3f(me.getPosition().getX(), me.getPosition().getY() - currentDistance, me.getPosition().getZ()));
+				}
 			}
 		}
 	}

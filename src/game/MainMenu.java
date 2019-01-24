@@ -128,7 +128,7 @@ public class MainMenu extends Game {
 		
 		mp.update();
 		  
-		//System.out.println(mp.getCurrentRay());
+		System.out.println(mp.getCurrentRay());
 		 float x = (float) window.getMouseX();
 		 float y = (float) window.getMouseY();
 		 
@@ -137,7 +137,8 @@ public class MainMenu extends Game {
 	if(window.isMousePressed(0) && isInButton(play_button, mp.getCurrentRay(), x, y) ) {
 		
 		
-	  System.out.println("MOUSE DOWN @ X: " + x + " Y: " + y);  }   
+	  //System.out.println("MOUSE DOWN @ X: " + x + " Y: " + y);  
+		}   
 		
 
 	}
@@ -158,6 +159,24 @@ public class MainMenu extends Game {
 		return false;
 		
 	}
+	
+	private boolean scheckSchnittpunkt(Vector3f stuetzvektor, Vector3f currentRay) {
+		
+		int t = 10;
+		Vector3f width= new Vector3f() ;
+		Vector3f height = new Vector3f();
+		// E: p + lamba * p1 + gamma * p2
+		
+		Vector3f schnittpunkt = stuetzvektor.mul(t);
+		
+		stuetzvektor + width.mul(t) + height.mul(t);
+		
+	
+		
+		return false;
+		
+	}
+	
 	
 	
 	public int getID() {
