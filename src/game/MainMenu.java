@@ -169,7 +169,7 @@ public class MainMenu extends Game {
 		
 		Vector3f schnittpunkt = stuetzvektor.mul(t);
 		
-		stuetzvektor + width.mul(t) + height.mul(t);
+		//stuetzvektor + width.mul(t) + height.mul(t);
 		
 	
 		

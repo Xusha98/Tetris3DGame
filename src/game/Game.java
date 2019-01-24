@@ -257,9 +257,15 @@ public class Game {
 							xCoord = x * 2 + 1;
 							zCoord = z * 2 + 1;
 							yCoord = y * 2 + 1;
+							List<ModelEntity> meToRemove = new ArrayList<>();
 							for(ModelEntity me : blockManager.getAllBlocks()) {
+								if(me.getPosition().getX() == xCoord && me.getPosition().getY() == yCoord && me.getPosition().getZ() == zCoord)
+									meToRemove.add(me);
+							}
+							for(int j = meToRemove.size()-1; j >= 0; j--) {	
+								ModelEntity me = meToRemove.get(j);
 								blockManager.getAllModels().remove(me.getModel());
-								blockManager.getAllBlocks().removeIf(mE -> mE.getPosition().getX() == xCoord && mE.getPosition().getY() == yCoord && mE.getPosition().getZ() == zCoord);
+								blockManager.getAllBlocks().remove(me);
 								for(int i = 0; i < blockManager.getBlockFormObjects().size(); i++) {
 									BlockFormObject bfo = blockManager.getBlockFormObjects().get(i);
 									if(bfo.getBlocks().contains(me)) {
