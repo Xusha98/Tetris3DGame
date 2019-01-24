@@ -35,7 +35,7 @@ public class Game {
 	// TODO: muss spaeter zu MainMenu gesetzt werden, auf Game zu testzwecken
 	// gestellt
 	private static GameState state = GameState.GAME;
-	private static GameMode mode = GameMode.NORMAL;
+	private static GameMode mode = GameMode.CHEAT;
 
 	private static boolean stopTime = false;
 	private static boolean newBlock = true;
@@ -113,14 +113,35 @@ public class Game {
 						if (!stopTime) {
 							for (ModelEntity me : blockManager.getAllBlocks()) {
 								renderer.renderModelEntity(me);
-								me.addRotation(2, 2, 2);
+								if(currentMovingBlocks.getBlocks().contains(me)) {
+									float yMax = getHighestPos(me.getPosition().getX(), me.getPosition().getZ());
+									if (!me.isHasFinalPos() && me.getPosition().getY() <= yMax) { // && me.getPosition().getY() > -0.0000001 TODO me.getPosition().getY() > -0.0000001 && me.getPosition().getY() <= 1
+										me.setPosition(new Vector3f(me.getPosition().getX(), yMax, me.getPosition().getZ())); //TODO: 1 bei y
+										me.setHasFinalPos(true);
+										for(ModelEntity mE : currentMovingBlocks.getBlocks()) {
+											me.setHasFinalPos(true);
+										}
+										for(ModelEntity mE : currentMovingBlocks.getInvisible()) {
+											me.setHasFinalPos(true);
+										}
+									} else if(!me.isHasFinalPos()) {
+										me.addPosition(x, -0.02f - y, z);					
+									}
+								}					
+							}
+							for(ModelEntity mE : currentMovingBlocks.getInvisible()) {
+								if(!mE.isHasFinalPos()) {
+									mE.addPosition(x, -0.02f - y, z);
+								}
 							}
 						}
 						// Zeit gestoppt
 						else {
 							for (ModelEntity me : blockManager.getAllBlocks()) {
 								renderer.renderModelEntity(me);
-								me.addRotation(0, 0, 0);
+								if(!me.isHasFinalPos()) {
+									me.addPosition(x, -y, z);					
+								}
 							}
 						}
 						break;
@@ -238,34 +259,40 @@ public class Game {
 	 * gibt derzeit hoechste moegliche Blockposition bei bestimmter x und z Coordinate vom currentMovingBlocks an
 	 * @return
 	 */
-	public static float getHighestPos() {
-		float x = 0, z = 0, y = 0;
-		int yI = 0;
-		boolean notOccupied = true;
-		for(ModelEntity me : currentMovingBlocks.getBlocks()) {
-			x = me.getPosition().getX();
-			z = me.getPosition().getZ();
-			
-			int indexZ = (int) z / 2;
-			int indexX = (int) x / 2;
-			
-			for(int indexY = 0; indexY < 9; indexY++) {
-				if(fieldOccupied[indexY][indexZ][indexX]) {
-					notOccupied = false;
-					if(indexY >= yI) {
-						yI = indexY;
-					}				
-				}				
-			}
-		}
-		
-		if(notOccupied)
-			return 1;
-		else
-			y = yI * 2 + 1;
-		return y+2;
-	}
+//	public static float getHighestPos() {
+//		float x = 0, z = 0, y = 0;
+//		int yI = 0;
+//		boolean notOccupied = true;
+//		for(ModelEntity me : currentMovingBlocks.getBlocks()) {
+//			x = me.getPosition().getX();
+//			z = me.getPosition().getZ();
+//			
+//			int indexZ = (int) z / 2;
+//			int indexX = (int) x / 2;
+//			
+//			for(int indexY = 0; indexY < 9; indexY++) {
+//				if(fieldOccupied[indexY][indexZ][indexX]) {
+//					notOccupied = false;
+//					if(indexY >= yI) {
+//						yI = indexY;
+//					}				
+//				}				
+//			}
+//		}
+//		
+//		if(notOccupied)
+//			return 1;
+//		else
+//			y = yI * 2 + 1;
+//		return y+2;
+//	}
 	
+	/**
+	 * gibt hoechste moegliche Blockposition bei einem Block von currentMovingBlocks mit bestimmter x und z Koordinate
+	 * @param x
+	 * @param z
+	 * @return
+	 */
 	public static float getHighestPos(float x, float z) {
 		float y = 0;
 		int yI = 0;
@@ -295,11 +322,14 @@ public class Game {
 	 *
 	 * Vergebene Tasten:
 	 * 
-	 * UP: Block bewegt sich in positive z-Richtung 
-	 * DOWN: Block bewegt sich in negative z-Richtung 
-	 * LEFT: Block bewegt sich in negative x-Richtung 
-	 * RIGHT: Block bewegt sich in positive x-Richtung 
-	 * 2: Block bewegt sich schneller nach unten
+	 * UP: Blockform bewegt sich in positive z-Richtung 
+	 * DOWN: Blockform bewegt sich in negative z-Richtung 
+	 * LEFT: Blockform bewegt sich in negative x-Richtung 
+	 * RIGHT: Blockform bewegt sich in positive x-Richtung 
+	 * 2: Blockform bewegt sich schneller nach unten
+	 * B: Blockform rotiert um xz
+	 * N: Blockform rotiert um xy
+	 * M: Blockform rotiert um zy
 	 * 
 	 * W: Kamera bewegt sich vorwaerts 
 	 * S: Kamera bewegt sich rueckwaerts 
@@ -312,6 +342,8 @@ public class Game {
 	 * L: Maus verschwindet 
 	 * ENTER: Gamestate switcht von Main menu zu Game oder umgekehrt 
 	 * P: Spiel pausiert oder beendet Pausierung
+	 * 
+	 * T: stoppt/startet die Zeit im Cheatmodus
 	 */
 	public static void input() {
 		if (window.isKeyPressed(GLFW.GLFW_KEY_ESCAPE)) {
