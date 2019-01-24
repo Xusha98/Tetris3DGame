@@ -197,7 +197,6 @@ public class Game {
 				}
 				if(me.isHasFinalPos() && indexY < 9) {
 					fieldOccupied[indexY][indexZ][indexX] = true;
-					System.out.println("Feld besetzt: "+indexY+"y, "+indexZ+"z, "+indexX+"x");
 				}
 				else {
 					if(indexY < 9) {
@@ -258,6 +257,30 @@ public class Game {
 					}				
 				}				
 			}
+		}
+		
+		if(notOccupied)
+			return 1;
+		else
+			y = yI * 2 + 1;
+		return y+2;
+	}
+	
+	public static float getHighestPos(float x, float z) {
+		float y = 0;
+		int yI = 0;
+		boolean notOccupied = true;
+		
+		int indexZ = (int) z / 2;
+		int indexX = (int) x / 2;
+		
+		for(int indexY = 0; indexY < 9; indexY++) {
+			if(fieldOccupied[indexY][indexZ][indexX]) {
+				notOccupied = false;
+				if(indexY >= yI) {
+					yI = indexY;
+				}				
+			}				
 		}
 		
 		if(notOccupied)
