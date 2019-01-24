@@ -252,7 +252,7 @@ public class Game {
 				if(sum == 81) {
 					System.out.println("ein Layer gefuellt");
 					moveBlocksDown = true;
-					for(int z = 0; z < 9; z++) {
+					/*for(int z = 0; z < 9; z++) {
 						for(int x = 0; x < 9; x++) {
 							xCoord = x * 2 + 1;
 							zCoord = z * 2 + 1;
@@ -275,13 +275,14 @@ public class Game {
 								}
 							}
 						}
-					}
-					/*wirft Exception for(int z = 0; z < 9; z++) {
+					}*/
+					for(int z = 0; z < 9; z++) {
 						for(int x = 0; x < 9; x++) {
 							xCoord = x * 2 + 1;
 							zCoord = z * 2 + 1;
 							yCoord = y * 2 + 1;
-							for(ModelEntity me : blockManager.getAllBlocks()) {
+							for(int j = blockManager.getAllBlocks().size(); j >= 0; j--) {
+								ModelEntity me = blockManager.getAllBlocks().get(j);
 								if(me.getPosition().getX() == xCoord && me.getPosition().getY() == yCoord && me.getPosition().getZ() == zCoord) {
 									blockManager.getAllModels().remove(me.getModel());
 									blockManager.getAllBlocks().remove(me);
@@ -295,7 +296,7 @@ public class Game {
 								}
 							}
 						}
-					}*/
+					}
 				}
 			}
 			if(moveBlocksDown) {
