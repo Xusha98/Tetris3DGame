@@ -133,7 +133,7 @@ public class Game {
 						for (ModelEntity me : blockManager.getAllBlocks()) {
 							renderer.renderModelEntity(me);
 							if(currentMovingBlocks.getBlocks().contains(me)) {
-								float yMax = getHighestPos();
+								float yMax = getHighestPos(me.getPosition().getX(), me.getPosition().getZ());
 								if (!me.isHasFinalPos() && me.getPosition().getY() <= yMax) { // && me.getPosition().getY() > -0.0000001 TODO me.getPosition().getY() > -0.0000001 && me.getPosition().getY() <= 1
 									me.setPosition(new Vector3f(me.getPosition().getX(), yMax, me.getPosition().getZ())); //TODO: 1 bei y
 									me.setHasFinalPos(true);
