@@ -270,7 +270,7 @@ public class Game {
 							}
 						}
 					}
-					/*for(int z = 0; z < 9; z++) {
+					/*wirft Exception for(int z = 0; z < 9; z++) {
 						for(int x = 0; x < 9; x++) {
 							xCoord = x * 2 + 1;
 							zCoord = z * 2 + 1;
