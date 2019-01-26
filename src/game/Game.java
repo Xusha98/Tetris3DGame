@@ -199,7 +199,7 @@ public class Game {
 										currentMovingBlocks.getInvisible().remove(i);
 									}
 								} else if(!me.isHasFinalPos()) {
-									me.addPosition(x, -0.02f - y, z);					
+									me.addPosition(x, -0.02f - y, z);	
 								}
 							}					
 						}

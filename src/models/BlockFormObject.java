@@ -245,38 +245,19 @@ public class BlockFormObject {
 			System.out.println("Ein Fehler ist eingetreten.");
 			break;
 		}
-		/*for (ModelEntity me : blocks) {
-			if (me.getPosition().getX() < 1) {
-				for(ModelEntity mE : blocks) {
-					mE.addPosition(2.0f, 0, 0);
-				}
-				//break;
-			}
-			if (me.getPosition().getX() > 17) {
-				for(ModelEntity mE : blocks) {
-					mE.addPosition(-2.0f, 0, 0);
-				}
-				//break;
-			}
-			if (me.getPosition().getZ() < 1) {
-				for(ModelEntity mE : blocks) {
-					mE.addPosition(0, 0, 2.0f);
-				}
-				//break;
-			}
-			if (me.getPosition().getZ() > 17) {
-				for(ModelEntity mE : blocks) {
-					mE.addPosition(0, 0, -2.0f);
-				}
-				//break;
-			}
-		}*/
 	}
 
 	public void turnYX() {
 		float[][] y = initRotArray('y');
 		float[][] x = initRotArray('x');
 		System.out.println();
+		
+//		for(int i = 0; i < y.length; i++) {
+//			for(int j = 0; j < y.length; j++) {
+//				System.out.print(y[i][j]+" ");
+//			}
+//			System.out.println();
+//		}
 
 		switch (y.length) {
 		case 3:
@@ -376,26 +357,6 @@ public class BlockFormObject {
 			System.out.println("Ein Fehler ist eingetreten.");
 			break;
 		}
-		/*for (ModelEntity me : blocks) {
-			if (me.getPosition().getX() < 1) {
-				for(ModelEntity mE : blocks) {
-					mE.addPosition(2.0f, 0, 0);
-				}
-				//break;
-			}
-			if (me.getPosition().getX() > 17) {
-				for(ModelEntity mE : blocks) {
-					mE.addPosition(-2.0f, 0, 0);
-				}
-				//break;
-			}
-			if (me.getPosition().getY() < 1) {
-				for(ModelEntity mE : blocks) {
-					mE.addPosition(0, 2.0f, 0);
-				}
-				//break;
-			}
-		}*/
 	}
 
 	public void turnYZ() {
@@ -501,26 +462,6 @@ public class BlockFormObject {
 			System.out.println("Ein Fehler ist eingetreten.");
 			break;
 		}
-		/*for (ModelEntity me : blocks) {
-			if (me.getPosition().getY() < 1) {
-				for(ModelEntity mE : blocks) {
-					mE.addPosition(0, 2.0f, 0);
-				}
-				//break;
-			}
-			if (me.getPosition().getZ() < 1) {
-				for(ModelEntity mE : blocks) {
-					mE.addPosition(0, 0, 2.0f);
-				}
-				//break;
-			}
-			if (me.getPosition().getZ() > 17) {
-				for(ModelEntity mE : blocks) {
-					mE.addPosition(0, 0, -2.0f);
-				}
-				//break;
-			}
-		}*/
 	}
 
 	public BlockForm getBlockform() {
