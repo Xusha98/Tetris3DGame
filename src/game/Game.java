@@ -475,23 +475,75 @@ public class Game {
 			float[] minMaxX = currentMovingBlocks.getMinMaxOfAxis('x');
 			float[] minMaxZ = currentMovingBlocks.getMinMaxOfAxis('z');
 			if(minMaxX[0] < 0) {
-				
+				System.out.println("Sie versuchen in einer kritischen Region zu rotieren. Der Block wird ggf. etwas verrueckt.");
+				for(ModelEntity me : currentMovingBlocks.getAll()) {
+					me.addPosition(6.0f, 0, 0);
+				}
 			}
 			if(minMaxX[1] > 17) {
-				
+				System.out.println("Sie versuchen in einer kritischen Region zu rotieren. Der Block wird ggf. etwas verrueckt.");
+				for(ModelEntity me : currentMovingBlocks.getAll()) {
+					me.addPosition(-6.0f, 0, 0);
+				}
 			}
 			if(minMaxZ[0] < 0) {
-				
+				System.out.println("Sie versuchen in einer kritischen Region zu rotieren. Der Block wird ggf. etwas verrueckt.");
+				for(ModelEntity me : currentMovingBlocks.getAll()) {
+					me.addPosition(0, 0, 6.0f);
+				}
 			}
 			if(minMaxZ[1] > 17) {
-				
+				System.out.println("Sie versuchen in einer kritischen Region zu rotieren. Der Block wird ggf. etwas verrueckt.");
+				for(ModelEntity me : currentMovingBlocks.getAll()) {
+					me.addPosition(0, 0, -6.0f);
+				}
 			}
 			currentMovingBlocks.turnZX();
 		}
 		if (window.isKeyReleased(GLFW.GLFW_KEY_N)) {
+			float[] minMaxX = currentMovingBlocks.getMinMaxOfAxis('x');
+			float[] minMaxY = currentMovingBlocks.getMinMaxOfAxis('y');
+			if(minMaxX[0] < 0) {
+				System.out.println("Sie versuchen in einer kritischen Region zu rotieren. Der Block wird ggf. etwas verrueckt.");
+				for(ModelEntity me : currentMovingBlocks.getAll()) {
+					me.addPosition(6.0f, 0, 0);
+				}
+			}
+			if(minMaxX[1] > 17) {
+				System.out.println("Sie versuchen in einer kritischen Region zu rotieren. Der Block wird ggf. etwas verrueckt.");
+				for(ModelEntity me : currentMovingBlocks.getAll()) {
+					me.addPosition(-6.0f, 0, 0);
+				}
+			}
+			if(minMaxY[0] < 3) {
+				System.out.println("Sie versuchen in einer kritischen Region zu rotieren. Der Block wird ggf. etwas verrueckt.");
+				for(ModelEntity me : currentMovingBlocks.getAll()) {
+					me.addPosition(0, 6.0f, 0);
+				}
+			}
 			currentMovingBlocks.turnYX();
 		}
 		if (window.isKeyPressed(GLFW.GLFW_KEY_M)) {
+			float[] minMaxZ = currentMovingBlocks.getMinMaxOfAxis('z');
+			float[] minMaxY = currentMovingBlocks.getMinMaxOfAxis('y');
+			if(minMaxZ[0] < 0) {
+				System.out.println("Sie versuchen in einer kritischen Region zu rotieren. Der Block wird ggf. etwas verrueckt.");
+				for(ModelEntity me : currentMovingBlocks.getAll()) {
+					me.addPosition(0, 0, 6.0f);
+				}
+			}
+			if(minMaxZ[1] > 17) {
+				System.out.println("Sie versuchen in einer kritischen Region zu rotieren. Der Block wird ggf. etwas verrueckt.");
+				for(ModelEntity me : currentMovingBlocks.getAll()) {
+					me.addPosition(0, 0, -6.0f);
+				}
+			}
+			if(minMaxY[0] < 3) {
+				System.out.println("Sie versuchen in einer kritischen Region zu rotieren. Der Block wird ggf. etwas verrueckt.");
+				for(ModelEntity me : currentMovingBlocks.getAll()) {
+					me.addPosition(0, 6.0f, 0);
+				}
+			}
 			currentMovingBlocks.turnYZ();
 		}
 

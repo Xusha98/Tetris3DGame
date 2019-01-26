@@ -245,7 +245,7 @@ public class BlockFormObject {
 			System.out.println("Ein Fehler ist eingetreten.");
 			break;
 		}
-		for (ModelEntity me : blocks) {
+		/*for (ModelEntity me : blocks) {
 			if (me.getPosition().getX() < 1) {
 				for(ModelEntity mE : blocks) {
 					mE.addPosition(2.0f, 0, 0);
@@ -270,7 +270,7 @@ public class BlockFormObject {
 				}
 				//break;
 			}
-		}
+		}*/
 	}
 
 	public void turnYX() {
@@ -376,7 +376,7 @@ public class BlockFormObject {
 			System.out.println("Ein Fehler ist eingetreten.");
 			break;
 		}
-		for (ModelEntity me : blocks) {
+		/*for (ModelEntity me : blocks) {
 			if (me.getPosition().getX() < 1) {
 				for(ModelEntity mE : blocks) {
 					mE.addPosition(2.0f, 0, 0);
@@ -395,7 +395,7 @@ public class BlockFormObject {
 				}
 				//break;
 			}
-		}
+		}*/
 	}
 
 	public void turnYZ() {
@@ -501,7 +501,7 @@ public class BlockFormObject {
 			System.out.println("Ein Fehler ist eingetreten.");
 			break;
 		}
-		for (ModelEntity me : blocks) {
+		/*for (ModelEntity me : blocks) {
 			if (me.getPosition().getY() < 1) {
 				for(ModelEntity mE : blocks) {
 					mE.addPosition(0, 2.0f, 0);
@@ -520,7 +520,7 @@ public class BlockFormObject {
 				}
 				//break;
 			}
-		}
+		}*/
 	}
 
 	public BlockForm getBlockform() {
@@ -566,6 +566,10 @@ public class BlockFormObject {
 
 	public List<ModelEntity> getInvisible() {
 		return invisible;
+	}
+
+	public List<ModelEntity> getAll() {
+		return all;
 	}
 
 }
