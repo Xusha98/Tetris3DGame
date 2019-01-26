@@ -64,8 +64,8 @@ public class Game {
 	public static void run() {
 
 		init();
-		AudioMaster.init();
-		AudioMaster.play("TetrisMusic"); // TO DO: aendern nach mainmenu musik
+//		AudioMaster.init();
+//		AudioMaster.play("TetrisMusic"); // TO DO: aendern nach mainmenu musik
 			
 		while (!window.closed()) {
 			if (window.isUpdating()) {
