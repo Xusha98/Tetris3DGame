@@ -36,7 +36,7 @@ public class Game {
 	// TODO: muss spaeter zu MainMenu gesetzt werden, auf Game zu testzwecken
 	// gestellt
 	private static GameState state = GameState.GAME;
-	private static GameMode mode = GameMode.CHEAT;
+	private static GameMode mode = GameMode.NORMAL;
 
 
 
@@ -183,6 +183,15 @@ public class Game {
 					case NORMAL:
 						for (ModelEntity me : blockManager.getAllBlocks()) {
 							renderer.renderModelEntity(me);
+							if(!currentMovingBlocks.getBlocks().contains(me) && !me.isHasFinalPos()) {
+								float yMax = getHighestPos(me.getPosition().getX(), me.getPosition().getZ());
+								if (!me.isHasFinalPos() && me.getPosition().getY() <= yMax) { // && me.getPosition().getY() > -0.0000001 TODO me.getPosition().getY() > -0.0000001 && me.getPosition().getY() <= 1
+									me.setPosition(new Vector3f(me.getPosition().getX(), yMax, me.getPosition().getZ())); //TODO: 1 bei y
+									me.setHasFinalPos(true);
+								} else if(!me.isHasFinalPos()) {
+									me.addPosition(x, -0.02f - y, z);	
+								}
+							}
 							if(currentMovingBlocks.getBlocks().contains(me)) {
 								float yMax = getHighestPos(me.getPosition().getX(), me.getPosition().getZ());
 								if (!me.isHasFinalPos() && me.getPosition().getY() <= yMax) { // && me.getPosition().getY() > -0.0000001 TODO me.getPosition().getY() > -0.0000001 && me.getPosition().getY() <= 1
@@ -353,6 +362,10 @@ public class Game {
 			}
 		}
 		if(moveBlocksDown) {
+			for(ModelEntity me : blockManager.getAllBlocks()) {
+				me.setHasFinalPos(false);
+			}
+			controllFields();
 			//moveBlocksDown();
 		}
 	}
@@ -361,6 +374,7 @@ public class Game {
 	 * wenn ein Block aus Blockform geloescht wird, muessen andere nachruecken
 	 */
 	public static void moveBlocksDown() {
+		controllFields();
 		for(int y = 0; y < 9; y++) {
 			if(!fieldOccupied[y][0][0]) {
 				
