@@ -35,7 +35,7 @@ public class Game {
 
 	// TODO: muss spaeter zu MainMenu gesetzt werden, auf Game zu testzwecken
 	// gestellt
-	private static GameState state = GameState.MAIN_MENU;
+	private static GameState state = GameState.GAME;
 	private static GameMode mode = GameMode.CHEAT;
 
 
@@ -65,7 +65,7 @@ public class Game {
 
 		init();
 		AudioMaster.init();
-		
+		AudioMaster.play("TetrisMusic"); // TO DO: aendern nach mainmenu musik
 			
 		while (!window.closed()) {
 			if (window.isUpdating()) {
@@ -409,7 +409,7 @@ public class Game {
 				AudioMaster.play("TetrisMusic");
 			} else if (state == GameState.GAME) {
 				state = GameState.MAIN_MENU;
-				AudioMaster.play("MenuMusic");
+				//AudioMaster.play("MenuMusic");
 				//System.out.println("Current state is:" + state);
 			}
 
@@ -419,6 +419,8 @@ public class Game {
 			if (state == GameState.GAME) {
 				state = GameState.PAUSE;
 				System.out.println("Game is paused!");
+				
+				// TO DO: Add pause music 
 			} else if (state == GameState.PAUSE) {
 				state = GameState.GAME;
 				System.out.println("Game resumed!");
