@@ -20,6 +20,29 @@ import rendering.Renderer;
 import shader.BasicShader;
 
 public class Game {
+	
+	public static class AudioPlayer extends Thread {
+		private String file;
+		public AudioPlayer(String file) {
+			AudioMaster.init();
+			this.file = file;
+		}
+		public void run() {
+			boolean play = true;
+			while (play) {
+				AudioMaster.play(file); 
+				try {
+					Thread.sleep(84000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		public void clear() {
+			AudioMaster.destroy();
+		}
+	}
 
 	private static List<ModelEntity> background = new ArrayList<>();
 	public static List<TexturedModel> backgroundModels = new ArrayList<>();
@@ -61,14 +84,29 @@ public class Game {
 	public static float z = 0;
 	public static float y = 0;
 	
+	public static boolean runMusic = true;
+	public static AudioPlayer ap;
+	
 	public static void run() {
 
 		init();
+		
 //		AudioMaster.init();
 //		AudioMaster.play("TetrisMusic"); // TO DO: aendern nach mainmenu musik
 			
 		while (!window.closed()) {
 			if (window.isUpdating()) {
+				if(runMusic && state == GameState.MAIN_MENU) {
+					ap = new AudioPlayer("MenuMusic");
+					ap.start();
+					runMusic = false;
+				}
+				else if(runMusic && state == GameState.GAME) {
+					ap = new AudioPlayer("TetrisMusic");
+					ap.start();
+					runMusic = false;
+				}
+				
 				x = 0;
 				z = 0;
 
@@ -278,6 +316,9 @@ public class Game {
 				
 				if(me.isHasFinalPos() && indexY == 9) {
 					state = GameState.MAIN_MENU;
+					ap.clear();
+					ap.interrupt();
+					runMusic = true;
 				}
 				if(me.isHasFinalPos() && indexY < 9) {
 					fieldOccupied[indexY][indexZ][indexX] = true;
