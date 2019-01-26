@@ -130,6 +130,9 @@ public class Game {
 										for(ModelEntity mE : currentMovingBlocks.getInvisible()) {
 											me.setHasFinalPos(true);
 										}
+										for(int i = currentMovingBlocks.getInvisible().size()-1; i >= 0; i--) {
+											currentMovingBlocks.getInvisible().remove(i);
+										}
 									} else if(!me.isHasFinalPos()) {
 										me.addPosition(x, -0.02f - y, z);					
 									}
@@ -155,6 +158,9 @@ public class Game {
 										}
 										for(ModelEntity mE : currentMovingBlocks.getInvisible()) {
 											me.setHasFinalPos(true);
+										}
+										for(int i = currentMovingBlocks.getInvisible().size()-1; i >= 0; i--) {
+											currentMovingBlocks.getInvisible().remove(i);
 										}
 									} else if(!me.isHasFinalPos()) {
 										me.addPosition(x, -y, z);					
@@ -183,6 +189,9 @@ public class Game {
 									for(ModelEntity mE : currentMovingBlocks.getInvisible()) {
 										me.setHasFinalPos(true);
 										
+									}
+									for(int i = currentMovingBlocks.getInvisible().size()-1; i >= 0; i--) {
+										currentMovingBlocks.getInvisible().remove(i);
 									}
 								} else if(!me.isHasFinalPos()) {
 									me.addPosition(x, -0.02f - y, z);					
