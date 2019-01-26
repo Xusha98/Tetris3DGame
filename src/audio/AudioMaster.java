@@ -11,27 +11,48 @@ import static org.lwjgl.stb.STBVorbis.*;
 import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.libc.LibCStdlib.*;
 
+
+
+import java.util.ArrayList;
+
+
 public class AudioMaster {
+	
+	
+	private static ArrayList<Integer> allBuffers = new ArrayList<>();
+	private static int bufferPointer;
+	private static int sourceID;
+	private static long device;
+	private static long context;
+	private static String defaultDeviceName;
+	private static ALCCapabilities alcCapabilities;
+	private static ALCapabilities alCapabilities;
 	
 	public AudioMaster() {
 		
 	}
 	
-	private int bufferPointer;
-	private int sourcePointer;
-	private long device;
-	private long context;
-
-	public void playMusic() {
-		String defaultDeviceName = alcGetString(0, ALC_DEFAULT_DEVICE_SPECIFIER);
+	
+	
+	public static void init() {
+		
+		defaultDeviceName = alcGetString(0, ALC_DEFAULT_DEVICE_SPECIFIER);
 		device = alcOpenDevice(defaultDeviceName);
 
 		int[] attributes = { 0 };
 		context = alcCreateContext(device, attributes);
 		alcMakeContextCurrent(context);
 
-		ALCCapabilities alcCapabilities = ALC.createCapabilities(device);
-		ALCapabilities alCapabilities = AL.createCapabilities(alcCapabilities);
+		alcCapabilities = ALC.createCapabilities(device);
+		alCapabilities = AL.createCapabilities(alcCapabilities);
+		
+	}
+	
+
+	
+	
+	public static void play(String file) {
+		
 
 		ShortBuffer rawAudioBuffer;
 
@@ -39,43 +60,39 @@ public class AudioMaster {
 		int sampleRate;
 
 		try (MemoryStack stack = stackPush()) {
-			// Allocate space to store return information from the function
+			
 			IntBuffer channelsBuffer = stack.mallocInt(1);
 			IntBuffer sampleRateBuffer = stack.mallocInt(1);
 
-			rawAudioBuffer = stb_vorbis_decode_filename("TetrisMusic.ogg", channelsBuffer, sampleRateBuffer);
-			
-			// Retreive the extra information that was stored in the buffers by the function
+			rawAudioBuffer = stb_vorbis_decode_filename("resources/music/" + file +".ogg", channelsBuffer, sampleRateBuffer);
 			channels = channelsBuffer.get(0);
 			sampleRate = sampleRateBuffer.get(0);
+	
 		}
 
 		// Find the correct OpenAL format
 		int format = -1;
 		if (channels == 1) {
 			format = AL_FORMAT_MONO16;
+
 		} else if (channels == 2) {
 			format = AL_FORMAT_STEREO16;
+			
 		}
 
-		// Request space for the buffer
 		bufferPointer = alGenBuffers();
-
-		// Send the data to OpenAL
+		
+		
 		alBufferData(bufferPointer, format, rawAudioBuffer, sampleRate);
-
-		// Free the memory allocated by STB
+		
 		free(rawAudioBuffer);
 
-		// Request a source
-		sourcePointer = alGenSources();
-
-		// Assign the sound we just loaded to the source
-		alSourcei(sourcePointer, AL_BUFFER, bufferPointer);
-
-		// Play the sound
-		alSourcePlay(sourcePointer);
+		sourceID = alGenSources();
+	
+		alSourcei(sourceID, AL_BUFFER, bufferPointer);
 		
+		alSourcePlay(sourceID);
+
 		try {
 			// Wait for a second
 			Thread.sleep(1000);
@@ -83,8 +100,8 @@ public class AudioMaster {
 		}
 	}
 	
-	public boolean isPlaying() {
-		int state = alGetSourcei(sourcePointer, AL_SOURCE_STATE);
+	public static boolean isPlaying() {
+		int state = alGetSourcei(sourceID, AL_SOURCE_STATE);
 		if(state == AL_PLAYING) {
 			return true;
 		}
@@ -92,11 +109,11 @@ public class AudioMaster {
 			return false;
 	}
 	
-	public void destroy() {		
-		alDeleteSources(sourcePointer);
+	public static void destroy() {		
+		alDeleteSources(sourceID);
 		alDeleteBuffers(bufferPointer);
 		alcDestroyContext(context);
 		alcCloseDevice(device);
 	}
-
+	
 }
