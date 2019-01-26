@@ -111,6 +111,7 @@ public class Game {
 					}
 					
 					controllFields();
+					deleteLayer();
 
 					switch (mode) {
 
@@ -261,49 +262,98 @@ public class Game {
 				}
 			}
 			
-			boolean moveBlocksDown = false;
-			int sum = 0;
-			for(int y = 0; y < 9; y++) {
-				sum = 0;
-				for(int z = 0; z < 9; z++) {
-					for(int x = 0; x < 9; x++) {
-						if(fieldOccupied[y][z][x]) {
-							sum += 1;
-						}
+//			boolean moveBlocksDown = false;
+//			int sum = 0;
+//			for(int y = 0; y < 9; y++) {
+//				sum = 0;
+//				for(int z = 0; z < 9; z++) {
+//					for(int x = 0; x < 9; x++) {
+//						if(fieldOccupied[y][z][x]) {
+//							sum += 1;
+//						}
+//					}
+//				}
+//				if(sum == 81) {
+//					System.out.println("ein Layer gefuellt");
+//					moveBlocksDown = true;
+//
+//					for(int z = 0; z < 9; z++) {
+//						for(int x = 0; x < 9; x++) {
+//							xCoord = x * 2 + 1;
+//							zCoord = z * 2 + 1;
+//							yCoord = y * 2 + 1;
+//							for(int j = blockManager.getAllBlocks().size()-1; j >= 0; j--) {
+//								ModelEntity me = blockManager.getAllBlocks().get(j);
+//								if(me.getPosition().getX() == xCoord && me.getPosition().getY() == yCoord && me.getPosition().getZ() == zCoord) {
+//									System.out.println("geloeschter Block: "+xCoord+", "+yCoord+", "+zCoord);
+//									blockManager.getAllModels().remove(me.getModel());
+//									blockManager.getAllBlocks().remove(me);
+//									for(int i = 0; i < blockManager.getBlockFormObjects().size(); i++) {
+//										BlockFormObject bfo = blockManager.getBlockFormObjects().get(i);
+//										if(bfo.getBlocks().contains(me)) {
+//											bfo.removeBlock(me);
+//											bfo.setCountBlocks(bfo.getBlocks().size());
+//										}
+//									}
+//								}
+//							}
+//							fieldOccupied[y][z][x] = false;
+//						}
+//					}
+//				}
+//			}
+//			if(moveBlocksDown) {
+//				moveBlocksDown();
+//			}
+		}
+	}
+	
+	public static void deleteLayer() {
+		int yCoord = 0, zCoord = 0, xCoord = 0;
+		boolean moveBlocksDown = false;
+		int sum = 0;
+		
+		for(int y = 0; y < 9; y++) {
+			sum = 0;
+			for(int z = 0; z < 9; z++) {
+				for(int x = 0; x < 9; x++) {
+					if(fieldOccupied[y][z][x]) {
+						sum += 1;
 					}
 				}
-				if(sum == 81) {
-					System.out.println("ein Layer gefuellt");
-					moveBlocksDown = true;
+			}
+			
+			if(sum == 81) {
+				System.out.println("ein Layer gefuellt");
+				moveBlocksDown = true;
 
-					for(int z = 0; z < 9; z++) {
-						for(int x = 0; x < 9; x++) {
-							xCoord = x * 2 + 1;
-							zCoord = z * 2 + 1;
-							yCoord = y * 2 + 1;
-							for(int j = blockManager.getAllBlocks().size()-1; j >= 0; j--) {
-								ModelEntity me = blockManager.getAllBlocks().get(j);
-								if(me.getPosition().getX() == xCoord && me.getPosition().getY() == yCoord && me.getPosition().getZ() == zCoord) {
-									System.out.println("geloeschter Block: "+xCoord+", "+yCoord+", "+zCoord);
-									blockManager.getAllModels().remove(me.getModel());
-									blockManager.getAllBlocks().remove(me);
-									for(int i = 0; i < blockManager.getBlockFormObjects().size(); i++) {
-										BlockFormObject bfo = blockManager.getBlockFormObjects().get(i);
-										if(bfo.getBlocks().contains(me)) {
-											bfo.removeBlock(me);
-											bfo.setCountBlocks(bfo.getBlocks().size());
-										}
+				for(int z = 0; z < 9; z++) {
+					for(int x = 0; x < 9; x++) {
+						xCoord = x * 2 + 1;
+						zCoord = z * 2 + 1;
+						yCoord = y * 2 + 1;
+						for(int j = blockManager.getAllBlocks().size()-1; j >= 0; j--) {
+							ModelEntity me = blockManager.getAllBlocks().get(j);
+							if(me.getPosition().getX() == xCoord && me.getPosition().getY() == yCoord && me.getPosition().getZ() == zCoord) {
+								System.out.println("geloeschter Block: "+xCoord+", "+yCoord+", "+zCoord);
+								blockManager.getAllModels().remove(me.getModel());
+								blockManager.getAllBlocks().remove(me);
+								for(int i = 0; i < blockManager.getBlockFormObjects().size(); i++) {
+									BlockFormObject bfo = blockManager.getBlockFormObjects().get(i);
+									if(bfo.getBlocks().contains(me)) {
+										bfo.removeBlock(me);
+										bfo.setCountBlocks(bfo.getBlocks().size());
 									}
 								}
 							}
-							fieldOccupied[y][z][x] = false;
 						}
+						fieldOccupied[y][z][x] = false;
 					}
 				}
 			}
-			if(moveBlocksDown) {
-				moveBlocksDown();
-			}
+		}
+		if(moveBlocksDown) {
+			//moveBlocksDown();
 		}
 	}
 	
