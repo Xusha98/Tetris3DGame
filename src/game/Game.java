@@ -167,6 +167,11 @@ public class Game {
 									}
 								}					
 							}
+							for(ModelEntity mE : currentMovingBlocks.getInvisible()) {
+								if(!mE.isHasFinalPos()) {
+									mE.addPosition(x, -y, z);
+								}
+							}
 						}
 						break;
 
@@ -467,6 +472,20 @@ public class Game {
 				z = -2.0f;
 		}
 		if (window.isKeyPressed(GLFW.GLFW_KEY_B)) {
+			float[] minMaxX = currentMovingBlocks.getMinMaxOfAxis('x');
+			float[] minMaxZ = currentMovingBlocks.getMinMaxOfAxis('z');
+			if(minMaxX[0] < 0) {
+				
+			}
+			if(minMaxX[1] > 17) {
+				
+			}
+			if(minMaxZ[0] < 0) {
+				
+			}
+			if(minMaxZ[1] > 17) {
+				
+			}
 			currentMovingBlocks.turnZX();
 		}
 		if (window.isKeyReleased(GLFW.GLFW_KEY_N)) {

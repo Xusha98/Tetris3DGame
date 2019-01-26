@@ -30,6 +30,49 @@ public class BlockFormObject {
 		all.addAll(blocks);
 		all.addAll(invisible);
 	}
+	
+	public float[] getMinMaxOfAxis(char axis) {
+		float[] axisMinMax = new float[2];
+		float min = 100, max = 0;
+		
+		switch(axis) {
+		case 'x': 
+			for(ModelEntity me : all) {
+				if(min > me.getPosition().getX()) {
+					min = me.getPosition().getX();
+				}
+				if(max < me.getPosition().getX()) {
+					max = me.getPosition().getX();
+				}
+			}
+			break;
+		case 'z': 
+			for(ModelEntity me : all) {
+				if(min > me.getPosition().getZ()) {
+					min = me.getPosition().getZ();
+				}
+				if(max < me.getPosition().getZ()) {
+					max = me.getPosition().getZ();
+				}
+			}
+			break;
+		case 'y': 
+			for(ModelEntity me : all) {
+				if(min > me.getPosition().getY()) {
+					min = me.getPosition().getY();
+				}
+				if(max < me.getPosition().getY()) {
+					max = me.getPosition().getY();
+				}
+			}
+			break;
+		default: System.out.println("Ein Fehler ist aufgetreten."); break;
+		}
+		axisMinMax[0] = min;
+		axisMinMax[1] = max;
+		
+		return axisMinMax;
+	}
 
 	public float[][] initRotArray(char axis) {
 		float xMin = 100, xMax = 0, yMin = 100, yMax = 0, zMin = 100, zMax = 0;
