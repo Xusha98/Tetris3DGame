@@ -8,6 +8,7 @@ import org.lwjgl.opengl.GL15;
 import org.lwjglx.input.Mouse;
 import org.newdawn.slick.SlickException;
 
+import audio.AudioMaster;
 import io.Window;
 import maths.Vector3f;
 import models.BlockFormObject;
@@ -34,8 +35,10 @@ public class Game {
 
 	// TODO: muss spaeter zu MainMenu gesetzt werden, auf Game zu testzwecken
 	// gestellt
-	private static GameState state = GameState.GAME;
+	private static GameState state = GameState.MAIN_MENU;
 	private static GameMode mode = GameMode.CHEAT;
+
+
 
 	private static boolean stopTime = false;
 	private static boolean newBlock = true;
@@ -61,7 +64,9 @@ public class Game {
 	public static void run() {
 
 		init();
-
+		AudioMaster.init();
+		
+			
 		while (!window.closed()) {
 			if (window.isUpdating()) {
 				x = 0;
@@ -86,6 +91,7 @@ public class Game {
 
 				/*-------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 				case GAME:
+					
 					for (ModelEntity me : background) {
 						renderer.renderModelEntity(me);
 					}
@@ -172,9 +178,11 @@ public class Game {
 									me.setHasFinalPos(true);
 									for(ModelEntity mE : currentMovingBlocks.getBlocks()) {
 										me.setHasFinalPos(true);
+										//AudioMaster.play("collide");
 									}
 									for(ModelEntity mE : currentMovingBlocks.getInvisible()) {
 										me.setHasFinalPos(true);
+										
 									}
 								} else if(!me.isHasFinalPos()) {
 									me.addPosition(x, -0.02f - y, z);					
@@ -192,6 +200,7 @@ public class Game {
 
 				/*-------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 				case MAIN_MENU:
+					//AudioMaster.play("TetrisMusic");
 					removeAll();
 					MainMenu.render();
 					MainMenu.update();
@@ -383,6 +392,7 @@ public class Game {
 	 */
 	public static void input() {
 		if (window.isKeyPressed(GLFW.GLFW_KEY_ESCAPE)) {
+			AudioMaster.destroy();
 			window.close();
 		}
 		if (window.isKeyPressed(GLFW.GLFW_KEY_U)) {
@@ -395,10 +405,12 @@ public class Game {
 		if (window.isKeyPressed(GLFW.GLFW_KEY_ENTER)) {
 			if (state == GameState.MAIN_MENU) {
 				state = GameState.GAME;
-				System.out.println("Current state is:" + state);
+				//System.out.println("Current state is:" + state);
+				AudioMaster.play("TetrisMusic");
 			} else if (state == GameState.GAME) {
 				state = GameState.MAIN_MENU;
-				System.out.println("Current state is:" + state);
+				AudioMaster.play("MenuMusic");
+				//System.out.println("Current state is:" + state);
 			}
 
 		}
