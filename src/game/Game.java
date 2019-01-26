@@ -120,6 +120,15 @@ public class Game {
 						if (!stopTime) {
 							for (ModelEntity me : blockManager.getAllBlocks()) {
 								renderer.renderModelEntity(me);
+								if(!currentMovingBlocks.getBlocks().contains(me) && !me.isHasFinalPos()) {
+									float yMax = getHighestPos(me.getPosition().getX(), me.getPosition().getZ());
+									if (!me.isHasFinalPos() && me.getPosition().getY() <= yMax) { // && me.getPosition().getY() > -0.0000001 TODO me.getPosition().getY() > -0.0000001 && me.getPosition().getY() <= 1
+										me.setPosition(new Vector3f(me.getPosition().getX(), yMax, me.getPosition().getZ())); //TODO: 1 bei y
+										me.setHasFinalPos(true);
+									} else if(!me.isHasFinalPos()) {
+										me.addPosition(x, -0.04f - y, z);	
+									}
+								}
 								if(currentMovingBlocks.getBlocks().contains(me)) {
 									float yMax = getHighestPos(me.getPosition().getX(), me.getPosition().getZ());
 									if (!me.isHasFinalPos() && me.getPosition().getY() <= yMax) { // && me.getPosition().getY() > -0.0000001 TODO me.getPosition().getY() > -0.0000001 && me.getPosition().getY() <= 1
@@ -149,6 +158,15 @@ public class Game {
 						else {
 							for (ModelEntity me : blockManager.getAllBlocks()) {
 								renderer.renderModelEntity(me);
+								if(!currentMovingBlocks.getBlocks().contains(me) && !me.isHasFinalPos()) {
+									float yMax = getHighestPos(me.getPosition().getX(), me.getPosition().getZ());
+									if (!me.isHasFinalPos() && me.getPosition().getY() <= yMax) { // && me.getPosition().getY() > -0.0000001 TODO me.getPosition().getY() > -0.0000001 && me.getPosition().getY() <= 1
+										me.setPosition(new Vector3f(me.getPosition().getX(), yMax, me.getPosition().getZ())); //TODO: 1 bei y
+										me.setHasFinalPos(true);
+									} else if(!me.isHasFinalPos()) {
+										me.addPosition(x, -0.04f - y, z);	
+									}
+								}
 								if(currentMovingBlocks.getBlocks().contains(me)) {
 									float yMax = getHighestPos(me.getPosition().getX(), me.getPosition().getZ());
 									if (!me.isHasFinalPos() && me.getPosition().getY() <= yMax) { // && me.getPosition().getY() > -0.0000001 TODO me.getPosition().getY() > -0.0000001 && me.getPosition().getY() <= 1
@@ -189,7 +207,7 @@ public class Game {
 									me.setPosition(new Vector3f(me.getPosition().getX(), yMax, me.getPosition().getZ())); //TODO: 1 bei y
 									me.setHasFinalPos(true);
 								} else if(!me.isHasFinalPos()) {
-									me.addPosition(x, -0.02f - y, z);	
+									me.addPosition(x, -0.04f - y, z);	
 								}
 							}
 							if(currentMovingBlocks.getBlocks().contains(me)) {
@@ -270,50 +288,6 @@ public class Game {
 					}				
 				}
 			}
-			
-//			boolean moveBlocksDown = false;
-//			int sum = 0;
-//			for(int y = 0; y < 9; y++) {
-//				sum = 0;
-//				for(int z = 0; z < 9; z++) {
-//					for(int x = 0; x < 9; x++) {
-//						if(fieldOccupied[y][z][x]) {
-//							sum += 1;
-//						}
-//					}
-//				}
-//				if(sum == 81) {
-//					System.out.println("ein Layer gefuellt");
-//					moveBlocksDown = true;
-//
-//					for(int z = 0; z < 9; z++) {
-//						for(int x = 0; x < 9; x++) {
-//							xCoord = x * 2 + 1;
-//							zCoord = z * 2 + 1;
-//							yCoord = y * 2 + 1;
-//							for(int j = blockManager.getAllBlocks().size()-1; j >= 0; j--) {
-//								ModelEntity me = blockManager.getAllBlocks().get(j);
-//								if(me.getPosition().getX() == xCoord && me.getPosition().getY() == yCoord && me.getPosition().getZ() == zCoord) {
-//									System.out.println("geloeschter Block: "+xCoord+", "+yCoord+", "+zCoord);
-//									blockManager.getAllModels().remove(me.getModel());
-//									blockManager.getAllBlocks().remove(me);
-//									for(int i = 0; i < blockManager.getBlockFormObjects().size(); i++) {
-//										BlockFormObject bfo = blockManager.getBlockFormObjects().get(i);
-//										if(bfo.getBlocks().contains(me)) {
-//											bfo.removeBlock(me);
-//											bfo.setCountBlocks(bfo.getBlocks().size());
-//										}
-//									}
-//								}
-//							}
-//							fieldOccupied[y][z][x] = false;
-//						}
-//					}
-//				}
-//			}
-//			if(moveBlocksDown) {
-//				moveBlocksDown();
-//			}
 		}
 	}
 	
@@ -366,48 +340,8 @@ public class Game {
 				me.setHasFinalPos(false);
 			}
 			controllFields();
-			//moveBlocksDown();
 		}
 	}
-	
-	/**
-	 * wenn ein Block aus Blockform geloescht wird, muessen andere nachruecken
-	 */
-	public static void moveBlocksDown() {
-		controllFields();
-		for(int y = 0; y < 9; y++) {
-			if(!fieldOccupied[y][0][0]) {
-				
-			}
-		}
-//		float x = 0, y = 100, z = 0, currentDistance = 99;
-//		for(BlockFormObject bfo : blockManager.getBlockFormObjects()) {
-//			x = 0; y = 100; z = 0;
-//			if(bfo.isHasFinalPos()) {
-//				for(ModelEntity me : bfo.getBlocks()) {
-//					
-//				}
-//			}
-//		}
-	}
-	/*unbrauchbar:
-	 * float x = 0, y = 100, z = 0, currentDistance = 99;
-		for(BlockFormObject bfo : blockManager.getBlockFormObjects()) {
-			x = 0; y = 100; z = 0;
-			if(bfo.isHasFinalPos()) {
-				for(ModelEntity me : bfo.getBlocks()) {
-//					if(currentDistance > me.getPosition().getY() - getHighestPos(me.getPosition().getX(), me.getPosition().getZ())) {
-//						currentDistance = me.getPosition().getY() - getHighestPos(me.getPosition().getX(), me.getPosition().getZ());					
-//					}
-					me.setPosition(new Vector3f(me.getPosition().getX(), getHighestPos(me.getPosition().getX(), me.getPosition().getZ()), me.getPosition().getZ()));
-					System.out.println(me.getPosition().getX()+", "+me.getPosition().getY()+", "+me.getPosition().getZ());
-				}
-//				System.out.println(currentDistance);
-//				for(ModelEntity me : bfo.getBlocks()) {
-//					me.setPosition(new Vector3f(me.getPosition().getX(), currentDistance, me.getPosition().getZ())); //me.getPosition().getY() - 
-//				}
-			}
-		}*/
 	
 	
 	/**
