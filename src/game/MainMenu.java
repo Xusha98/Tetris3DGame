@@ -2,6 +2,7 @@ package game;
 
 import java.util.ArrayList;
 
+import org.lwjgl.glfw.GLFW;
 import org.lwjglx.input.Mouse;
 import maths.Vector3f;
 import models.ModelEntity;
@@ -15,6 +16,7 @@ public class MainMenu extends Game {
 	static ModelEntity normal_mode_button;
 	static ModelEntity cheat_mode_button;
 	static ModelEntity help_button;
+	static ModelEntity help_view;
 	private static ArrayList<ModelEntity> menuModels = new ArrayList<>();
 	static MousePicker mp = new MousePicker(window, renderer.getProjectionMatrix(), cam);
 	
@@ -86,6 +88,18 @@ public class MainMenu extends Game {
 																			2, 3, 0 // Triangle 2
 																			},"cheatMode.png");
 	
+		TexturedModel help = new TexturedModel(new float[] { -10, 10, 0, // TOP LEFT V0
+				10, 10, 0, // TOP RIGHT V1
+				10, -10, 0, // BOTTOM RIGHT V2
+				-10, -10, 0 },
+		new float[] { 0, 0, // TOP LEFT V0
+			1, 0, // TOP RIGHT V1hhhhh
+			1, 1, // BOTTOM RIGHT V2
+			0, 1}, 
+		new int[] { 0, 1, 2, // Triangle 1
+					2, 3, 0 // Triangle 2
+		}, "helpBackground.png");
+		
 		
 		
 		bg = new ModelEntity(background, new Vector3f(7.5f, 20, -1.0f), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
@@ -103,6 +117,9 @@ public class MainMenu extends Game {
 		cheat_mode_button = new ModelEntity(cheat_mode, new Vector3f(7.5f, 16, -1.1f), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1)); 
 		menuModels.add(cheat_mode_button);
 		
+		help_view = new ModelEntity(help, new Vector3f(7.5f, 20, -3.0f), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1)); 
+		//menuModels.add(cheat_mode_button);
+		
 		
 
 	}
@@ -111,7 +128,6 @@ public class MainMenu extends Game {
 
 		init();
 		window.unlockMouse();
-		if (play_button == null) {System.out.println("button is null");}
 		
 		for (ModelEntity menu : menuModels) {
 			
@@ -128,11 +144,16 @@ public class MainMenu extends Game {
 		
 		mp.update();
 		  
-		System.out.println(mp.getCurrentRay());
-		 float x = (float) window.getMouseX();
-		 float y = (float) window.getMouseY();
+		//System.out.println(mp.getCurrentRay());
+		// float x = (float) window.getMouseX();
+		// float y = (float) window.getMouseY();
 		 
 		 
+		if (window.isKeyDown(GLFW.GLFW_KEY_H)) {
+			renderer.renderModelEntity(help_view);
+			help_view.addRotation(0,0,0);
+		}
+		
 		
 	if(window.isMousePressed(0) && isInButton(play_button, mp.getCurrentRay(), x, y) ) {
 		
