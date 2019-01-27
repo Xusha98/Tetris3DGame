@@ -102,22 +102,22 @@ public class MainMenu extends Game {
 		
 		
 		
-		bg = new ModelEntity(background, new Vector3f(7.5f, 20, -1.0f), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
+		bg = new ModelEntity(background, new Vector3f(7.5f, 20, 0.0f), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
 		menuModels.add(bg);
 		
-		play_button = new ModelEntity(play_model,new Vector3f(7.5f, 25, -1.1f), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
+		play_button = new ModelEntity(play_model,new Vector3f(7.5f, 25, -0.1f), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
 		menuModels.add(play_button);
 		
-		help_button = new ModelEntity(help_model,new Vector3f(7.5f, 22, -1.1f), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
+		help_button = new ModelEntity(help_model,new Vector3f(7.5f, 22, -0.1f), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
 		menuModels.add(help_button);
 		
-		normal_mode_button = new ModelEntity(normal_mode, new Vector3f(7.5f, 19, -1.1f), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
+		normal_mode_button = new ModelEntity(normal_mode, new Vector3f(7.5f, 19, -0.1f), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
 		menuModels.add(normal_mode_button);
 		
-		cheat_mode_button = new ModelEntity(cheat_mode, new Vector3f(7.5f, 16, -1.1f), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1)); 
+		cheat_mode_button = new ModelEntity(cheat_mode, new Vector3f(7.5f, 16, -0.1f), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1)); 
 		menuModels.add(cheat_mode_button);
 		
-		help_view = new ModelEntity(help, new Vector3f(7.5f, 20, -3.0f), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1)); 
+		help_view = new ModelEntity(help, new Vector3f(7.5f, 20, -1.0f), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1)); 
 		//menuModels.add(cheat_mode_button);
 		
 		
