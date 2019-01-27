@@ -122,9 +122,8 @@ public class Game {
 				switch (state) {
 
 				case PAUSE:
-					// TODO: Pausebild laden?
-					GL15.glColor3f(1.0f, 0.0f, 0.0f);
-					GL15.glRectf(0, 0, 640, 480);
+					
+					Pause.render();
 					break;
 
 				/*-------------------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -473,6 +472,7 @@ public class Game {
 			if (state == GameState.GAME) {
 				state = GameState.PAUSE;
 				System.out.println("Game is paused!");
+				
 				
 				// TO DO: Add pause music 
 			} else if (state == GameState.PAUSE) {
