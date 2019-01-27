@@ -25,7 +25,7 @@ public class Pause extends Game {
 																	0, 1}, 
 																new int[] { 0, 1, 2, // Triangle 1
 																			2, 3, 0 // Triangle 2
-																}, "tetrispausebild.png");
+																}, "pause.png");
 			
 			
 			pause_view = new ModelEntity(pause, new Vector3f(7.5f, 20, -1.0f), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
@@ -35,10 +35,8 @@ public class Pause extends Game {
 
 		public static void render() {
 
-			init();
 			renderer.renderModelEntity(pause_view);	
 
 		}
-
 }
 

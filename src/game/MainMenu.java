@@ -126,7 +126,6 @@ public class MainMenu extends Game {
 
 	public static void render() {
 
-		init();
 		window.unlockMouse();
 		
 		for (ModelEntity menu : menuModels) {
@@ -142,7 +141,7 @@ public class MainMenu extends Game {
 	public static void update()  {
 		
 		
-		mp.update();
+		//mp.update();
 		  
 		//System.out.println(mp.getCurrentRay());
 		// float x = (float) window.getMouseX();

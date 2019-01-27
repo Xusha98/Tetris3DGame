@@ -27,9 +27,10 @@ public class AudioMaster {
 	private static String defaultDeviceName;
 	private static ALCCapabilities alcCapabilities;
 	private static ALCapabilities alCapabilities;
+	private static String file;
 	
-	public AudioMaster() {
-		
+	public AudioMaster(String file) {
+		this.file = file;
 	}
 	
 	
@@ -51,7 +52,7 @@ public class AudioMaster {
 
 	
 	
-	public static void play(String file) {
+	public static void play() {
 		
 
 		ShortBuffer rawAudioBuffer;

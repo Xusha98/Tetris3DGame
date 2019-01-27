@@ -1,6 +1,7 @@
 /game/
+/io/
 /maths/
-/rendering/
 /models/
+/rendering/
+/shader/
 /audio/
-/main/
