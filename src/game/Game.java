@@ -280,7 +280,6 @@ public class Game {
 
 				/*-------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 				case MAIN_MENU:
-					//AudioMaster.play("TetrisMusic");
 					removeAll();
 					MainMenu.render();
 					MainMenu.update();
@@ -322,6 +321,7 @@ public class Game {
 				}
 				if(me.isHasFinalPos() && indexY < 9) {
 					fieldOccupied[indexY][indexZ][indexX] = true;
+					
 				}
 				else {
 					if(indexY < 9) {
@@ -382,6 +382,7 @@ public class Game {
 			}
 			controllFields();
 		}
+		
 	}
 	
 	
@@ -538,6 +539,7 @@ public class Game {
 				}
 			}
 			currentMovingBlocks.turnZX();
+			AudioMaster.play("collide");
 		}
 		if (window.isKeyReleased(GLFW.GLFW_KEY_N)) {
 			float[] minMaxX = currentMovingBlocks.getMinMaxOfAxis('x');
@@ -561,6 +563,7 @@ public class Game {
 				}
 			}
 			currentMovingBlocks.turnYX();
+			AudioMaster.play("collide");
 		}
 		if (window.isKeyPressed(GLFW.GLFW_KEY_M)) {
 			float[] minMaxZ = currentMovingBlocks.getMinMaxOfAxis('z');
@@ -584,6 +587,7 @@ public class Game {
 				}
 			}
 			currentMovingBlocks.turnYZ();
+			AudioMaster.play("collide");
 		}
 
 		// Testinput zum Generieren eines Blocks
