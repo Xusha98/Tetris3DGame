@@ -126,7 +126,7 @@ public class MainMenu extends Game {
 
 	public static void render() {
 
-		window.unlockMouse();
+		//window.unlockMouse();
 		
 		for (ModelEntity menu : menuModels) {
 			

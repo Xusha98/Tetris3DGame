@@ -712,7 +712,6 @@ public class Game {
 		blockManager.clear();	
 		newBlock = true;
 		currentMovingBlocks = null;
-		System.out.println(blockManager.getAllBlocks().size()+" "+blockManager.getAllModels().size()+" "+blockManager.getBlockFormObjects().size());
 	}
 	
 	public static void finish() {
