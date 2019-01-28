@@ -541,7 +541,7 @@ public class Game {
 			if (blockManager.getMinZ(currentMovingBlocks) != 1)
 				z = -2.0f;
 		}
-		if (window.isKeyPressed(GLFW.GLFW_KEY_B)) {
+		if (window.isKeyPressed(GLFW.GLFW_KEY_H)) {
 			float[] minMaxX = currentMovingBlocks.getMinMaxOfAxis('x');
 			float[] minMaxZ = currentMovingBlocks.getMinMaxOfAxis('z');
 			if(minMaxX[0] < 0) {
@@ -572,7 +572,7 @@ public class Game {
 //			soundThread = new SoundPlayer("collide");
 //			soundThread.start();
 		}
-		if (window.isKeyPressed(GLFW.GLFW_KEY_N)) {
+		if (window.isKeyPressed(GLFW.GLFW_KEY_J)) {
 			float[] minMaxX = currentMovingBlocks.getMinMaxOfAxis('x');
 			float[] minMaxY = currentMovingBlocks.getMinMaxOfAxis('y');
 			boolean ok = true;
@@ -597,7 +597,7 @@ public class Game {
 //			soundThread = new SoundPlayer("collide");
 //			soundThread.start();
 		}
-		if (window.isKeyPressed(GLFW.GLFW_KEY_M)) {
+		if (window.isKeyPressed(GLFW.GLFW_KEY_K)) {
 			float[] minMaxZ = currentMovingBlocks.getMinMaxOfAxis('z');
 			float[] minMaxY = currentMovingBlocks.getMinMaxOfAxis('y');
 			boolean ok = true;
@@ -622,8 +622,16 @@ public class Game {
 //			soundThread = new SoundPlayer("collide");
 //			soundThread.start();
 		}
+		if(window.isKeyPressed(GLFW.GLFW_KEY_N)) {
+			mode = GameMode.NORMAL;
+		}
+		if(window.isKeyPressed(GLFW.GLFW_KEY_C)) {
+			mode = GameMode.CHEAT;
+		}
+		if(window.isKeyPressed(GLFW.GLFW_KEY_H)) {
+			//TODO: Help menu
+		}
 
-		// Testinput zum Generieren eines Blocks
 		if (window.isKeyPressed(GLFW.GLFW_KEY_1)) {
 			state = GameState.GAME;
 		}
