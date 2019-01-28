@@ -495,6 +495,7 @@ public class Game {
 			musicThread.clear();
 			musicThread.interrupt();
 			window.close();
+			System.exit(0);
 		}
 //		if (window.isKeyPressed(GLFW.GLFW_KEY_U)) {
 //			window.unlockMouse();
