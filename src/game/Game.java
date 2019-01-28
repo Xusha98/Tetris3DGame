@@ -28,16 +28,25 @@ public class Game {
 			am.init();
 		}
 		public void run() {
-			boolean play = true;
-			while (play) {
-				am.play(); 
-				try {
-					Thread.sleep(84000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
+			new java.util.Timer().schedule( 
+			        new java.util.TimerTask() {
+			            @Override
+			            public void run() {
+			            	am.play();
+			            }
+			        }, 
+			        100, 84000 
+			);
+//			boolean play = true;
+//			while (play) {
+//				am.play(); 
+//				try {
+//					Thread.sleep(84000);
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			}
 		}
 		public void clear() {
 			am.destroy();
@@ -51,14 +60,24 @@ public class Game {
 			am.init();
 		}
 		public void run() {
-			am.play(); 
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			clear();
+			am.play();
+			new java.util.Timer().schedule( 
+			        new java.util.TimerTask() {
+			            @Override
+			            public void run() {
+			            	clear();
+			            }
+			        }, 
+			        2000 
+			);
+//			am.play(); 
+//			try {
+//				Thread.sleep(2000);
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			clear();
 		}
 		public void clear() {
 			am.destroy();
@@ -111,6 +130,7 @@ public class Game {
 	public static boolean runGameMusic = true;
 	public static boolean runMenuMusic = true;
 	public static AudioPlayer musicThread;
+	public static SoundPlayer soundThread;
 	
 	public static void run() {
 
@@ -198,8 +218,7 @@ public class Game {
 									if (!me.isHasFinalPos() && me.getPosition().getY() <= yMax) { // && me.getPosition().getY() > -0.0000001 TODO me.getPosition().getY() > -0.0000001 && me.getPosition().getY() <= 1
 										me.setPosition(new Vector3f(me.getPosition().getX(), yMax, me.getPosition().getZ())); //TODO: 1 bei y
 										me.setHasFinalPos(true);
-										SoundPlayer sp = new SoundPlayer("crush");
-										sp.start();
+										
 										for(ModelEntity mE : currentMovingBlocks.getBlocks()) {
 											me.setHasFinalPos(true);
 										}
@@ -238,8 +257,7 @@ public class Game {
 									if (!me.isHasFinalPos() && me.getPosition().getY() <= yMax) { // && me.getPosition().getY() > -0.0000001 TODO me.getPosition().getY() > -0.0000001 && me.getPosition().getY() <= 1
 										me.setPosition(new Vector3f(me.getPosition().getX(), yMax, me.getPosition().getZ())); //TODO: 1 bei y
 										me.setHasFinalPos(true);
-										SoundPlayer sp = new SoundPlayer("crush");
-										sp.start();
+										
 										for(ModelEntity mE : currentMovingBlocks.getBlocks()) {
 											me.setHasFinalPos(true);
 										}
@@ -283,8 +301,6 @@ public class Game {
 								if (!me.isHasFinalPos() && me.getPosition().getY() <= yMax) { // && me.getPosition().getY() > -0.0000001 TODO me.getPosition().getY() > -0.0000001 && me.getPosition().getY() <= 1
 									me.setPosition(new Vector3f(me.getPosition().getX(), yMax, me.getPosition().getZ())); //TODO: 1 bei y
 									me.setHasFinalPos(true);
-									SoundPlayer sp = new SoundPlayer("crush");
-									sp.start();
 									for(ModelEntity mE : currentMovingBlocks.getBlocks()) {
 										me.setHasFinalPos(true);
 										//AudioMaster.play("collide");
@@ -574,8 +590,8 @@ public class Game {
 				}
 			}
 			currentMovingBlocks.turnZX();
-			SoundPlayer sp = new SoundPlayer("collide");
-			sp.start();
+			soundThread = new SoundPlayer("collide");
+			soundThread.start();
 		}
 		if (window.isKeyReleased(GLFW.GLFW_KEY_N)) {
 			float[] minMaxX = currentMovingBlocks.getMinMaxOfAxis('x');
@@ -599,8 +615,8 @@ public class Game {
 				}
 			}
 			currentMovingBlocks.turnYX();
-			SoundPlayer sp = new SoundPlayer("collide");
-			sp.start();
+			soundThread = new SoundPlayer("collide");
+			soundThread.start();
 		}
 		if (window.isKeyPressed(GLFW.GLFW_KEY_M)) {
 			float[] minMaxZ = currentMovingBlocks.getMinMaxOfAxis('z');
@@ -624,8 +640,8 @@ public class Game {
 				}
 			}
 			currentMovingBlocks.turnYZ();
-			SoundPlayer sp = new SoundPlayer("collide");
-			sp.start();
+			soundThread = new SoundPlayer("collide");
+			soundThread.start();
 		}
 
 		// Testinput zum Generieren eines Blocks
