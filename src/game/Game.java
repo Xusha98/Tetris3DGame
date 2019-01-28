@@ -148,6 +148,10 @@ public class Game {
 
 				switch (state) {
 
+				case HELP:
+					Help.render();
+					break;
+				
 				case PAUSE:
 					
 					Pause.render();
@@ -537,7 +541,12 @@ public class Game {
 			}
 		}
 		if(window.isKeyPressed(GLFW.GLFW_KEY_H)) {
-			//TODO: Help menu
+			if(state == GameState.MAIN_MENU) {
+				state = GameState.HELP;
+			}
+			if(state == GameState.HELP) {
+				state = GameState.MAIN_MENU;
+			}
 		}
 
 
@@ -584,7 +593,7 @@ public class Game {
 			if (blockManager.getMinZ(currentMovingBlocks) != 1)
 				z = -2.0f;
 		}
-		if (window.isKeyPressed(GLFW.GLFW_KEY_H)) {
+		if (window.isKeyPressed(GLFW.GLFW_KEY_J)) {
 			float[] minMaxX = currentMovingBlocks.getMinMaxOfAxis('x');
 			float[] minMaxZ = currentMovingBlocks.getMinMaxOfAxis('z');
 			if(minMaxX[0] < 0) {
@@ -615,7 +624,7 @@ public class Game {
 //			soundThread = new SoundPlayer("collide");
 //			soundThread.start();
 		}
-		if (window.isKeyPressed(GLFW.GLFW_KEY_J)) {
+		if (window.isKeyPressed(GLFW.GLFW_KEY_K)) {
 			float[] minMaxX = currentMovingBlocks.getMinMaxOfAxis('x');
 			float[] minMaxY = currentMovingBlocks.getMinMaxOfAxis('y');
 			boolean ok = true;
@@ -640,7 +649,7 @@ public class Game {
 //			soundThread = new SoundPlayer("collide");
 //			soundThread.start();
 		}
-		if (window.isKeyPressed(GLFW.GLFW_KEY_K)) {
+		if (window.isKeyPressed(GLFW.GLFW_KEY_L)) {
 			float[] minMaxZ = currentMovingBlocks.getMinMaxOfAxis('z');
 			float[] minMaxY = currentMovingBlocks.getMinMaxOfAxis('y');
 			boolean ok = true;

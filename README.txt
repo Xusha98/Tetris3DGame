@@ -28,10 +28,8 @@ Allg:
 
 P: 	Startet/beendet Pause
 T: 	Stoppt/startet die Zeit, Blocke koennen dabei noch bewegt werden, (nur im Cheat-Modus)
-Enter: 	Switcht von Menu zum Spiel und umgekehrt
-N:	Normal-Modus
-C:	Cheat-Modus
+Enter: Beendet das Spiel und leitet Spieler zum MainMenu
+N:	Normal-Modus Spiel startet
+C:	Cheat-Modus Spiel startet
 H:	Help Menu
-U:	Unlockt Maus
-L:	Lockt Maus
 ESC:	Beendet das Spiel

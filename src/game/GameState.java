@@ -2,6 +2,6 @@ package game;
 
 public enum GameState {
 	
-	MAIN_MENU, GAME, PAUSE;
+	MAIN_MENU, GAME, PAUSE, HELP;
 
 }
