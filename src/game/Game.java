@@ -37,16 +37,6 @@ public class Game {
 			        }, 
 			        100, 84000 
 			);
-//			boolean play = true;
-//			while (play) {
-//				am.play(); 
-//				try {
-//					Thread.sleep(84000);
-//				} catch (InterruptedException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//			}
 		}
 		public void clear() {
 			am.destroy();
@@ -70,14 +60,6 @@ public class Game {
 			        }, 
 			        2000 
 			);
-//			am.play(); 
-//			try {
-//				Thread.sleep(2000);
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//			clear();
 		}
 		public void clear() {
 			am.destroy();
@@ -98,7 +80,6 @@ public class Game {
 	private static BlockFormObject currentMovingBlocks;
 
 	// TODO: muss spaeter zu MainMenu gesetzt werden, auf Game zu testzwecken
-	// gestellt
 	private static GameState state = GameState.GAME;
 	private static GameMode mode = GameMode.NORMAL;
 
@@ -127,30 +108,29 @@ public class Game {
 	public static float z = 0;
 	public static float y = 0;
 	
-	public static boolean runGameMusic = true;
-	public static boolean runMenuMusic = true;
+//	public static boolean runGameMusic = true;
+//	public static boolean runMenuMusic = true;
 	public static AudioPlayer musicThread;
 	public static SoundPlayer soundThread;
 	
 	public static void run() {
 
 		init();
+		musicThread = new AudioPlayer("TetrisMusic");
+		musicThread.start();
 		
-//		AudioMaster.init();
-//		AudioMaster.play("TetrisMusic"); // TO DO: aendern nach mainmenu musik
-			
 		while (!window.closed()) {
 			if (window.isUpdating()) {
-				if(runMenuMusic && state == GameState.MAIN_MENU) {
-					musicThread = new AudioPlayer("MenuMusic");
-					musicThread.start();
-					runMenuMusic = false;
-				}
-				else if(runGameMusic && state == GameState.GAME) {
-					musicThread = new AudioPlayer("TetrisMusic");
-					musicThread.start();
-					runGameMusic = false;
-				}
+//				if(runMenuMusic && state == GameState.MAIN_MENU) {
+//					musicThread = new AudioPlayer("MenuMusic");
+//					musicThread.start();
+//					runMenuMusic = false;
+//				}
+//				else if(runGameMusic && state == GameState.GAME) {
+//					musicThread = new AudioPlayer("TetrisMusic");
+//					musicThread.start();
+//					runGameMusic = false;
+//				}
 				
 				
 				
@@ -303,7 +283,6 @@ public class Game {
 									me.setHasFinalPos(true);
 									for(ModelEntity mE : currentMovingBlocks.getBlocks()) {
 										me.setHasFinalPos(true);
-										//AudioMaster.play("collide");
 									}
 									for(ModelEntity mE : currentMovingBlocks.getInvisible()) {
 										me.setHasFinalPos(true);
@@ -363,9 +342,9 @@ public class Game {
 				
 				if(me.isHasFinalPos() && indexY >= 9) {
 					state = GameState.MAIN_MENU;
-					musicThread.clear();
-					musicThread.interrupt();
-					runGameMusic = true;
+//					musicThread.clear();
+//					musicThread.interrupt();
+//					runGameMusic = true;
 				}
 				if(me.isHasFinalPos() && indexY < 9) {
 					fieldOccupied[indexY][indexZ][indexX] = true;
@@ -509,8 +488,8 @@ public class Game {
 			if (state == GameState.MAIN_MENU) {
 				state = GameState.GAME;
 				//System.out.println("Current state is:" + state);
-				AudioPlayer ap = new AudioPlayer("TetrisMusic");
-				ap.start();
+//				AudioPlayer ap = new AudioPlayer("TetrisMusic");
+//				ap.start();
 			} else if (state == GameState.GAME) {
 				state = GameState.MAIN_MENU;
 				//AudioMaster.play("MenuMusic");
@@ -525,7 +504,7 @@ public class Game {
 				//System.out.println("Game is paused!");
 				
 				
-				// TO DO: Add pause music 
+				// TODO: Add pause music 
 			} else if (state == GameState.PAUSE) {
 				state = GameState.GAME;
 				//System.out.println("Game resumed!");
@@ -590,8 +569,8 @@ public class Game {
 				}
 			}
 			currentMovingBlocks.turnZX();
-			soundThread = new SoundPlayer("collide");
-			soundThread.start();
+//			soundThread = new SoundPlayer("collide");
+//			soundThread.start();
 		}
 		if (window.isKeyReleased(GLFW.GLFW_KEY_N)) {
 			float[] minMaxX = currentMovingBlocks.getMinMaxOfAxis('x');
@@ -615,8 +594,8 @@ public class Game {
 				}
 			}
 			currentMovingBlocks.turnYX();
-			soundThread = new SoundPlayer("collide");
-			soundThread.start();
+//			soundThread = new SoundPlayer("collide");
+//			soundThread.start();
 		}
 		if (window.isKeyPressed(GLFW.GLFW_KEY_M)) {
 			float[] minMaxZ = currentMovingBlocks.getMinMaxOfAxis('z');
@@ -640,8 +619,8 @@ public class Game {
 				}
 			}
 			currentMovingBlocks.turnYZ();
-			soundThread = new SoundPlayer("collide");
-			soundThread.start();
+//			soundThread = new SoundPlayer("collide");
+//			soundThread.start();
 		}
 
 		// Testinput zum Generieren eines Blocks
