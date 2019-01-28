@@ -79,9 +79,8 @@ public class Game {
 	private static BlockManager blockManager = new BlockManager();
 	private static BlockFormObject currentMovingBlocks;
 
-	// TODO: muss spaeter zu MainMenu gesetzt werden, auf Game zu testzwecken
 	private static GameState state = GameState.MAIN_MENU;
-	private static GameMode mode = null; //GameMode.NORMAL;
+	private static GameMode mode = null;
 
 
 
