@@ -269,7 +269,7 @@ public class Game {
 							renderer.renderModelEntity(me);
 							if(!currentMovingBlocks.getBlocks().contains(me) && !me.isHasFinalPos()) {
 								float yMax = getHighestPos(me.getPosition().getX(), me.getPosition().getZ());
-								if (!me.isHasFinalPos() && me.getPosition().getY() <= yMax) { // && me.getPosition().getY() > -0.0000001 TODO me.getPosition().getY() > -0.0000001 && me.getPosition().getY() <= 1
+								if (!me.isHasFinalPos() && me.getPosition().getY() <= yMax) { 
 									me.setPosition(new Vector3f(me.getPosition().getX(), yMax, me.getPosition().getZ())); //TODO: 1 bei y
 									me.setHasFinalPos(true);
 								} else if(!me.isHasFinalPos()) {
@@ -278,7 +278,7 @@ public class Game {
 							}
 							if(currentMovingBlocks.getBlocks().contains(me)) {
 								float yMax = getHighestPos(me.getPosition().getX(), me.getPosition().getZ());
-								if (!me.isHasFinalPos() && me.getPosition().getY() <= yMax) { // && me.getPosition().getY() > -0.0000001 TODO me.getPosition().getY() > -0.0000001 && me.getPosition().getY() <= 1
+								if (!me.isHasFinalPos() && me.getPosition().getY() <= yMax) { 
 									me.setPosition(new Vector3f(me.getPosition().getX(), yMax, me.getPosition().getZ())); //TODO: 1 bei y
 									me.setHasFinalPos(true);
 									for(ModelEntity mE : currentMovingBlocks.getBlocks()) {
@@ -572,9 +572,10 @@ public class Game {
 //			soundThread = new SoundPlayer("collide");
 //			soundThread.start();
 		}
-		if (window.isKeyReleased(GLFW.GLFW_KEY_N)) {
+		if (window.isKeyPressed(GLFW.GLFW_KEY_N)) {
 			float[] minMaxX = currentMovingBlocks.getMinMaxOfAxis('x');
 			float[] minMaxY = currentMovingBlocks.getMinMaxOfAxis('y');
+			boolean ok = true;
 			if(minMaxX[0] < 0) {
 				System.out.println("Sie versuchen in einer kritischen Region zu rotieren. Der Block wird ggf. etwas verrueckt.");
 				for(ModelEntity me : currentMovingBlocks.getAll()) {
@@ -588,18 +589,18 @@ public class Game {
 				}
 			}
 			if(minMaxY[0] < 3) {
-				System.out.println("Sie versuchen in einer kritischen Region zu rotieren. Der Block wird ggf. etwas verrueckt.");
-				for(ModelEntity me : currentMovingBlocks.getAll()) {
-					me.addPosition(0, 6.0f, 0);
-				}
+				System.out.println("Rotieren nicht mehr möglich, zu niedrige y-Position");
+				ok = false;
 			}
-			currentMovingBlocks.turnYX();
+			if (ok)
+				currentMovingBlocks.turnYX();
 //			soundThread = new SoundPlayer("collide");
 //			soundThread.start();
 		}
 		if (window.isKeyPressed(GLFW.GLFW_KEY_M)) {
 			float[] minMaxZ = currentMovingBlocks.getMinMaxOfAxis('z');
 			float[] minMaxY = currentMovingBlocks.getMinMaxOfAxis('y');
+			boolean ok = true;
 			if(minMaxZ[0] < 0) {
 				System.out.println("Sie versuchen in einer kritischen Region zu rotieren. Der Block wird ggf. etwas verrueckt.");
 				for(ModelEntity me : currentMovingBlocks.getAll()) {
@@ -613,12 +614,11 @@ public class Game {
 				}
 			}
 			if(minMaxY[0] < 3) {
-				System.out.println("Sie versuchen in einer kritischen Region zu rotieren. Der Block wird ggf. etwas verrueckt.");
-				for(ModelEntity me : currentMovingBlocks.getAll()) {
-					me.addPosition(0, 6.0f, 0);
-				}
+				System.out.println("Rotieren nicht mehr möglich, zu niedrige y-Position");
+				ok = false;
 			}
-			currentMovingBlocks.turnYZ();
+			if(ok)
+				currentMovingBlocks.turnYZ();
 //			soundThread = new SoundPlayer("collide");
 //			soundThread.start();
 		}
