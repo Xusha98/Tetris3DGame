@@ -28,13 +28,10 @@ public class Camera {
 		Matrix4f rotateZ = new Matrix4f().rotateAround(rotation.getZ(), new Vector3f(0, 0, 1));
 
 		Matrix4f rotation = rotateX.mul(rotateZ.mul(rotateY));
-		// Matrix4f rotation = rotateX.mul(rotateY.mul(rotateZ));
 
 		Vector3f negPosition = new Vector3f(-position.getX(), -position.getY(), -position.getZ());
-		// Vector3f negPosition = position.mul(-1);
 		Matrix4f translation = new Matrix4f().translate(negPosition);
 
-		// return translation.mul(rotation);
 		return rotation.mul(translation);
 	}
 
@@ -71,16 +68,6 @@ public class Camera {
 	}
 
 	public void update(Window window) {
-		/*
-		 * //keine Rotation moeglich, nur Drehungen
-		 * if(window.isKeyDown(GLFW.GLFW_KEY_W)) this.addPosition(0, 0, moveSpeed);
-		 * if(window.isKeyDown(GLFW.GLFW_KEY_S)) this.addPosition(0, 0, -moveSpeed);
-		 * if(window.isKeyDown(GLFW.GLFW_KEY_D)) this.addPosition(moveSpeed, 0, 0);
-		 * if(window.isKeyDown(GLFW.GLFW_KEY_A)) this.addPosition(-moveSpeed, 0, 0);
-		 * if(window.isKeyDown(GLFW.GLFW_KEY_SPACE)) this.addPosition(0, moveSpeed, 0);
-		 * if(window.isKeyDown(GLFW.GLFW_KEY_LEFT_SHIFT)) this.addPosition(0,
-		 * -moveSpeed, 0);
-		 */
 
 		if (window.isKeyDown(GLFW.GLFW_KEY_W))
 			this.addPosition((float) (Math.sin(Math.toRadians(rotation.getY()))) * -moveSpeed, 0,
@@ -99,17 +86,17 @@ public class Camera {
 		if (window.isKeyDown(GLFW.GLFW_KEY_LEFT_SHIFT))
 			this.addPosition(0, -moveSpeed, 0);
 
-		if (window.isKeyDown(GLFW.GLFW_KEY_C))
-			this.position = new Vector3f(9, 25, -10);
-
-		// Tasten fuer Zoomen reserviert
-		if (window.isKeyDown(GLFW.GLFW_KEY_X)) {
-			// hier kommt das Reinzoomen rein
-		}
-		
-		if (window.isKeyDown(GLFW.GLFW_KEY_V)) {
-			// hier kommt das Rauszoomen rein
-		}
+//		if (window.isKeyDown(GLFW.GLFW_KEY_C))
+//			this.position = new Vector3f(9, 25, -10);
+//
+//		// Tasten fuer Zoomen reserviert
+//		if (window.isKeyDown(GLFW.GLFW_KEY_X)) {
+//			// hier kommt das Reinzoomen rein
+//		}
+//		
+//		if (window.isKeyDown(GLFW.GLFW_KEY_V)) {
+//			// hier kommt das Rauszoomen rein
+//		}
 		
 
 		newMouseY = (float) window.getMouseY();

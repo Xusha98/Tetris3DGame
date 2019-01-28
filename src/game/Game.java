@@ -504,19 +504,6 @@ public class Game {
 //		}
 
 		if (window.isKeyPressed(GLFW.GLFW_KEY_ENTER)) {
-//			if (state == GameState.MAIN_MENU && mode != null) {
-//				state = GameState.GAME;
-//				//System.out.println("Current state is:" + state);
-////				AudioPlayer ap = new AudioPlayer("TetrisMusic");
-////				ap.start();
-//			} else if(state == GameState.MAIN_MENU && mode == null) {
-//				System.out.println("Bitte waehlen Sie den Modus. 'C' fuer Cheatmodus und 'N' fuer Normalmodus.");
-//			} else if (state == GameState.GAME) {
-//				state = GameState.MAIN_MENU;
-//				mode = null;
-//				//AudioMaster.play("MenuMusic");
-//				//System.out.println("Current state is:" + state);
-//			}
 			if (state == GameState.GAME) {
 				state = GameState.MAIN_MENU;
 				mode = null;
@@ -555,9 +542,7 @@ public class Game {
 			if (state == GameState.GAME) {
 				state = GameState.PAUSE;
 				//System.out.println("Game is paused!");
-				
-				
-				// TODO: Add pause music 
+				 
 			} else if (state == GameState.PAUSE) {
 				state = GameState.GAME;
 				//System.out.println("Game resumed!");
