@@ -80,8 +80,8 @@ public class Game {
 	private static BlockFormObject currentMovingBlocks;
 
 	// TODO: muss spaeter zu MainMenu gesetzt werden, auf Game zu testzwecken
-	private static GameState state = GameState.GAME;
-	private static GameMode mode = GameMode.NORMAL;
+	private static GameState state = GameState.MAIN_MENU;
+	private static GameMode mode = null; //GameMode.NORMAL;
 
 
 
@@ -485,18 +485,47 @@ public class Game {
 		}
 
 		if (window.isKeyPressed(GLFW.GLFW_KEY_ENTER)) {
-			if (state == GameState.MAIN_MENU) {
-				state = GameState.GAME;
-				//System.out.println("Current state is:" + state);
-//				AudioPlayer ap = new AudioPlayer("TetrisMusic");
-//				ap.start();
-			} else if (state == GameState.GAME) {
+//			if (state == GameState.MAIN_MENU && mode != null) {
+//				state = GameState.GAME;
+//				//System.out.println("Current state is:" + state);
+////				AudioPlayer ap = new AudioPlayer("TetrisMusic");
+////				ap.start();
+//			} else if(state == GameState.MAIN_MENU && mode == null) {
+//				System.out.println("Bitte waehlen Sie den Modus. 'C' fuer Cheatmodus und 'N' fuer Normalmodus.");
+//			} else if (state == GameState.GAME) {
+//				state = GameState.MAIN_MENU;
+//				mode = null;
+//				//AudioMaster.play("MenuMusic");
+//				//System.out.println("Current state is:" + state);
+//			}
+			if (state == GameState.GAME) {
 				state = GameState.MAIN_MENU;
-				//AudioMaster.play("MenuMusic");
-				//System.out.println("Current state is:" + state);
+				mode = null;
 			}
 
 		}
+		if(window.isKeyPressed(GLFW.GLFW_KEY_N)) {
+			if(mode == null)
+				mode = GameMode.NORMAL;
+			if(mode == GameMode.CHEAT)
+				System.out.println("Wechseln des Modus nicht moeglich. Sie befinden Sich im Cheatmode. Zum Abbrechen des Spiels Enter druecken.");
+			if(state == GameState.MAIN_MENU) {
+				state = GameState.GAME;
+			}
+		}
+		if(window.isKeyPressed(GLFW.GLFW_KEY_C)) {
+			if(mode == null)
+				mode = GameMode.CHEAT;
+			if(mode == GameMode.NORMAL)
+				System.out.println("Wechseln des Modus nicht moeglich. Sie befinden Sich im Normalmode. Zum Abbrechen des Spiels Enter druecken.");
+			if(state == GameState.MAIN_MENU) {
+				state = GameState.GAME;
+			}
+		}
+		if(window.isKeyPressed(GLFW.GLFW_KEY_H)) {
+			//TODO: Help menu
+		}
+
 
 		if (window.isKeyPressed(GLFW.GLFW_KEY_P)) {
 			if (state == GameState.GAME) {
@@ -622,16 +651,6 @@ public class Game {
 //			soundThread = new SoundPlayer("collide");
 //			soundThread.start();
 		}
-		if(window.isKeyPressed(GLFW.GLFW_KEY_N)) {
-			mode = GameMode.NORMAL;
-		}
-		if(window.isKeyPressed(GLFW.GLFW_KEY_C)) {
-			mode = GameMode.CHEAT;
-		}
-		if(window.isKeyPressed(GLFW.GLFW_KEY_H)) {
-			//TODO: Help menu
-		}
-
 		if (window.isKeyPressed(GLFW.GLFW_KEY_1)) {
 			state = GameState.GAME;
 		}
@@ -675,7 +694,9 @@ public class Game {
 	}
 
 	public static void removeAll() {
-		blockManager.clear();		
+		blockManager.clear();	
+		newBlock = true;
+		currentMovingBlocks = null;
 	}
 	
 	public static void finish() {
