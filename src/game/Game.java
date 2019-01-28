@@ -87,6 +87,7 @@ public class Game {
 
 	private static boolean stopTime = false;
 	private static boolean newBlock = true;
+	private static boolean gameCleared = false;
 	
 	private static boolean[][][] fieldOccupied = new boolean[9][9][9];
 	
@@ -155,7 +156,7 @@ public class Game {
 
 				/*-------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 				case GAME:
-					
+					gameCleared = false;
 					for (ModelEntity me : background) {
 						renderer.renderModelEntity(me);
 					}
@@ -307,7 +308,11 @@ public class Game {
 
 				/*-------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 				case MAIN_MENU:
-					removeAll();
+					if(!gameCleared) {
+						removeAll();
+						resetField();
+						gameCleared = true;
+					}				
 					MainMenu.render();
 					MainMenu.update();
 					
@@ -354,6 +359,16 @@ public class Game {
 					if(indexY < 9) {
 						fieldOccupied[indexY][indexZ][indexX] = false;
 					}				
+				}
+			}
+		}
+	}
+	
+	public static void resetField() {
+		for(int y = 0; y < 9; y++) {
+			for(int z = 0; z < 9; z++) {
+				for(int x = 0; x < 9; x++) {
+					fieldOccupied[y][z][x] = false;
 				}
 			}
 		}
@@ -697,6 +712,7 @@ public class Game {
 		blockManager.clear();	
 		newBlock = true;
 		currentMovingBlocks = null;
+		System.out.println(blockManager.getAllBlocks().size()+" "+blockManager.getAllModels().size()+" "+blockManager.getBlockFormObjects().size());
 	}
 	
 	public static void finish() {
