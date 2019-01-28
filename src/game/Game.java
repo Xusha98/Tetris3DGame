@@ -101,6 +101,7 @@ public class Game {
 		setBackground();
 		MainMenu.init();
 		Pause.init();
+		Help.init();
 
 	}
 
@@ -544,7 +545,7 @@ public class Game {
 			if(state == GameState.MAIN_MENU) {
 				state = GameState.HELP;
 			}
-			if(state == GameState.HELP) {
+			else if(state == GameState.HELP){
 				state = GameState.MAIN_MENU;
 			}
 		}

@@ -6,11 +6,11 @@ import models.TexturedModel;
 
 public class Help extends Game {
 
-	static ModelEntity pause_view;
+	static ModelEntity help_view;
 
 	public static void init() {
 
-		TexturedModel pause = new TexturedModel(new float[] { -10.0f, 10.0f, 0, // TOP LEFT V0
+		TexturedModel helpModel = new TexturedModel(new float[] { -10.0f, 10.0f, 0, // TOP LEFT V0
 				10.0f, 10.0f, 0, // TOP RIGHT V1
 				10.0f, -10.0f, 0, // BOTTOM RIGHT V2
 				-10.0f, -10.0f, 0 },
@@ -22,7 +22,7 @@ public class Help extends Game {
 						2, 3, 0 // Triangle 2
 				}, "helpBackground.png");
 
-		pause_view = new ModelEntity(pause, new Vector3f(7.5f, 20, 0.0f), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1)); // 7.5,
+		help_view = new ModelEntity(helpModel, new Vector3f(7.5f, 22, 3.0f), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1)); // 7.5,
 																															// 20,
 																															// -1
 																															// //9.0f,
@@ -33,7 +33,7 @@ public class Help extends Game {
 
 	public static void render() {
 
-		renderer.renderModelEntity(pause_view);
+		renderer.renderModelEntity(help_view);
 
 	}
 }
