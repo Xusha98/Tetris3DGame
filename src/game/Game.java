@@ -492,12 +492,12 @@ public class Game {
 			musicThread.interrupt();
 			window.close();
 		}
-		if (window.isKeyPressed(GLFW.GLFW_KEY_U)) {
-			window.unlockMouse();
-		}
-		if (window.isKeyPressed(GLFW.GLFW_KEY_L)) {
-			window.lockMouse();
-		}
+//		if (window.isKeyPressed(GLFW.GLFW_KEY_U)) {
+//			window.unlockMouse();
+//		}
+//		if (window.isKeyPressed(GLFW.GLFW_KEY_L)) {
+//			window.lockMouse();
+//		}
 
 		if (window.isKeyPressed(GLFW.GLFW_KEY_ENTER)) {
 //			if (state == GameState.MAIN_MENU && mode != null) {
