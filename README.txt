@@ -17,9 +17,9 @@ Shift: 		runter
 Block:
 
 Pfeiltasten um Block entlang der x- und z-Achse zu bewegen
-H: 	Rotiert um XZ
-J: 	Rotiert um XY
-K: 	Rotiert um XZ
+J: 	Rotiert um XZ
+K 	Rotiert um XY
+L: 	Rotiert um XZ
 2:	Block faellt schneller runter
 
 
