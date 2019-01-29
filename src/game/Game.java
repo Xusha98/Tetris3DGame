@@ -8,7 +8,7 @@ import org.lwjgl.opengl.GL15;
 import org.lwjglx.input.Mouse;
 import org.newdawn.slick.SlickException;
 
-import audio.AudioMaster;
+import audio.Audio;
 import io.Window;
 import maths.Vector3f;
 import models.BlockFormObject;
@@ -22,9 +22,9 @@ import shader.BasicShader;
 public class Game {
 	
 	public static class AudioPlayer extends Thread {
-		private AudioMaster am;
+		private Audio am;
 		public AudioPlayer(String file) {
-			am = new AudioMaster(file);
+			am = new Audio(file);
 			am.init();
 		}
 		public void run() {
@@ -44,9 +44,9 @@ public class Game {
 	}
 	
 	public static class SoundPlayer extends Thread {
-		private AudioMaster am;
+		private Audio am;
 		public SoundPlayer(String file) {
-			am = new AudioMaster(file);
+			am = new Audio(file);
 			am.init();
 		}
 		public void run() {
@@ -109,10 +109,7 @@ public class Game {
 	public static float z = 0;
 	public static float y = 0;
 	
-//	public static boolean runGameMusic = true;
-//	public static boolean runMenuMusic = true;
 	public static AudioPlayer musicThread;
-	public static SoundPlayer soundThread;
 	
 	public static void run() {
 
@@ -122,19 +119,6 @@ public class Game {
 		
 		while (!window.closed()) {
 			if (window.isUpdating()) {
-//				if(runMenuMusic && state == GameState.MAIN_MENU) {
-//					musicThread = new AudioPlayer("MenuMusic");
-//					musicThread.start();
-//					runMenuMusic = false;
-//				}
-//				else if(runGameMusic && state == GameState.GAME) {
-//					musicThread = new AudioPlayer("TetrisMusic");
-//					musicThread.start();
-//					runGameMusic = false;
-//				}
-				
-				
-				
 				x = 0;
 				z = 0;
 
@@ -191,8 +175,8 @@ public class Game {
 								renderer.renderModelEntity(me);
 								if(!currentMovingBlocks.getBlocks().contains(me) && !me.isHasFinalPos()) {
 									float yMax = getHighestPos(me.getPosition().getX(), me.getPosition().getZ());
-									if (!me.isHasFinalPos() && me.getPosition().getY() <= yMax) { // && me.getPosition().getY() > -0.0000001 TODO me.getPosition().getY() > -0.0000001 && me.getPosition().getY() <= 1
-										me.setPosition(new Vector3f(me.getPosition().getX(), yMax, me.getPosition().getZ())); //TODO: 1 bei y
+									if (!me.isHasFinalPos() && me.getPosition().getY() <= yMax) { 
+										me.setPosition(new Vector3f(me.getPosition().getX(), yMax, me.getPosition().getZ()));
 										me.setHasFinalPos(true);
 									} else if(!me.isHasFinalPos()) {
 										me.addPosition(0, -0.04f, 0);	
@@ -351,9 +335,6 @@ public class Game {
 				
 				if(me.isHasFinalPos() && indexY >= 9) {
 					state = GameState.MAIN_MENU;
-//					musicThread.clear();
-//					musicThread.interrupt();
-//					runGameMusic = true;
 				}
 				if(me.isHasFinalPos() && indexY < 9) {
 					fieldOccupied[indexY][indexZ][indexX] = true;
@@ -497,12 +478,6 @@ public class Game {
 			window.close();
 			System.exit(0);
 		}
-//		if (window.isKeyPressed(GLFW.GLFW_KEY_U)) {
-//			window.unlockMouse();
-//		}
-//		if (window.isKeyPressed(GLFW.GLFW_KEY_L)) {
-//			window.lockMouse();
-//		}
 
 		if (window.isKeyPressed(GLFW.GLFW_KEY_ENTER)) {
 			if (state == GameState.GAME) {
@@ -608,8 +583,6 @@ public class Game {
 				}
 			}
 			currentMovingBlocks.turnZX();
-//			soundThread = new SoundPlayer("collide");
-//			soundThread.start();
 		}
 		if (window.isKeyPressed(GLFW.GLFW_KEY_K)) {
 			float[] minMaxX = currentMovingBlocks.getMinMaxOfAxis('x');
@@ -633,8 +606,6 @@ public class Game {
 			}
 			if (ok)
 				currentMovingBlocks.turnYX();
-//			soundThread = new SoundPlayer("collide");
-//			soundThread.start();
 		}
 		if (window.isKeyPressed(GLFW.GLFW_KEY_L)) {
 			float[] minMaxZ = currentMovingBlocks.getMinMaxOfAxis('z');
@@ -658,8 +629,6 @@ public class Game {
 			}
 			if(ok)
 				currentMovingBlocks.turnYZ();
-//			soundThread = new SoundPlayer("collide");
-//			soundThread.start();
 		}
 		if (window.isKeyPressed(GLFW.GLFW_KEY_1)) {
 			state = GameState.GAME;

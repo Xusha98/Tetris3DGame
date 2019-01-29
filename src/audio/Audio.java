@@ -16,7 +16,7 @@ import static org.lwjgl.system.libc.LibCStdlib.*;
 import java.util.ArrayList;
 
 
-public class AudioMaster {
+public class Audio {
 	
 	
 	private static ArrayList<Integer> allBuffers = new ArrayList<>();
@@ -29,7 +29,7 @@ public class AudioMaster {
 	private static ALCapabilities alCapabilities;
 	private static String file;
 	
-	public AudioMaster(String file) {
+	public Audio(String file) {
 		this.file = file;
 	}
 	

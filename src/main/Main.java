@@ -1,7 +1,7 @@
 package main;
 
 
-import audio.AudioMaster;
+import audio.Audio;
 import game.Game;
 
 /**

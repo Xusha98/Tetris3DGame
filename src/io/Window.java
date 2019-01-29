@@ -44,8 +44,6 @@ public class Window {
 		
 		GLFW.glfwWindowHint(GLFW.GLFW_VISIBLE, GLFW.GLFW_FALSE);
 		
-		//window = GLFW.glfwCreateWindow(width, height, title, (isFullScreen) ? GLFW.glfwGetPrimaryMonitor() : 0, 0);
-		
 		if(isFullScreen) {
 			window = GLFW.glfwCreateWindow(videoMode.width(), videoMode.height(), title, GLFW.glfwGetPrimaryMonitor(), window);
 		}
@@ -211,12 +209,6 @@ public class Window {
 		iconBuffer = GLFWImage.malloc(1);
 		iconImage.set(icon.getWidth(), icon.getHeight(), icon.getImage());
 		iconBuffer.put(0, iconImage);
-	}
-	
-	public void setCursor(String path) {
-		Image cursor = Image.loadImage("resources/textures/"+path);
-		cursorBuffer = GLFWImage.malloc();
-		cursorBuffer.set(cursor.getWidth(), cursor.getHeight(), cursor.getImage());
 	}
 	
 	//for moving camera with the mouse
