@@ -195,7 +195,7 @@ public class Game {
 										me.setPosition(new Vector3f(me.getPosition().getX(), yMax, me.getPosition().getZ())); //TODO: 1 bei y
 										me.setHasFinalPos(true);
 									} else if(!me.isHasFinalPos()) {
-										me.addPosition(x, -0.04f - y, z);	
+										me.addPosition(0, -0.04f, 0);	
 									}
 								}
 								if(currentMovingBlocks.getBlocks().contains(me)) {
@@ -234,7 +234,7 @@ public class Game {
 										me.setPosition(new Vector3f(me.getPosition().getX(), yMax, me.getPosition().getZ())); //TODO: 1 bei y
 										me.setHasFinalPos(true);
 									} else if(!me.isHasFinalPos()) {
-										me.addPosition(x, -0.04f - y, z);	
+										me.addPosition(0, -0.04f, 0);	
 									}
 								}
 								if(currentMovingBlocks.getBlocks().contains(me)) {
@@ -278,7 +278,7 @@ public class Game {
 									me.setPosition(new Vector3f(me.getPosition().getX(), yMax, me.getPosition().getZ())); //TODO: 1 bei y
 									me.setHasFinalPos(true);
 								} else if(!me.isHasFinalPos()) {
-									me.addPosition(x, -0.04f - y, z);	
+									me.addPosition(0, -0.04f, 0);	
 								}
 							}
 							if(currentMovingBlocks.getBlocks().contains(me)) {
